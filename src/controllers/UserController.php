@@ -1,6 +1,6 @@
 <?php
 
-class UserController extends AdminAngelController {
+class UserController extends AngelController {
 
 	public function signin()
 	{
