@@ -4,7 +4,14 @@ Angel is a CMS built on top of Laravel.  It is available via [Packagist](https:/
 
 Installation
 ------------
-Add the following requirements to your `composer.json` file:
+We are currently using Laravel 4.1 for this CMS until 4.2 is more stable.
+
+Install Laravel 4.1 using the following command:
+```
+composer create-project laravel/laravel --prefer-dist {project-name} 4.1.*
+```
+
+Add the `angel/core` package requirement to your `composer.json` file like this:
 ```javascript
 "require": {
     "laravel/framework": "4.1.*",
@@ -12,7 +19,9 @@ Add the following requirements to your `composer.json` file:
 },
 ```
 
-After installing the dependencies, add the following to your Service Providers in `app/config/app.php`:
+Then, go ahead and issue a `composer update`.
+
+After the dependency has been loaded, add the following to your Service Providers in `app/config/app.php`:
 ```
 'Angel\Core\CoreServiceProvider'
 ```
