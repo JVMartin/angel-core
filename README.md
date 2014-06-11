@@ -1,4 +1,4 @@
-Angel
+Angel CMS
 =====
 Angel is a CMS built on top of Laravel.  It is available via [Packagist](https://packagist.org/packages/angel/core).
 
