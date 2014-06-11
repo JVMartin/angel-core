@@ -7,8 +7,8 @@
 
 	<title>{{ $settings['title']['value'] }} | @yield('title')</title>
 
-	{{ HTML::style('packages/kraken-cms/core/js/jquery/fancybox/jquery.fancybox.css') }}
-	{{ HTML::style('packages/kraken-cms/core/bootstrap/bootstrap.min.css') }}
+	{{ HTML::style('packages/angel/core/js/jquery/fancybox/jquery.fancybox.css') }}
+	{{ HTML::style('packages/angel/core/bootstrap/bootstrap.min.css') }}
 	@yield('css')
 </head>
 <body>
@@ -16,9 +16,9 @@
 	@include('core::header')
 	@yield('content')
 </div><!-- #masterContainer -->
-{{ HTML::script('packages/kraken-cms/core/js/jquery/jquery.min.js') }}
-{{ HTML::script('packages/kraken-cms/core/js/jquery/fancybox/jquery.fancybox.pack.js') }}
-{{ HTML::script('packages/kraken-cms/core/bootstrap/bootstrap.min.js') }}
+{{ HTML::script('packages/angel/core/js/jquery/jquery.min.js') }}
+{{ HTML::script('packages/angel/core/js/jquery/fancybox/jquery.fancybox.pack.js') }}
+{{ HTML::script('packages/angel/core/bootstrap/bootstrap.min.js') }}
 <script>
 	var config = {
 		base_url: '{{ url('/') }}/',

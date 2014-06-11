@@ -7,12 +7,12 @@
 	<title>Admin | @yield('title')</title>
 
 	@if ($settings['theme']['value'] == 'default')
-		{{ HTML::style('packages/kraken-cms/core/bootstrap/bootstrap.min.css') }}
+		{{ HTML::style('packages/angel/core/bootstrap/bootstrap.min.css') }}
 	@elseif ($settings['theme']['value'] == 'slate')
-		{{ HTML::style('packages/kraken-cms/core/bootstrap/bootstrap-slate.min.css') }}
-		{{ HTML::style('packages/kraken-cms/core/bootstrap/bootstrap-glyphicons.css') }}
+		{{ HTML::style('packages/angel/core/bootstrap/bootstrap-slate.min.css') }}
+		{{ HTML::style('packages/angel/core/bootstrap/bootstrap-glyphicons.css') }}
 	@endif
-	{{ HTML::style('packages/kraken-cms/core/master.css') }}
+	{{ HTML::style('packages/angel/core/master.css') }}
 	@yield('css')
 </head>
 <body class="theme-{{ $settings['theme']['value'] }}">
@@ -21,15 +21,15 @@
 	@include('core::admin.alerts')
 	@yield('content')
 </div><!-- #adminMasterContainer -->
-{{ HTML::script('packages/kraken-cms/core/js/jquery/jquery.min.js') }}
-{{ HTML::script('packages/kraken-cms/core/bootstrap/bootstrap.min.js') }}
+{{ HTML::script('packages/angel/core/js/jquery/jquery.min.js') }}
+{{ HTML::script('packages/angel/core/bootstrap/bootstrap.min.js') }}
 <script>
 	var config = {
 		base_url: '{{ url('/') }}/',
 		admin_url: '{{ admin_url('/') }}/'
 	};
 </script>
-{{ HTML::script('packages/kraken-cms/core/master.js') }}
+{{ HTML::script('packages/angel/core/master.js') }}
 @yield('js')
 </body>
 </html>

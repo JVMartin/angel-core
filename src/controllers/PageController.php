@@ -1,6 +1,6 @@
 <?php
 
-class PageController extends KrakenController {
+class PageController extends AngelController {
 
 	public function show($url = 'home', $section = null)
 	{

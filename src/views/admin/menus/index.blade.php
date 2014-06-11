@@ -20,11 +20,11 @@
 @stop
 
 @section('js')
-	{{ HTML::script('packages/kraken-cms/core/js/jquery-ui.min.js') }}
+	{{ HTML::script('packages/angel/core/js/jquery-ui.min.js') }}
 	<script>
 		var linkable_models = {{ json_encode($linkable_models) }};
 	</script>
-	{{ HTML::script('packages/kraken-cms/core/menus/index.js') }}
+	{{ HTML::script('packages/angel/core/menus/index.js') }}
 @stop
 
 @section('content')

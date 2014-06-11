@@ -35,7 +35,7 @@ $(document).ready(function() {
 			$input.val(base_url + url);
 			window.KCFinder = null;
 		};
-		window.open('/packages/kraken-cms/core/js/kcfinder/browse.php?type=images', 'image_finder', 'width=1000,height=600');
+		window.open('/packages/angel/core/js/kcfinder/browse.php?type=images', 'image_finder', 'width=1000,height=600');
 	});
 
 	if ($.isFunction($.fn.datetimepicker)) {

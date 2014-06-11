@@ -3,7 +3,7 @@
 @section('title', ucfirst($action).' Page')
 
 @section('css')
-	{{ HTML::style('packages/kraken-cms/core/js/jquery/jquery.datetimepicker.css') }}
+	{{ HTML::style('packages/angel/core/js/jquery/jquery.datetimepicker.css') }}
 	<style>
 		textarea {
 			resize:vertical;
@@ -17,8 +17,8 @@
 @stop
 
 @section('js')
-	{{ HTML::script('packages/kraken-cms/core/js/ckeditor/ckeditor.js') }}
-	{{ HTML::script('packages/kraken-cms/core/js/jquery/jquery.datetimepicker.js') }}
+	{{ HTML::script('packages/angel/core/js/ckeditor/ckeditor.js') }}
+	{{ HTML::script('packages/angel/core/js/jquery/jquery.datetimepicker.js') }}
 	<script>
 		$(document).ready(function() {
 			// Show/hide the JavaScript / CSS fields
