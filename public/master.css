@@ -1,0 +1,75 @@
+body.theme-default {
+  background: #E1E1FA; }
+body.theme-slate {
+  background: url("sandpaper.png"); }
+
+#adminMasterContainer {
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.8);
+  padding-bottom: 20px; }
+  .theme-default #adminMasterContainer {
+    background: #FFF; }
+  .theme-slate #adminMasterContainer {
+    background: #272B30; }
+
+@media (min-width: 768px) {
+  #adminMasterContainer {
+    margin-top: 15px;
+    margin-bottom: 15px; } }
+.alert {
+  margin-top: 20px; }
+
+.navbar {
+  border-radius: 0;
+  margin-bottom: 0; }
+
+.stripe {
+  background-color: #f9f9f9; }
+
+.pad {
+  padding: 10px; }
+
+.deleteForm {
+  display: inline-block;
+  margin-bottom: 15px; }
+
+table .deleted td {
+  background: #ffc3c6 !important; }
+
+.expandBelow {
+  width: 100%;
+  padding: 2px;
+  margin-top: 15px;
+  cursor: pointer; }
+  .theme-default .expandBelow {
+    border: 1px solid #dddddd;
+    background: #F9F9F9; }
+  .theme-slate .expandBelow {
+    border: 1px solid #8b8b8b;
+    background: #2E3338; }
+
+.expandBelow:first-child {
+  margin-top: 0; }
+
+.expandBelow span {
+  vertical-align: middle;
+  margin: 0 10px 0 5px; }
+
+.expander {
+  border-top: 0;
+  padding: 10px;
+  display: none; }
+  .theme-default .expander {
+    border: 1px solid #dddddd;
+    border-top: none;
+    background: #FCFCFC; }
+  .theme-slate .expander {
+    border: 1px solid #8b8b8b;
+    border-top: none;
+    background: #353A41; }
+
+.expander textarea {
+  height: 100px; }
+
+.changesExpander {
+  max-height: 250px;
+  overflow-y: auto; }
