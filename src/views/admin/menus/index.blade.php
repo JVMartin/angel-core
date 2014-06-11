@@ -7,7 +7,6 @@
 		.handle {
 			cursor:ns-resize;
 		}
-
 		.addLinkWrap {
 			display:none;
 		}
@@ -20,7 +19,7 @@
 @stop
 
 @section('js')
-	{{ HTML::script('packages/angel/core/js/jquery-ui.min.js') }}
+	{{ HTML::script('packages/angel/core/js/jquery/jquery-ui.min.js') }}
 	<script>
 		var linkable_models = {{ json_encode($linkable_models) }};
 	</script>
