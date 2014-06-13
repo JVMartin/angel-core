@@ -39,7 +39,7 @@ class CreateUsersTable extends Migration {
 				'first_name'	=> 'Angel',
 				'last_name'		=> 'Vision',
 				'email'			=> 'nobody@angelvisiontech.com',
-				'password'		=> Hash::make('avsauce'),
+				'password'		=> Hash::make('password'),
 				'created_at'	=> Carbon::now(),
 				'updated_at' 	=> Carbon::now()
 			)
