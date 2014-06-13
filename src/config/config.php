@@ -10,12 +10,6 @@ $config = array(
 		'Page'
 	),
 
-	// All linkable models must be declared here.
-	// 'Model Name' => 'uri'
-	'linkable_models'	=> array(
-		'Page' => 'pages'
-	),
-
 	// This is the route URI prefix for the admin pages.
 	// You may set this to blank for no prefix, in which case www.website.com will land on the
 	// admin sign-in page.
@@ -29,7 +23,14 @@ $config = array(
 		'Menus'		=> 'menus',
 		'Users'		=> 'users',
 		'Settings'	=> 'settings'
+	),
+
+	// All linkable models must be declared here.
+	// 'Model Name' => 'admin uri'
+	'linkable_models'	=> array(
+		'Page' => 'pages'
 	)
+
 );
 
 if ($config['languages'] && Session::get('superadmin')) {
