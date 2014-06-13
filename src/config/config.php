@@ -17,8 +17,9 @@ $config = array(
 	),
 
 	// This is the route URI prefix for the admin pages.
-	// You may set this to blank for no prefix.
-	'admin_prefix' => '',
+	// You may set this to blank for no prefix, in which case www.website.com will land on the
+	// admin sign-in page.
+	'admin_prefix' => 'admin',
 
 	// This is the menu in the admin console.
 	// Add modules here after installation.
