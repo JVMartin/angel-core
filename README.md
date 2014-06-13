@@ -21,12 +21,14 @@ Add the `angel/core` package requirement to your `composer.json` file, like this
 
 Issue a `composer update` to install the package.
 
-After the dependency has been loaded, add the following to your Service Providers in `app/config/app.php`:
+After the package has been installed, open `app/config/app.php` and add the following to your `providers` array:
 ```php
 'Angel\Core\CoreServiceProvider'
 ```
 
-Delete all the default routes and all the filters except for the `csrf` filter.
+Delete all the default routes in `app/routes.php` and all the filters except for the `csrf` filter in `app/filters.php`.
+
+Set up your database so that we can run the migrations.
 
 Finally, issue the following commands:
 ```bash
@@ -34,3 +36,6 @@ php artisan asset:publish angel/core         # Publish the assets
 php artisan config:publish angel/core        # Publish the config
 php artisan migrate --package="angel/core"   # Run the migrations
 ```
+
+Usage
+-----
