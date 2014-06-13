@@ -3,7 +3,7 @@
 $config = array(
 	// Migrations use the 'languages' setting in their logic.
 	// As such, the database schema changes depending upon whether multiple languages need support.
-	'languages'			=> true,
+	'languages'			=> false,
 	'language_primary'	=> 'en',
 	// All models that have a language relationship must be defined here.
 	'language_models'	=> array(

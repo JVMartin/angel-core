@@ -221,13 +221,15 @@ Route::get('signout', array(
 ));
 
 // We need to ensure that this is the -absolute- last route, otherwise
-// we'll get caught in it before the router reaches other packages.
+// we'll get caught in it before the router reaches other packages, due to the base-level URI variables.
 // Thus far, wrapping it in an App::before seems to do the trick.
 App::before(function() {
 	if (Config::get('core::languages')) {
-		Route::get('{language_uri}/{url}/{section?}', page_controller() . '@show_language');
+		Route::get('/',									page_controller() . '@show_language');
+		Route::get('{language_uri}/{url}/{section?}',	page_controller() . '@show_language');
 	} else {
-		Route::get('{url}/{section?}', page_controller() . '@show');
+		Route::get('/',					page_controller() . '@show');
+		Route::get('{url}/{section?}',	page_controller() . '@show');
 	}
 });
 
