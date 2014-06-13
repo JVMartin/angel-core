@@ -30,7 +30,7 @@ Delete all the default routes in `app/routes.php` and all the filters except for
 
 Set up your database so that we can run the migrations.
 
-Finally, issue the following commands:
+Finally, issue the following artisan commands:
 ```bash
 php artisan asset:publish angel/core         # Publish the assets
 php artisan config:publish angel/core        # Publish the config
@@ -39,3 +39,43 @@ php artisan migrate --package="angel/core"   # Run the migrations
 
 Usage
 -----
+Take a look at the config file you just published in `app/packages/angel/core/config.php`.
+
+The first configurations are related to languages.  By default, only one language is used and your URLs will look like this for created pages:
+```
+http://www.website.com/about-us
+http://www.website.com/contact-us
+```
+
+If you enable multiple languages, your URLs will look like this, for instance, with English and Spanish pages:
+```
+http://www.website.com/en/about-us
+http://www.website.com/sp/about-us
+http://www.website.com/en/contact-us
+http://www.website.com/sp/contact-us
+```
+
+You can then, if you choose to, easily `mod_rewrite`-out the default language base URI so that your URLs look like this:
+```
+http://www.website.com/about-us
+http://www.website.com/sp/about-us
+http://www.website.com/contact-us
+http://www.website.com/sp/contact-us
+```
+
+If you would like to enable this feature, you must choose to do so before you begin development.  This is because the `languages` table is only built, and the other language-related tables (including `pages`) only have their relationships built, when this configuration is set.  This ensures that the site is optimized either way you go.
+
+To enable this feature, first roll back all your migrations (if you've already ran them):
+```bash
+php artisan migrate:rollback
+```
+
+Then, set the configuration in `app/packages/angel/core/config.php`:
+```php
+'languages' => true
+```
+
+And finally, run the migrations so the languages table and relationships will be built:
+```bash
+php artisan migrate --package="angel/core"
+```
