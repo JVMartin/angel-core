@@ -30,7 +30,7 @@ Delete all the default routes in `app/routes.php` and all the filters except for
 
 Set up your database so that we can run the migrations.
 
-Finally, issue the following commands:
+Finally, issue the following artisan commands:
 ```bash
 php artisan asset:publish angel/core         # Publish the assets
 php artisan config:publish angel/core        # Publish the config
