@@ -28,7 +28,9 @@ After the package has been installed, open `app/config/app.php` and add the foll
 
 Delete all the default routes in `app/routes.php` and all the filters except for the `csrf` filter in `app/filters.php`.
 
-Set up your database so that we can run the migrations.
+You should also delete the file `app/models/User.php`.  You can replace it with a `.gitkeep` file for now to keep the `app/models` directory.
+
+Create and configure your database so that we can run the migrations.
 
 Finally, issue the following artisan commands:
 ```bash
