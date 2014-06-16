@@ -3,6 +3,8 @@
 class AdminMenuController extends AdminCrudController {
 
 	public $model		= 'Menu';
+	public $uri			= 'menus';
+	public $sub_uri		= '';
 	public $plural		= 'menus';
 	public $singular	= 'menu';
 	public $package		= 'core';

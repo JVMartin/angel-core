@@ -3,6 +3,8 @@
 class AdminLanguageController extends AdminCrudController {
 
 	public $model		= 'Language';
+	public $uri			= 'languages';
+	public $sub_uri		= '';
 	public $plural		= 'languages';
 	public $singular	= 'language';
 	public $package		= 'core';

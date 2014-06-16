@@ -2,10 +2,29 @@
 
 abstract class AdminCrudController extends AdminAngelController {
 
-	public $model		= 'TeamMember';
+	public $model		= 'ProductCategory';
+	public $uri			= 'products';
+	public $sub_uri		= '';
 	public $plural		= 'members';
 	public $singular	= 'member';
 	public $package		= 'core';
+
+	public function view($name)
+	{
+		$view = $this->package . '::admin.' . $this->uri . '.';
+		if ($this->sub_uri) $view .= $this->sub_uri . '.';
+		$view .= $name;
+		return $view;
+	}
+
+	public function uri($append = '', $url = false)
+	{
+		$uri = $this->uri;
+		if ($this->sub_uri) $uri .= '/' . $this->sub_uri;
+		if ($append)		$uri .= '/' . $append;
+		if ($url) return admin_url($uri);
+		return admin_uri($uri);
+	}
 
 	public function index()
 	{
@@ -17,7 +36,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		unset($appends['page']);
 		$this->data['links'] = $paginator->appends($appends)->links();
 
-		return View::make($this->package . '::admin.' . $this->plural . '.index', $this->data);
+		return View::make($this->view('index'), $this->data);
 	}
 
 	public function index_searchable($searchable = array())
@@ -45,7 +64,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		unset($appends['page']);
 		$this->data['links'] = $paginator->appends($appends)->links();
 		$this->data['search'] = $search;
-		return View::make($this->package . '::admin.' . $this->plural . '.index', $this->data);
+		return View::make($this->view('index'), $this->data);
 	}
 
 	public function add()
@@ -53,11 +72,11 @@ abstract class AdminCrudController extends AdminAngelController {
 		// Toss the menu_id URL variable into the session instead
 		// NOTE:  You only need this for menu-linkable models
 		if (Input::get('menu_id')) {
-			return Redirect::to(admin_uri($this->plural . '/add'))->with('menu_id', Input::get('menu_id'));
+			return Redirect::to($this->uri('add'))->with('menu_id', Input::get('menu_id'));
 		}
 
 		$this->data['action'] = 'add';
-		return View::make($this->package . '::admin.' . $this->plural . '.add-or-edit', $this->data);
+		return View::make($this->view('add-or-edit'), $this->data);
 	}
 
 	public function attempt_add()
@@ -66,7 +85,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		$errors = $this->validate($custom);
 		if (count($errors)) {
-			return Redirect::to(admin_uri($this->plural . '/add'))->withInput()->withErrors($errors);
+			return Redirect::to($this->uri('add'))->withInput()->withErrors($errors);
 		}
 
 		$object = new $model;
@@ -81,7 +100,7 @@ abstract class AdminCrudController extends AdminAngelController {
 			return $this->also_add_menu_item($this->model, $object->id);
 		}
 
-		return Redirect::to(admin_uri($this->plural))->with('success', '
+		return Redirect::to($this->uri())->with('success', '
 			<p>' . $model . ' successfully created.</p>
 		');
 	}
@@ -94,7 +113,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		$this->data[$this->singular] = $object;
 		$this->data['action'] = 'edit';
 
-		return View::make($this->package . '::admin.' . $this->plural . '.add-or-edit', $this->data);
+		return View::make($this->view('add-or-edit'), $this->data);
 	}
 
 	public function attempt_edit($id)
@@ -103,7 +122,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		$errors = $this->validate($custom, $id);
 		if (count($errors)) {
-			return Redirect::to(admin_uri($this->plural . '/edit/' . $id))->withInput()->withErrors($errors);
+			return Redirect::to($this->uri('edit/' . $id))->withInput()->withErrors($errors);
 		}
 
 		$object = $model::withTrashed()->findOrFail($id);
@@ -112,9 +131,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 		$object->save();
 
-		return Redirect::to(admin_uri($this->plural . '/edit/' . $id))->with('success', '
+		return Redirect::to($this->uri('edit/' . $id))->with('success', '
 			<p>' . $model . ' successfully updated.</p>
-			<p><a href="' . admin_url($this->plural) . '">Return to index</a></p>
+			<p><a href="' . $this->uri('', true) . '">Return to index</a></p>
 		');
 	}
 
@@ -171,9 +190,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 		$object->delete();
 
-		return Redirect::to(admin_uri($this->plural))->with('success', '
+		return Redirect::to($this->uri)->with('success', '
 			<p>' . $model . ' successfully deleted.</p>
-			<p><a href="'.admin_url($this->plural . '/restore/' . $object->id).'">Undo</a></p>
+			<p><a href="'.$this->uri('restore/' . $object->id, true).'">Undo</a></p>
 		');
 	}
 
@@ -187,7 +206,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 		$object->restore();
 
-		return Redirect::to(admin_uri($this->plural))->with('success', '
+		return Redirect::to($this->uri())->with('success', '
 			<p>' . $model . ' successfully restored.</p>
 		');
 	}
@@ -202,7 +221,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 		$object->forceDelete();
 
-		return Redirect::to(admin_uri($this->plural))->with('success', '
+		return Redirect::to($this->uri())->with('success', '
 			<p>' . $model . ' successfully deleted forever.</p>
 		');
 	}

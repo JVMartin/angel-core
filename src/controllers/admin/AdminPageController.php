@@ -1,8 +1,10 @@
 <?php
 
 class AdminPageController extends AdminCrudController {
-	
-	public $model 		= 'Page';
+
+	public $model		= 'Page';
+	public $uri			= 'pages';
+	public $sub_uri		= '';
 	public $plural		= 'pages';
 	public $singular	= 'page';
 	public $package		= 'core';
