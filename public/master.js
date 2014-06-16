@@ -13,13 +13,17 @@ var sortObj = {
 	cancel: '',
 	stop: function(e, ui) {
 		// Update the orders
+		var $tbody = ui.item.parent('tbody');
 		var i = 0;
 		var send = false;
-		var selector = ui.item.data('selector');
+		var selector = $tbody.data('selector');
 		if (!selector) selector = '.orderInput';
 
-		ui.item.parent().children('tr').each(function() {
+		var orders = {};
+		$tbody.children('tr').each(function() {
+			var id = $(this).data('id');
 			var $input = $(this).find(selector);
+			orders[id] = i;
 			if ($input.val() != i) {
 				$input.val(i);
 				send = true;
@@ -30,15 +34,7 @@ var sortObj = {
 		// Don't send if nothing's changed.
 		if (!send) return;
 
-		// Build our orders
-		var orders = {};
-		$(this).find(selector).each(function() {
-			var id = $(this).closest('tr').data('id');
-			orders[id] = $(this).val();
-		});
-
-		var url = ui.item.data('url');
-
+		var url = $tbody.data('url');
 		if (url) {
 			// Send them off
 			$.post(config.admin_url + url, {orders:orders}, function(data) {
