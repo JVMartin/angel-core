@@ -9,7 +9,7 @@
 			<th>Edit</th>
 		</tr>
 	</thead>
-	<tbody>
+	<tbody data-url="menus/item-order">
 		<?php
 		$models = Menu::get_models($menu->menuItems);
 		?>
@@ -20,9 +20,9 @@
 						<span class="glyphicon glyphicon-resize-vertical"></span>
 					</button>
 					@if (get_class($models[$menu_item->order]) != 'Modal')
-					<a href="{{ $models[$menu_item->order]->link() }}" class="btn btn-xs btn-info" target="_blank">
-						<span class="glyphicon glyphicon-eye-open"></span>
-					</a>
+						<a href="{{ $models[$menu_item->order]->link() }}" class="btn btn-xs btn-info" target="_blank">
+							<span class="glyphicon glyphicon-eye-open"></span>
+						</a>
 					@endif
 					<a href="{{ admin_url('menus/item-edit/' . $menu_item->id) }}" class="btn btn-xs btn-default">
 						<span class="glyphicon glyphicon-cog"></span>

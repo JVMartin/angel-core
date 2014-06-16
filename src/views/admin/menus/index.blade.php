@@ -52,26 +52,26 @@
 				</thead>
 				<tbody>
 				@foreach($menus as $menu)
-				<tr{{ $menu->deleted_at ? ' class="deleted"' : '' }}>
-					<td>
-						<a href="{{ admin_url('menus/edit/' . $menu->id) }}" class="btn btn-xs btn-default">
-							<span class="glyphicon glyphicon-edit"></span>
-						</a>
-					</td>
-					<td>{{ $menu->id }}</td>
-					<td>{{ $menu->name }}</td>
-					<td data-id="{{ $menu->id }}">
-						@if (!$menu->deleted_at)
-							@include('core::admin.menus.menu-items')
-							<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
-								<span class="glyphicon glyphicon-plus"></span>
-								Add Link
-							</button>
-						@else
-							<em>Restore to view</em>
-						@endif
-					</td>
-				</tr>
+					<tr{{ $menu->deleted_at ? ' class="deleted"' : '' }}>
+						<td>
+							<a href="{{ admin_url('menus/edit/' . $menu->id) }}" class="btn btn-xs btn-default">
+								<span class="glyphicon glyphicon-edit"></span>
+							</a>
+						</td>
+						<td>{{ $menu->id }}</td>
+						<td>{{ $menu->name }}</td>
+						<td data-id="{{ $menu->id }}">
+							@if (!$menu->deleted_at)
+								@include('core::admin.menus.menu-items')
+								<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
+									<span class="glyphicon glyphicon-plus"></span>
+									Add Link
+								</button>
+							@else
+								<em>Restore to view</em>
+							@endif
+						</td>
+					</tr>
 				@endforeach
 				</tbody>
 			</table>

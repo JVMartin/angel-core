@@ -20,7 +20,7 @@
 	{{ HTML::script('packages/angel/core/js/ckeditor/ckeditor.js') }}
 	{{ HTML::script('packages/angel/core/js/jquery/jquery.datetimepicker.js') }}
 	<script>
-		$(document).ready(function() {
+		$(function() {
 			// Show/hide the JavaScript / CSS fields
 			$('.showID').change(function() {
 				var $target = $('#' + $(this).data('id'));
@@ -279,7 +279,7 @@
 					{{ Form::label('og_image', 'og:image') }}
 					{{ Form::text('og_image', null, array('class'=>'form-control input-sm', 'placeholder'=>'og:image')) }}
 					<div class="text-right pad">
-						<button type="button" class="btn btn-default imageBrowse">Browse...</button>
+						<button type="button" class="btn btn-default imageBrowse imageBrowseAbsolute">Browse...</button>
 					</div>
 				</div>
 			</div>
@@ -295,7 +295,7 @@
 					{{ Form::label('twitter_image', 'twitter:image') }}
 					{{ Form::text('twitter_image', null, array('class'=>'form-control input-sm', 'placeholder'=>'twitter:image')) }}
 					<div class="text-right pad">
-						<button type="button" class="btn btn-default imageBrowse">Browse...</button>
+						<button type="button" class="btn btn-default imageBrowse imageBrowseAbsolute">Browse...</button>
 					</div>
 				</div>
 			</div>

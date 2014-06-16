@@ -1,53 +1,5 @@
 $(function() {
-	//-----------------
-	// Item ordering
-	//-----------------
-	// Drag helper to set width for table cells
-	function fixHelper(e, ui) {
-		ui.children().each(function() {
-			$(this).width($(this).width());
-		});
-		return ui;
-	}
-	$(".linksTable tbody").sortable({
-		helper: fixHelper,
-		handle: '.handle',
-		cancel: '',
-		stop: function(e, ui) {
-			// Update the orders of the menu items
-			var i = 0;
-			var send = false;
-			ui.item.parent().children('tr').each(function() {
-				var $input = $(this).find('.orderInput');
-				if ($input.val() != i) {
-					$input.val(i);
-					send = true;
-				}
-				i++;
-			});
-
-			// Don't send if nothing's changed.
-			if (!send) return;
-
-			// Build our menu item orders
-			var orders = {};
-			$('.orderInput').each(function() {
-				var id = $(this).closest('tr').data('id');
-				orders[id] = $(this).val();
-			});
-
-			// Send them off
-			$.post(config.admin_url+"menus/item-order", {orders:orders}, function(data) {
-				if (data != 1) {
-					alert('There was an error connecting to our servers.');
-					console.log(data);
-					return;
-				}
-			}).fail(function() {
-				alert('There was an error connecting to our servers.');
-			});
-		}
-	});
+	$(".linksTable tbody").sortable(sortObj);
 
 	//-----------------
 	// Add link wizard
