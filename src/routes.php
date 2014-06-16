@@ -178,25 +178,31 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 			'before' => 'admin',
 			'uses' => $controller . '@restore'
 		));
-		Route::post('item-add', array(
-			'uses' => $controller . '@item_add'
-		));
-		Route::post('item-order', array( // AJAX
-			'uses' => $controller . '@item_order'
-		));
-		Route::get('item-edit/{id}', array(
-			'uses' => $controller . '@item_edit'
-		));
-		Route::post('item-edit/{id}', array(
-			'before' => 'csrf',
-			'uses' => $controller . '@attempt_item_edit'
-		));
-		Route::post('item-delete', array( // AJAX
-			'uses' => $controller . '@item_delete'
-		));
 		Route::post('model-drop-down', array( // AJAX
 			'uses' => $controller . '@model_drop_down'
 		));
+
+		Route::group(array('prefix' => 'items'), function() {
+
+			$controller = 'AdminMenuItemController';
+
+			Route::post('add', array(
+				'uses' => $controller . '@add'
+			));
+			Route::post('order', array( // AJAX
+				'uses' => $controller . '@order'
+			));
+			Route::get('edit/{id}', array(
+				'uses' => $controller . '@edit'
+			));
+			Route::post('edit/{id}', array(
+				'before' => 'csrf',
+				'uses' => $controller . '@attempt_edit'
+			));
+			Route::post('delete', array( // AJAX
+				'uses' => $controller . '@delete'
+			));
+		});
 	});
 });
 

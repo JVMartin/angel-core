@@ -62,7 +62,7 @@
 						<td>{{ $menu->name }}</td>
 						<td data-id="{{ $menu->id }}">
 							@if (!$menu->deleted_at)
-								@include('core::admin.menus.menu-items')
+								@include('core::admin.menus.items.render')
 								<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
 									<span class="glyphicon glyphicon-plus"></span>
 									Add Link
@@ -90,7 +90,7 @@
 					<h4 class="modal-title">Add Link Wizard</h4>
 				</div>
 				<div class="modal-body">
-					{{ Form::open(array('url' => admin_uri('menus/item-add'), 'role'=>'form', 'method'=>'post')) }}
+					{{ Form::open(array('url' => admin_uri('menus/items/add'), 'role'=>'form', 'method'=>'post')) }}
 						<div class="wizSlide">
 							<p>Where would you like your link to point to?</p>
 							<div class="form-group">

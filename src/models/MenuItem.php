@@ -6,6 +6,14 @@ class MenuItem extends Eloquent {
 
 	protected $softDelete = true;
 
+	// Columns to update/insert on edit/add
+	public static function columns()
+	{
+		return array(
+			'child_menu_id'
+		);
+	}
+
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////

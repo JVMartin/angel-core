@@ -7,7 +7,7 @@
 	<br />
 	<div class="row">
 		<div class="col-sm-10">
-			{{ Form::model($menu_item) }}
+			{{ Form::model($item) }}
 				<table class="table table-striped">
 					<tbody>
 						<tr>

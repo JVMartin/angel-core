@@ -9,7 +9,7 @@
 			<th>Edit</th>
 		</tr>
 	</thead>
-	<tbody data-url="menus/item-order">
+	<tbody data-url="menus/items/order">
 		<?php
 		$models = Menu::get_models($menu->menuItems);
 		?>
@@ -24,8 +24,8 @@
 							<span class="glyphicon glyphicon-eye-open"></span>
 						</a>
 					@endif
-					<a href="{{ admin_url('menus/item-edit/' . $menu_item->id) }}" class="btn btn-xs btn-default">
-						<span class="glyphicon glyphicon-cog"></span>
+					<a href="{{ admin_url('menus/items/edit/' . $menu_item->id) }}" class="btn btn-xs btn-default">
+						<span class="glyphicon glyphicon-edit"></span>
 					</a>
 					<button type="button" class="btn btn-xs btn-danger deleteLink">
 						<span class="glyphicon glyphicon-remove"></span>
