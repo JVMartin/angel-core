@@ -159,7 +159,7 @@ abstract class AdminCrudController extends AdminAngelController {
 			}
 		}
 
-		$custom = $this->validate_custom($errors);
+		$custom = $this->validate_custom($id, $errors);
 
 		return $errors;
 	}
@@ -177,7 +177,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	 * @param array &$errors - The array of failed validation errors.
 	 * @return array - A key/value associative array of custom values.
 	 */
-	public function validate_custom(&$errors)
+	public function validate_custom($id = null, &$errors)
 	{
 		return array();
 	}

@@ -35,4 +35,17 @@ class AdminMenuItemController extends AdminCrudController {
 
 		return parent::edit($id);
 	}
+
+	/**
+	 * @param array &$errors - The array of failed validation errors.
+	 * @return array - A key/value associative array of custom values.
+	 */
+	public function validate_custom($id = null, &$errors)
+	{
+		if (!$id) return array();
+		$menu_item = MenuItem::findOrFail($id);
+		if (Input::get('child_menu_id') == $menu_item->menu_id) {
+			$errors[] = 'The child menu cannot be the same as the parent menu. (Recursive loop)';
+		}
+	}
 }
