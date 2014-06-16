@@ -9,6 +9,22 @@ class AdminMenuItemController extends AdminCrudController {
 	public $singular	= 'item';
 	public $package		= 'core';
 
+	public function attempt_add()
+	{
+		$order = MenuItem::where('menu_id', Input::get('menu_id'))->count();
+
+		$menu_item = new MenuItem;
+		$menu_item->order	= $order;
+		$menu_item->menu_id = Input::get('menu_id');
+		$menu_item->fmodel	= Input::get('fmodel');
+		$menu_item->fid		= Input::get('fid');
+		$menu_item->save();
+
+		return Redirect::to(admin_uri('menus'))->with('success', '
+			<p>Link created.</p>
+		');
+	}
+
 	/**
 	 * AJAX for reordering menu items
 	 */

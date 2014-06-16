@@ -189,7 +189,7 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 				return Redirect::to(admin_uri('menus'));
 			});
 			Route::post('add', array(
-				'uses' => $controller . '@add'
+				'uses' => $controller . '@attempt_add'
 			));
 			Route::post('order', array( // AJAX
 				'uses' => $controller . '@order'
