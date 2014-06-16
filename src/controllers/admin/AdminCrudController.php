@@ -2,12 +2,14 @@
 
 abstract class AdminCrudController extends AdminAngelController {
 
+	/*
 	public $model		= 'ProductCategory';
 	public $uri			= 'products';
-	public $sub_uri		= '';
-	public $plural		= 'members';
-	public $singular	= 'member';
-	public $package		= 'core';
+	public $sub_uri		= 'categories';
+	public $plural		= 'categories';
+	public $singular	= 'category';
+	public $package		= 'products';
+	*/
 
 	public function view($name)
 	{
