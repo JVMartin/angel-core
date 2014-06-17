@@ -2,12 +2,11 @@
 
 class AdminPageController extends AdminCrudController {
 
-	public $model		= 'Page';
-	public $uri			= 'pages';
-	public $sub_uri		= '';
-	public $plural		= 'pages';
-	public $singular	= 'page';
-	public $package		= 'core';
+	protected $model	= 'Page';
+	protected $uri		= 'pages';
+	protected $plural	= 'pages';
+	protected $singular	= 'page';
+	protected $package	= 'core';
 
 	public function index()
 	{

@@ -2,6 +2,8 @@
 
 class AngelController extends BaseController {
 
+	protected $settings;
+
 	protected $data = array(
 		'error' => array(),
 		'success' => array(),

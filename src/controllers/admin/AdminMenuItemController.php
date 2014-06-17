@@ -2,12 +2,11 @@
 
 class AdminMenuItemController extends AdminCrudController {
 
-	public $model		= 'MenuItem';
-	public $uri			= 'menus';
-	public $sub_uri		= 'items';
-	public $plural		= 'items';
-	public $singular	= 'item';
-	public $package		= 'core';
+	protected $model	= 'MenuItem';
+	protected $uri		= 'menus/items';
+	protected $plural	= 'items';
+	protected $singular	= 'item';
+	protected $package	= 'core';
 
 	public function attempt_add()
 	{

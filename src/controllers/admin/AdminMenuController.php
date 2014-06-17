@@ -2,12 +2,11 @@
 
 class AdminMenuController extends AdminCrudController {
 
-	public $model		= 'Menu';
-	public $uri			= 'menus';
-	public $sub_uri		= '';
-	public $plural		= 'menus';
-	public $singular	= 'menu';
-	public $package		= 'core';
+	protected $model	= 'Menu';
+	protected $uri		= 'menus';
+	protected $plural	= 'menus';
+	protected $singular	= 'menu';
+	protected $package	= 'core';
 
 	public function index()
 	{

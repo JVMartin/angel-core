@@ -2,8 +2,6 @@
 
 class AdminAngelController extends AngelController {
 
-	public $settings;
-
 	function __construct()
 	{
 		parent::__construct();

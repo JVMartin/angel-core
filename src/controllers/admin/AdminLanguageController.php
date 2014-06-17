@@ -2,12 +2,11 @@
 
 class AdminLanguageController extends AdminCrudController {
 
-	public $model		= 'Language';
-	public $uri			= 'languages';
-	public $sub_uri		= '';
-	public $plural		= 'languages';
-	public $singular	= 'language';
-	public $package		= 'core';
+	protected $model	= 'Language';
+	protected $uri		= 'languages';
+	protected $plural	= 'languages';
+	protected $singular	= 'language';
+	protected $package	= 'core';
 
 	public function validate_rules($id = null)
 	{

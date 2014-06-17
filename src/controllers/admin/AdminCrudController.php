@@ -3,26 +3,21 @@
 abstract class AdminCrudController extends AdminAngelController {
 
 	/*
-	public $model		= 'ProductCategory';
-	public $uri			= 'products';
-	public $sub_uri		= 'categories';
-	public $plural		= 'categories';
-	public $singular	= 'category';
-	public $package		= 'products';
+	protected $model	= 'ProductCategory';
+	protected $uri		= 'products/categories';
+	protected $plural	= 'categories';
+	protected $singular	= 'category';
+	protected $package	= 'products';
 	*/
 
 	public function view($name)
 	{
-		$view = $this->package . '::admin.' . $this->uri . '.';
-		if ($this->sub_uri) $view .= $this->sub_uri . '.';
-		$view .= $name;
-		return $view;
+		return $this->package . '::admin/' . $this->uri . '/' . $name;
 	}
 
 	public function uri($append = '', $url = false)
 	{
 		$uri = $this->uri;
-		if ($this->sub_uri) $uri .= '/' . $this->sub_uri;
 		if ($append)		$uri .= '/' . $append;
 		if ($url) return admin_url($uri);
 		return admin_uri($uri);
