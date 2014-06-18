@@ -202,8 +202,8 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 				'before' => 'csrf',
 				'uses' => $controller . '@attempt_edit'
 			));
-			Route::post('delete', array( // AJAX
-				'uses' => $controller . '@delete'
+			Route::post('hard-delete/{id}/{ajax?}', array( // AJAX
+				'uses' => $controller . '@hard_delete'
 			));
 		});
 	});

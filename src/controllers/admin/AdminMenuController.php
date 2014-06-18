@@ -49,17 +49,6 @@ class AdminMenuController extends AdminCrudController {
 		);
 	}
 
-	public function reorder($id)
-	{
-		$menu_items = Menu::findOrFail($id)->menuItems;
-		$i = 0;
-		foreach($menu_items as $menu_item) {
-			$menu_item->order = $i;
-			$menu_item->save();
-			$i++;
-		}
-	}
-
 	/**
 	 * AJAX for getting 'existing model' dropdown in menu link creation wizard.
 	 *

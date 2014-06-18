@@ -230,17 +230,19 @@ abstract class AdminCrudController extends AdminAngelController {
 		');
 	}
 
-	public function hard_delete($id)
+	public function hard_delete($id, $ajax = false)
 	{
 		$model = $this->model;
 
-		$object = $model::withTrashed()->find($id);
+		$object = $model::withTrashed()->findOrFail($id);
 		if (method_exists($object, 'pre_hard_delete')) {
 			$object->pre_hard_delete();
 		}
 		$object->forceDelete();
 
 		$this->reorder();
+
+		if ($ajax) return 1;
 
 		return Redirect::to($this->uri())->with('success', '
 			<p>' . $model . ' successfully deleted forever.</p>
