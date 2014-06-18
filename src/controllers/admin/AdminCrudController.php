@@ -89,6 +89,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		foreach($model::columns() as $column) {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
+		if ($object->reorderable) {
+			$object->order = $model::count();
+		}
 		$object->save();
 
 		// Are we creating this object from the menu wizard?
@@ -177,6 +180,21 @@ abstract class AdminCrudController extends AdminAngelController {
 		return array();
 	}
 
+	public function reorder()
+	{
+		$model = $this->model;
+		$object = new $model;
+		if (!$object->reorderable) return;
+
+		$objects = $model::orderBy('order')->get();
+
+		$order = 0;
+		foreach ($objects as $object) {
+			$object->order = $order++;
+			$object->save();
+		}
+	}
+
 	public function delete($id)
 	{
 		$model = $this->model;
@@ -186,6 +204,8 @@ abstract class AdminCrudController extends AdminAngelController {
 			$object->pre_delete();
 		}
 		$object->delete();
+
+		$this->reorder();
 
 		return Redirect::to($this->uri)->with('success', '
 			<p>' . $model . ' successfully deleted.</p>
@@ -203,6 +223,8 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 		$object->restore();
 
+		$this->reorder();
+
 		return Redirect::to($this->uri())->with('success', '
 			<p>' . $model . ' successfully restored.</p>
 		');
@@ -217,6 +239,8 @@ abstract class AdminCrudController extends AdminAngelController {
 			$object->pre_hard_delete();
 		}
 		$object->forceDelete();
+
+		$this->reorder();
 
 		return Redirect::to($this->uri())->with('success', '
 			<p>' . $model . ' successfully deleted forever.</p>
