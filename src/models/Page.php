@@ -62,11 +62,9 @@ class Page extends LinkableModel {
 	// Otherwise, you're going to be performing repeated queries.  Naughty.
 	public function link()
 	{
-		if (Config::get('core::languages')) {
-			return url($this->language->uri . '/' . $this->url);
-		} else {
-			return url($this->url);
-		}
+		$language_segment = (Config::get('core::languages')) ? $this->language->uri . '/' : '';
+
+		return url($language_segment . $this->url);
 	}
 	public function link_edit()
 	{
