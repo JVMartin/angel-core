@@ -17,14 +17,8 @@
 // See http://kcfinder.sunhater.com/install for setting descriptions
 
 $ds = DIRECTORY_SEPARATOR;
-$upload_path = str_replace('packages' . $ds . 'kraken' . $ds . 'core' . $ds . 'js' . $ds . 'kcfinder' . $ds . 'config.php', '', realpath(__FILE__) . 'uploads' . $ds . 'kcfinder' . $ds);
-// $upload_url = preg_replace('/(.+)\/assets\/.*/', '$1/uploads/kcfinder/', 'http://' . $_SERVER[HTTP_HOST] . $_SERVER[REQUEST_URI]);
-$request = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-if (strpos($request, '/public/')) {
-	$upload_url = preg_replace('/.+\/(.+)\/public\/.*/', '/$1/public/uploads/kcfinder/', $request);
-} else {
-	$upload_url = '/uploads/kcfinder/';
-}
+$upload_path = str_replace('packages' . $ds . 'angel' . $ds . 'core' . $ds . 'js' . $ds . 'kcfinder' . $ds . 'config.php', '', realpath(__FILE__) . 'uploads' . $ds . 'kcfinder' . $ds);
+$upload_url = '/uploads/kcfinder/';
 
 $_CONFIG = array(
 
