@@ -1,12 +1,13 @@
 <table class="table table-striped linksTable">
 	<thead>
 		<tr>
-			<th></th>
+			<th style="width:190px;"></th>
 			<th style="width:100px">Type</th>
 			@if (Config::get('core::languages') && !$single_language)
 				<th style="width:120px">Language</th>
 			@endif
 			<th>Edit</th>
+			<th>Child Menu</th>
 		</tr>
 	</thead>
 	<tbody data-url="menus/items/order">
@@ -44,6 +45,11 @@
 					<a href="{{ $models[$menu_item->order]->link_edit() }}">
 						{{ $models[$menu_item->order]->name() }}
 					</a>
+				</td>
+				<td>
+					@if ($menu_item->childMenu)
+						{{ $menu_item->childMenu->id }} - {{ $menu_item->childMenu->name }}
+					@endif
 				</td>
 			</tr>
 		@endforeach

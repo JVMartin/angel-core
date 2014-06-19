@@ -94,6 +94,8 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 		$object->save();
 
+		if (method_exists($this, 'after_save')) $this->after_save($object);
+
 		// Are we creating this object from the menu wizard?
 		// NOTE:  You only need this for menu-linkable models
 		if (Input::get('menu_id')) {
@@ -130,6 +132,8 @@ abstract class AdminCrudController extends AdminAngelController {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
 		$object->save();
+
+		if (method_exists($this, 'after_save')) $this->after_save($object);
 
 		return Redirect::to($this->uri('edit/' . $id))->with('success', '
 			<p>' . $model . ' successfully updated.</p>

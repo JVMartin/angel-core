@@ -10,7 +10,7 @@ class AdminMenuController extends AdminCrudController {
 
 	public function index()
 	{
-		$paginator = Menu::withTrashed()->with('menuItems');
+		$paginator = Menu::withTrashed()->with('menuItems', 'menuItems.childMenu');
 		if (Config::get('core::languages')) {
 			$paginator = $paginator->where('language_id', $this->data['active_language']->id);
 		}
