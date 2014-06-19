@@ -34,6 +34,15 @@ class CoreServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		//-------------------
+		// Models
+		//-------------------
+		App::bind('Change', function() {
+			return new \Angel\Core\Change;
+		});
+		App::bind('Language', function() {
+			return new \Angel\Core\Language;
+		});
 		App::bind('Menu', function() {
 			return new \Angel\Core\Menu;
 		});
@@ -50,8 +59,35 @@ class CoreServiceProvider extends ServiceProvider {
 			return new \Angel\Core\Setting;
 		});
 
+		//-------------------
+		// Back-End Controllers
+		//-------------------
+		App::bind('AdminLanguageController', function() {
+			return new \Angel\Core\AdminLanguageController;
+		});
+		App::bind('AdminMenuController', function() {
+			return new \Angel\Core\AdminMenuController;
+		});
+		App::bind('AdminMenuItemController', function() {
+			return new \Angel\Core\AdminMenuItemController;
+		});
+		App::bind('AdminPageController', function() {
+			return new \Angel\Core\AdminPageController;
+		});
+		App::bind('AdminSettingController', function() {
+			return new \Angel\Core\AdminSettingController;
+		});
+		App::bind('AdminUserController', function() {
+			return new \Angel\Core\AdminUserController;
+		});
 
+		//-------------------
+		// Front-End Controllers
+		//-------------------
 		App::bind('PageController', function() {
+			return new \Angel\Core\PageController;
+		});
+		App::bind('UserController', function() {
 			return new \Angel\Core\PageController;
 		});
 	}

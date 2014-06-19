@@ -64,7 +64,7 @@ class Menu extends Eloquent {
 			$fmodels[$menu_item->fmodel][$menu_item->order]['fid'] = $menu_item->fid;
 			
 			if ($menu_item->childMenu) {
-				$fmodels[$menu_item->fmodel][$menu_item->order]['menu_children'] = Menu::get_models($menu_item->childMenu->menuItems);
+				$fmodels[$menu_item->fmodel][$menu_item->order]['menu_children'] = static::get_models($menu_item->childMenu->menuItems);
 			}
 		}
 
@@ -72,7 +72,6 @@ class Menu extends Eloquent {
 		// Then place the results into $models (the final, ordered array which we return)
 		$models = array();
 		foreach ($fmodels as $fmodel=>$fmodel_rows) {
-
 			$fmodel = App::make($fmodel);
 
 			$ids = array();
