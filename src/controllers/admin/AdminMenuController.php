@@ -1,4 +1,4 @@
-<?php
+<?php namespace Angel\Core;
 
 class AdminMenuController extends AdminCrudController {
 
@@ -10,7 +10,9 @@ class AdminMenuController extends AdminCrudController {
 
 	public function index()
 	{
-		$paginator = Menu::withTrashed()->with('menuItems', 'menuItems.childMenu');
+		$menuModel = App::make('Menu');
+
+		$paginator = $menuModel::withTrashed()->with('menuItems', 'menuItems.childMenu');
 		if (Config::get('core::languages')) {
 			$paginator = $paginator->where('language_id', $this->data['active_language']->id);
 		}
@@ -28,7 +30,7 @@ class AdminMenuController extends AdminCrudController {
 		
 		$this->data['model_select'] = Form::select('fmodel', $model_list, null, array('id'=>'modelSelect', 'class' => 'form-control', 'autocomplete'=>'off'));
 
-		$menus = Menu::all();
+		$menus = $menuModel::all();
 		$menu_list = array('0'=>'None');
 		foreach ($menus as $menu) {
 			$menu_list[$menu->id] = $menu->name;

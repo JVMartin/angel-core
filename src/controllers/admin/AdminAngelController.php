@@ -1,8 +1,8 @@
-<?php
+<?php namespace Angel\Core;
 
 class AdminAngelController extends AngelController {
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -24,8 +24,10 @@ class AdminAngelController extends AngelController {
 	 */
 	protected function also_add_menu_item($fmodel, $fid)
 	{
-		$order				= MenuItem::where('menu_id', Input::get('menu_id'))->count();
-		$menu_item			= new MenuItem;
+		$menuItemModel = App::make('MenuItem');
+
+		$order				= $menuItemModel::where('menu_id', Input::get('menu_id'))->count();
+		$menu_item			= new $menuItemModel;
 		$menu_item->menu_id	= Input::get('menu_id');
 		$menu_item->fmodel	= $fmodel;
 		$menu_item->fid 	= $fid;

@@ -1,4 +1,4 @@
-<?php
+<?php namespace Angel\Core;
 
 class AdminUserController extends AdminAngelController {
 

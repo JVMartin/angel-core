@@ -1,4 +1,6 @@
-<?php
+<?php namespace Angel\Core;
+
+use BaseController;
 
 class AngelController extends BaseController {
 
@@ -14,6 +16,8 @@ class AngelController extends BaseController {
 
 	public function __construct()
 	{
+		parent::__construct();
+
 		$detect = new Mobile_Detect;
 		if (($detect->isMobile() || Input::get('mobile')) && !Input::get('desktop')) {
 			$this->mobile = true;
@@ -39,14 +43,16 @@ class AngelController extends BaseController {
 		///////////////////////////////////////////////
 		//                Settings                   //
 		///////////////////////////////////////////////
-		$this->settings = Setting::currentSettings();
+		$settingModel = App::make('Setting');
+		$this->settings = $settingModel::currentSettings();
 		$this->data['settings'] = $this->settings;
 
 		///////////////////////////////////////////////
 		//                Languages                  //
 		///////////////////////////////////////////////
 		if (Config::get('core::languages'))  {
-			$this->languages = Language::all();
+			$languageModel = App::make('Language');
+			$this->languages = $languageModel::all();
 			$language_drop = array();
 			foreach ($this->languages as $language) {
 				$language_drop[$language->id] = $language->name;
@@ -57,7 +63,7 @@ class AngelController extends BaseController {
 
 			// Handle the current active language
 			if (!Session::get('language')) {
-				Session::put('language', Language::primary()->id);
+				Session::put('language', $languageModel::primary()->id);
 			}
 			$this->data['active_language'] = $this->languages->find(Session::get('language'));
 		}

@@ -1,4 +1,4 @@
-<?php
+<?php namespace Angel\Core;
 
 class Page extends LinkableModel {
 
@@ -34,11 +34,12 @@ class Page extends LinkableModel {
 	///////////////////////////////////////////////
 	public function changes()
 	{
-		return Change::where('fmodel', 'Page')
-				   	 ->where('fid', $this->id)
-				   	 ->with('user')
-				   	 ->orderBy('created_at', 'DESC')
-				   	 ->get();
+		$changeModel = App::make('Change');
+		return $changeModel::where('fmodel', 'Page')
+				   	       ->where('fid', $this->id)
+				   	       ->with('user')
+				   	       ->orderBy('created_at', 'DESC')
+				   	       ->get();
 	}
 	public function modules()
 	{
@@ -49,9 +50,10 @@ class Page extends LinkableModel {
 	public function pre_hard_delete()
 	{
 		parent::pre_hard_delete();
-		Change::where('fmodel', 'Page')
-			  ->where('fid', $this->id)
-			  ->delete();
+		$changeModel = App::make('Change');
+		$changeModel::where('fmodel', 'Page')
+			        ->where('fid', $this->id)
+			        ->delete();
 	}
 
 	///////////////////////////////////////////////

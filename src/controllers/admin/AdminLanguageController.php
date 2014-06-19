@@ -1,4 +1,4 @@
-<?php
+<?php namespace Angel\Core;
 
 class AdminLanguageController extends AdminCrudController {
 
@@ -25,7 +25,9 @@ class AdminLanguageController extends AdminCrudController {
 			');
 		}
 
-		$language = Language::find($id);
+		$languageModel = App::make('Language');
+
+		$language = $languageModel::find($id);
 		$language->pre_hard_delete();
 		$language->forceDelete();
 
@@ -36,7 +38,8 @@ class AdminLanguageController extends AdminCrudController {
 
 	public function make_active($id)
 	{
-		$language = Language::findOrFail($id);
+		$languageModel = App::make('Language');
+		$language = $languageModel::findOrFail($id);
 		Session::put('language', $language->id);
 		return Redirect::to(URL::previous());
 	}

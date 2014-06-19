@@ -1,4 +1,4 @@
-<?php
+<?php namespace Angel\Core;
 
 abstract class AdminCrudController extends AdminAngelController {
 
@@ -18,14 +18,14 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function uri($append = '', $url = false)
 	{
 		$uri = $this->uri;
-		if ($append)		$uri .= '/' . $append;
+		if ($append) $uri .= '/' . $append;
 		if ($url) return admin_url($uri);
 		return admin_uri($uri);
 	}
 
 	public function index()
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$paginator = $model::withTrashed()->paginate();
 		$this->data[$this->plural] = $paginator->getCollection();
@@ -38,7 +38,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function index_searchable($searchable = array())
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$search = Input::get('search') ? urldecode(Input::get('search')) : null;
 		$paginator = $model::withTrashed();
@@ -78,7 +78,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function attempt_add()
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$errors = $this->validate($custom);
 		if (count($errors)) {
@@ -109,7 +109,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function edit($id)
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$object = $model::withTrashed()->findOrFail($id);
 		$this->data[$this->singular] = $object;
@@ -120,7 +120,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function attempt_edit($id)
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$errors = $this->validate($custom, $id);
 		if (count($errors)) {
@@ -186,7 +186,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function reorder()
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 		$object = new $model;
 		if (!$object->reorderable) return;
 
@@ -201,7 +201,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function delete($id)
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$object = $model::find($id);
 		if (method_exists($object, 'pre_delete')) {
@@ -219,7 +219,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function restore($id)
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$object = $model::withTrashed()->find($id);
 		if (method_exists($object, 'pre_restore')) {
@@ -236,7 +236,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function hard_delete($id, $ajax = false)
 	{
-		$model = $this->model;
+		$model = App::make($this->model);
 
 		$object = $model::withTrashed()->findOrFail($id);
 		if (method_exists($object, 'pre_hard_delete')) {

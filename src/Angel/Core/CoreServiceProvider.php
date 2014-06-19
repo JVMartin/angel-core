@@ -1,6 +1,7 @@
 <?php namespace Angel\Core;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\App;
 
 class CoreServiceProvider extends ServiceProvider {
 
@@ -33,7 +34,9 @@ class CoreServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//
+		App::bind('PageModule', function() {
+			return new \Angel\Core\PageModule;
+		});
 	}
 
 	/**

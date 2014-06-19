@@ -1,4 +1,6 @@
-<?php
+<?php namespace Angel\Core;
+
+use Eloquent;
 
 class Change extends Eloquent {
 

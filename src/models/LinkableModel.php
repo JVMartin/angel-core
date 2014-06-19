@@ -1,4 +1,6 @@
-<?php
+<?php namespace Angel\Core;
+
+use Eloquent;
 
 // NOTE: Always eager-load the language relationship when grabbing linkable models
 
@@ -16,23 +18,29 @@ abstract class LinkableModel extends Eloquent {
 	// Handling relationships in controller CRUD methods
 	public function pre_delete()
 	{
-		MenuItem::where('fmodel', get_class($this))
-				->where('fid', $this->id)
-				->delete();
+		$menuItemModel = App::make('MenuItem');
+
+		$menuItemModel::where('fmodel', get_class($this))
+				      ->where('fid', $this->id)
+				      ->delete();
 	}
 	public function pre_restore()
 	{
-		MenuItem::withTrashed()
-				->where('fmodel', get_class($this))
-				->where('fid', $this->id)
-				->restore();
+		$menuItemModel = App::make('MenuItem');
+
+		$menuItemModel::withTrashed()
+				      ->where('fmodel', get_class($this))
+				      ->where('fid', $this->id)
+				      ->restore();
 	}
 	public function pre_hard_delete()
 	{
-		MenuItem::withTrashed()
-				->where('fmodel', get_class($this))
-				->where('fid', $this->id)
-				->forceDelete();
+		$menuItemModel = App::make('MenuItem');
+
+		$menuItemModel::withTrashed()
+				      ->where('fmodel', get_class($this))
+				      ->where('fid', $this->id)
+				      ->forceDelete();
 	}
 
 	///////////////////////////////////////////////
@@ -51,6 +59,8 @@ abstract class LinkableModel extends Eloquent {
 	}
 	public static function drop_down($model)
 	{
+		$model = App::make($model);
+
 		if (Config::get('core::languages')) $objects = $model::orderBy('language_id')->get();
 		else $objects = $model::get();
 		$arr = array();

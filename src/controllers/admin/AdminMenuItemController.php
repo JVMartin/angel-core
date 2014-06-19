@@ -1,4 +1,4 @@
-<?php
+<?php namespace Angel\Core;
 
 class AdminMenuItemController extends AdminCrudController {
 
@@ -10,9 +10,11 @@ class AdminMenuItemController extends AdminCrudController {
 
 	public function attempt_add()
 	{
-		$order = MenuItem::where('menu_id', Input::get('menu_id'))->count();
+		$menuItemModel = App::make('MenuItem');
 
-		$menu_item = new MenuItem;
+		$order = $menuItemModel::where('menu_id', Input::get('menu_id'))->count();
+
+		$menu_item = new $menuItemModel;
 		$menu_item->order	= $order;
 		$menu_item->menu_id = Input::get('menu_id');
 		$menu_item->fmodel	= Input::get('fmodel');
@@ -29,8 +31,10 @@ class AdminMenuItemController extends AdminCrudController {
 	 */
 	public function order()
 	{
+		$menuItemModel = App::make('MenuItem');
+
 		$orders = Input::get('orders');
-		$menu_items = MenuItem::whereIn('id', array_keys($orders))->get();
+		$menu_items = $menuItemModel::whereIn('id', array_keys($orders))->get();
 		foreach($menu_items as $menu_item) {
 			$menu_item->order = $orders[$menu_item->id];
 			//echo "Item: " . $menu_item->id . " | Order: " . $orders[$menu_item->id] . "\n";
@@ -41,7 +45,9 @@ class AdminMenuItemController extends AdminCrudController {
 
 	public function edit($id)
 	{
-		$menus = Menu::all();
+		$menuItemModel = App::make('MenuItem');
+
+		$menus = $menuItemModel::all();
 		$menu_list = array('0'=>'None');
 		foreach ($menus as $menu) {
 			$menu_list[$menu->id] = $menu->name;
@@ -57,10 +63,12 @@ class AdminMenuItemController extends AdminCrudController {
 	 */
 	public function validate_custom($id = null, &$errors)
 	{
+		$menuItemModel = App::make('MenuItem');
+
 		if (!$id) return array();
-		$menu_item = MenuItem::findOrFail($id);
+		$menu_item = $menuItemModel::findOrFail($id);
 		if (Input::get('child_menu_id') == $menu_item->menu_id) {
-			$errors[] = 'The child menu cannot be the same as the parent menu. (Recursive loop)';
+			$errors[] = 'The child menu cannot be the same as the parent menu.  A recursive loop would occur.';
 		}
 	}
 }

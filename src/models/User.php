@@ -1,5 +1,6 @@
-<?php
+<?php namespace Angel\Core;
 
+use Eloquent;
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 

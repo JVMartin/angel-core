@@ -1,4 +1,4 @@
-<?php
+<?php namespace Angel\Core;
 
 class Setting extends Eloquent {
 
@@ -20,7 +20,8 @@ class Setting extends Eloquent {
 	}
 
 	public static function currentSettings() {
-		$settings = Setting::settings();
+		$settingModel = App::make('Setting');
+		$settings = $settingModel::settings();
 
 		foreach (Setting::all() as $setting) {
 			$settings[$setting->key]['value'] = $setting->value;

@@ -1,4 +1,6 @@
-<?php
+<?php namespace Angel\Core;
+
+use Eloquent;
 
 class Language extends Eloquent {
 
@@ -33,6 +35,6 @@ class Language extends Eloquent {
 	 * We need to have a primary language for usage in error handlers (404), etc.
 	 */
 	public static function primary() {
-		return Language::where('uri', Config::get('core::language_primary'))->first();
+		return static::where('uri', Config::get('core::language_primary'))->first();
 	}
 }
