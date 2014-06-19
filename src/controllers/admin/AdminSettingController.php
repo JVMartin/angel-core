@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use View, App, Input, Redirect, Config;
+
 class AdminSettingController extends AdminAngelController {
 
 	public function index()
@@ -9,11 +11,13 @@ class AdminSettingController extends AdminAngelController {
 
 	public function update()
 	{
-		foreach (Setting::currentSettings() as $key=>$setting) {
+		$settingModel = App::make('Setting');
+
+		foreach ($settingModel::currentSettings() as $key=>$setting) {
 			if (!Input::exists($key) || Input::get($key) === $setting['value']) continue;
-			$setting = Setting::find($key);
+			$setting = $settingModel::find($key);
 			if (!$setting) {
-				$setting = new Setting;
+				$setting = new $settingModel;
 				$setting->key = $key;
 			}
 			$setting->value = Input::get($key);
