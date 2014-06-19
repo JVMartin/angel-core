@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use Eloquent;
+use Eloquent, App;
 
 class MenuItem extends Eloquent {
 
@@ -21,11 +21,11 @@ class MenuItem extends Eloquent {
 	///////////////////////////////////////////////
 	public function menu()
 	{
-		return $this->belongsTo('Menu');
+		return $this->belongsTo(App::make('Menu'));
 	}
 	public function childMenu()
 	{
-		return $this->belongsTo('Menu', 'child_menu_id');
+		return $this->belongsTo(App::make('Menu'), 'child_menu_id');
 	}
 
 	///////////////////////////////////////////////

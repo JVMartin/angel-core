@@ -1,6 +1,11 @@
 <?php namespace Angel\Core;
 
-use BaseController;
+use BaseController,
+	Mobile_Detect,
+	Input,
+	Session,
+	App,
+	Config;
 
 class AngelController extends BaseController {
 
@@ -16,8 +21,6 @@ class AngelController extends BaseController {
 
 	public function __construct()
 	{
-		parent::__construct();
-
 		$detect = new Mobile_Detect;
 		if (($detect->isMobile() || Input::get('mobile')) && !Input::get('desktop')) {
 			$this->mobile = true;
@@ -39,6 +42,11 @@ class AngelController extends BaseController {
 				ToolBelt::print_queries();
 			});
 		}
+
+		///////////////////////////////////////////////
+		//           Global View Bindings            //
+		///////////////////////////////////////////////
+		$this->data['menuModel'] = App::make('Menu');
 
 		///////////////////////////////////////////////
 		//                Settings                   //

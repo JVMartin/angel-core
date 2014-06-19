@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use Eloquent;
+use Eloquent, App, Config, View;
 
 class Menu extends Eloquent {
 
@@ -21,11 +21,11 @@ class Menu extends Eloquent {
 	///////////////////////////////////////////////
 	public function menuItems()
 	{
-		return $this->hasMany('MenuItem')->with('childMenu')->orderBy('order', 'asc');
+		return $this->hasMany(App::make('MenuItem'))->with('childMenu')->orderBy('order', 'asc');
 	}
 	public function language()
 	{
-		return $this->belongsTo('Language');
+		return $this->belongsTo(App::make('Language'));
 	}
 
 
@@ -34,9 +34,11 @@ class Menu extends Eloquent {
 	///////////////////////////////////////////////
 	public static function display($id)
 	{
-		$menu = Menu::with('menuItems')->findOrFail($id);
+		$menuModel = App::make('Menu');
 
-		$models = Menu::get_models($menu->menuItems);
+		$menu = $menuModel::with('menuItems')->findOrFail($id);
+
+		$models = $menuModel::get_models($menu->menuItems);
 
 		return View::make('core::admin.menus.render', array('models'=>$models));
 	}
@@ -70,6 +72,8 @@ class Menu extends Eloquent {
 		// Then place the results into $models (the final, ordered array which we return)
 		$models = array();
 		foreach ($fmodels as $fmodel=>$fmodel_rows) {
+
+			$fmodel = App::make($fmodel);
 
 			$ids = array();
 			foreach ($fmodel_rows as $fmodel_row) {

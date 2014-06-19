@@ -10,6 +10,8 @@ class AdminPageController extends AdminCrudController {
 
 	public function index()
 	{
+		$pageModel = App::make('Page');
+
 		$search = Input::get('search') ? urldecode(Input::get('search')) : null;
 		$paginator = Page::withTrashed();
 		if (Config::get($this->package . '::languages')) {

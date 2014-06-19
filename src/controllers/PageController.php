@@ -1,10 +1,14 @@
 <?php namespace Angel\Core;
 
+use App, View;
+
 class PageController extends AngelController {
 
 	public function show($url = 'home', $section = null)
 	{
-		$page = Page::where('url', $url)->first();
+		$pageModel = App::make('Page');
+
+		$page = $pageModel::where('url', $url)->first();
 
 		if (!$page || !$page->is_published()) App::abort(404);
 
@@ -20,15 +24,17 @@ class PageController extends AngelController {
 
 	public function show_language($language_uri = 'en', $url = 'home', $section = null)
 	{
+		$pageModel = App::make('Page');
+
 		$language = $this->languages->filter(function ($language) use ($language_uri) {
 			return ($language->uri == $language_uri);
 		})->first();
 
 		if (!$language) App::abort(404);
 
-		$page = Page::where('language_id', $language->id)
-			        ->where('url', $url)
-					->first();
+		$page = $pageModel::where('language_id', $language->id)
+			              ->where('url', $url)
+					      ->first();
 
 		if (!$page || !$page->is_published()) App::abort(404);
 

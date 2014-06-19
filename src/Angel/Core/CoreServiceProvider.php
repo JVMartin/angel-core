@@ -34,8 +34,25 @@ class CoreServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		App::bind('Menu', function() {
+			return new \Angel\Core\Menu;
+		});
+		App::bind('MenuItem', function() {
+			return new \Angel\Core\MenuItem;
+		});
+		App::bind('Page', function() {
+			return new \Angel\Core\Page;
+		});
 		App::bind('PageModule', function() {
 			return new \Angel\Core\PageModule;
+		});
+		App::bind('Setting', function() {
+			return new \Angel\Core\Setting;
+		});
+
+
+		App::bind('PageController', function() {
+			return new \Angel\Core\PageController;
 		});
 	}
 

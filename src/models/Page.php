@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use Config;
+
 class Page extends LinkableModel {
 
 	protected $softDelete = true;
