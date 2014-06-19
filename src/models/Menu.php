@@ -60,7 +60,7 @@ class Menu extends Eloquent {
 			$fmodels[$menu_item->fmodel][$menu_item->order]['fid'] = $menu_item->fid;
 			
 			if ($menu_item->childMenu) {
-				$fmodels[$menu_item->fmodel][$menu_item->order]['children'] = Menu::get_models($menu_item->childMenu->menuItems);
+				$fmodels[$menu_item->fmodel][$menu_item->order]['menu_children'] = Menu::get_models($menu_item->childMenu->menuItems);
 			}
 		}
 
@@ -83,7 +83,7 @@ class Menu extends Eloquent {
 			foreach ($fmodel_rows as $order=>$fmodel_row) {
 				$models[$order] = $temp_models->find($fmodel_row['fid']);
 
-				if (!empty($fmodel_row['children'])) $models[$order]['children'] = $fmodel_row['children'];
+				if (!empty($fmodel_row['menu_children'])) $models[$order]['menu_children'] = $fmodel_row['menu_children'];
 				/*
 				$temp_model = $temp_models->find($id);
 				if (method_exists($temp_model, 'is_published') && !$temp_model->is_published()) continue;

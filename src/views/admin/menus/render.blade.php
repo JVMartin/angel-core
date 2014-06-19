@@ -1,6 +1,6 @@
-@foreach ($models as $order => $model)
+@foreach ($models as $model)
 	<?php
-		$active = ($model->link() == url(Request::url())) ? ' class="active"' : '';
+		$active = ($model->link() == Request::url()) ? ' class="active"' : '';
 		$unique = uniqid();
 	?>
 	
@@ -21,9 +21,9 @@
 				{{ $model->render(); }}
 			@endif
 		</a>
-		@if ($model->children)
+		@if ($model->menu_children)
 			<ul class="nav nav-child">
-				{{ View::make('core::admin.menus.render', array('models'=>$model->children)) }}
+				{{ View::make('core::admin.menus.render', array('models'=>$model->menu_children)) }}
 			</ul>
 		@endif
 	</li>
