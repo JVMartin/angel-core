@@ -37,12 +37,12 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 
 	// KCFinder
-	config.filebrowserBrowseUrl 	 = window.config.base_url + 'kraken/core/js/kcfinder/browse.php?type=files';
-	config.filebrowserImageBrowseUrl = window.config.base_url + 'kraken/core/js/kcfinder/browse.php?type=images';
-	config.filebrowserFlashBrowseUrl = window.config.base_url + 'kraken/core/js/kcfinder/browse.php?type=flash';
-	config.filebrowserUploadUrl 	 = window.config.base_url + 'kraken/core/js/kcfinder/upload.php?type=files';
-	config.filebrowserImageUploadUrl = window.config.base_url + 'kraken/core/js/kcfinder/upload.php?type=images';
-	config.filebrowserFlashUploadUrl = window.config.base_url + 'kraken/core/js/kcfinder/upload.php?type=flash';
+	config.filebrowserBrowseUrl 	 = window.config.base_url + 'packages/angel/core/js/kcfinder/browse.php?type=files';
+	config.filebrowserImageBrowseUrl = window.config.base_url + 'packages/angel/core/js/kcfinder/browse.php?type=images';
+	config.filebrowserFlashBrowseUrl = window.config.base_url + 'packages/angel/core/js/kcfinder/browse.php?type=flash';
+	config.filebrowserUploadUrl 	 = window.config.base_url + 'packages/angel/core/js/kcfinder/upload.php?type=files';
+	config.filebrowserImageUploadUrl = window.config.base_url + 'packages/angel/core/js/kcfinder/upload.php?type=images';
+	config.filebrowserFlashUploadUrl = window.config.base_url + 'packages/angel/core/js/kcfinder/upload.php?type=flash';
 
 	// Remove filter
 	config.allowedContent = true;
