@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, Input, Config, View;
+use App, Input, Config, View, Validator, Redirect;
 
 class AdminPageController extends AdminCrudController {
 

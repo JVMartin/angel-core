@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use User, Input, View, Session, Redirect, Validator;
+
 class AdminUserController extends AdminAngelController {
 
 	public function index()

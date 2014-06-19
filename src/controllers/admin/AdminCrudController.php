@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use App, View, Input, Redirect, Validator;
+
 abstract class AdminCrudController extends AdminAngelController {
 
 	/*
@@ -103,7 +105,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 
 		return Redirect::to($this->uri())->with('success', '
-			<p>' . $model . ' successfully created.</p>
+			<p>' . $this->model . ' successfully created.</p>
 		');
 	}
 
@@ -136,7 +138,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		if (method_exists($this, 'after_save')) $this->after_save($object);
 
 		return Redirect::to($this->uri('edit/' . $id))->with('success', '
-			<p>' . $model . ' successfully updated.</p>
+			<p>' . $this->model . ' successfully updated.</p>
 			<p><a href="' . $this->uri('', true) . '">Return to index</a></p>
 		');
 	}
