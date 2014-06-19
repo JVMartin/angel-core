@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use App, Input, Config, View;
+
 class AdminPageController extends AdminCrudController {
 
 	protected $model	= 'Page';
@@ -13,7 +15,7 @@ class AdminPageController extends AdminCrudController {
 		$pageModel = App::make('Page');
 
 		$search = Input::get('search') ? urldecode(Input::get('search')) : null;
-		$paginator = Page::withTrashed();
+		$paginator = $pageModel::withTrashed();
 		if (Config::get($this->package . '::languages')) {
 			$paginator = $paginator->with('language')
 				                   ->where('language_id', $this->data['active_language']->id);
@@ -41,13 +43,15 @@ class AdminPageController extends AdminCrudController {
 
 	public function attempt_add()
 	{
+		$pageModel = App::make('Page');
+
 		$errors = $this->validate($custom);
 		if (count($errors)) {
 			return Redirect::to(admin_uri('pages/add'))->withInput()->withErrors($errors);
 		}
 
-		$page = new Page;
-		foreach(Page::columns() as $column) {
+		$page = new $pageModel;
+		foreach($pageModel::columns() as $column) {
 			$page->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
 		$page->save();
@@ -66,7 +70,9 @@ class AdminPageController extends AdminCrudController {
 
 	public function edit($id)
 	{
-		$page = Page::withTrashed()->with('modules')->find($id);
+		$pageModel = App::make('Page');
+
+		$page = $pageModel::withTrashed()->with('modules')->find($id);
 		$this->data['page'] = $page;
 		$this->data['changes'] = $page->changes();
 		$this->data['action'] = 'edit';
@@ -76,14 +82,17 @@ class AdminPageController extends AdminCrudController {
 
 	public function attempt_edit($id)
 	{
+		$pageModel = App::make('Page');
+		$changeModel = App::make('Change');
+
 		$errors = $this->validate($custom, $id);
 		if (count($errors)) {
 			return Redirect::to(admin_uri('pages/edit/'.$id))->withInput()->withErrors($errors);
 		}
 
-		$page = Page::withTrashed()->with('modules')->findOrFail($id);
+		$page = $pageModel::withTrashed()->with('modules')->findOrFail($id);
 		$changes = array();
-		foreach(Page::columns() as $column) {
+		foreach($pageModel::columns() as $column) {
 			$value = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 
 			// If the value has changed...
@@ -101,7 +110,7 @@ class AdminPageController extends AdminCrudController {
 		$this->handle_modules($page, $changes);
 
 		if (count($changes)) {
-			$change = new Change;
+			$change = new $changeModel;
 			$change->user_id 	= Auth::user()->id;
 			$change->fmodel		= 'Page';
 			$change->fid 		= $page->id;
@@ -118,6 +127,8 @@ class AdminPageController extends AdminCrudController {
 
 	private function handle_modules($page, &$changes = null)
 	{
+		$pageModuleModel = App::make('PageModule');
+
 		if (!$changes) $changes = array();
 		$input_modules = Input::get('modules');
 		$input_moduleNames = Input::get('moduleNames');
@@ -146,7 +157,7 @@ class AdminPageController extends AdminCrudController {
 			}
 			if (!$found_module) {
 				if (!$html && $number == 1 && count($input_modules) == 1) continue; // Don't create a module when it's -just- a blank Module 1
-				$module = new PageModule;
+				$module = new $pageModuleModel;
 				$module->page_id	= $page->id;
 				$module->number		= $number;
 				$module->html		= $html;
@@ -211,7 +222,9 @@ class AdminPageController extends AdminCrudController {
 	 */
 	public function url_taken($id = null)
 	{
-		$page = Page::where('url', Input::get('url'));
+		$pageModel = App::make('Page');
+
+		$page = $pageModel::where('url', Input::get('url'));
 		if (Config::get('core::languages')) {
 			$page = $page->where('language_id', Input::get('language_id'));
 		}
@@ -228,17 +241,20 @@ class AdminPageController extends AdminCrudController {
 	 */
 	public function copy()
 	{
-		$pages = Page::where('language_id', $this->data['active_language']->id);
+		$pageModel = App::make('Page');
+		$languageModel = App::make('Language');
+
+		$pages = $pageModel::where('language_id', $this->data['active_language']->id);
 		if (!Input::get('all')) {
 			$pages = $pages->whereIn('id', Input::get('ids'));
 		}
 		$pages = $pages->get();
 
 		$errors = $success = '';
-		$target_language = Language::findOrFail(Input::get('language_id'));
+		$target_language = $languageModel::findOrFail(Input::get('language_id'));
 		foreach ($pages as $page) {
 			// Make sure a page with that URL doesn't already exist
-			if (Page::withTrashed()->where('language_id', $target_language->id)->where('url', $page->url)->count()) {
+			if ($pageModel::withTrashed()->where('language_id', $target_language->id)->where('url', $page->url)->count()) {
 				$errors .= '
 					<p>
 						Could not copy page with url "' . $page->url . '"

@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use Config;
+use App, Config;
 
 class Page extends LinkableModel {
 
@@ -37,6 +37,7 @@ class Page extends LinkableModel {
 	public function changes()
 	{
 		$changeModel = App::make('Change');
+
 		return $changeModel::where('fmodel', 'Page')
 				   	       ->where('fid', $this->id)
 				   	       ->with('user')
@@ -45,14 +46,14 @@ class Page extends LinkableModel {
 	}
 	public function modules()
 	{
-		return $this->hasMany('PageModule');
+		return $this->hasMany(App::make('PageModule'));
 	}
 
 	// Handling relationships in controller CRUD methods
 	public function pre_hard_delete()
 	{
 		parent::pre_hard_delete();
-		$changeModel = App::make('Change');
+		$changeModel = App::make(App::make('Change'));
 		$changeModel::where('fmodel', 'Page')
 			        ->where('fid', $this->id)
 			        ->delete();

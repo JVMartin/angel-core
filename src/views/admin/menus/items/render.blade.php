@@ -12,7 +12,7 @@
 	</thead>
 	<tbody data-url="menus/items/order">
 		<?php
-		$models = Menu::get_models($menu->menuItems);
+		$models = $menuModel::get_models($menu->menuItems);
 		?>
 		@foreach ($menu->menuItems as $menu_item)
 			<tr data-id="{{ $menu_item->id }}">

@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use Eloquent;
+use Eloquent, App, Config;
 
 // NOTE: Always eager-load the language relationship when grabbing linkable models
 

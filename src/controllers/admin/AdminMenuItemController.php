@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use App, Input, Redirect;
+
 class AdminMenuItemController extends AdminCrudController {
 
 	protected $model	= 'MenuItem';

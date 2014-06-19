@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use Session, Input, App, Redirect;
+
 class AdminAngelController extends AngelController {
 
 	public function __construct()
