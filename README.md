@@ -135,7 +135,7 @@ class PageController extends \Angel\Core\PageController {
 Register your new PageController in `app/routes.php` (or anywhere you prefer):
 ```php
 App::singleton('PageController', function() {
-	return new PageController;
+	return new \PageController;
 });
 ```
 
