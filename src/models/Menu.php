@@ -40,7 +40,7 @@ class Menu extends Eloquent {
 
 		$models = $menuModel::get_models($menu->menuItems);
 
-		return View::make('core::admin.menus.render', array('models'=>$models));
+		return View::make('core::menus.render', array('models'=>$models));
 	}
 
 	///////////////////////////////////////////////

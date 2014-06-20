@@ -23,7 +23,7 @@
 		</a>
 		@if ($model->menu_children)
 			<ul class="nav nav-child">
-				{{ View::make('core::admin.menus.render', array('models'=>$model->menu_children)) }}
+				{{ View::make('core::menus.render', array('models'=>$model->menu_children)) }}
 			</ul>
 		@endif
 	</li>

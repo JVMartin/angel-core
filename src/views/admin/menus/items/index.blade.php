@@ -11,9 +11,7 @@
 		</tr>
 	</thead>
 	<tbody data-url="menus/items/order">
-		<?php
-		$models = $menuModel::get_models($menu->menuItems);
-		?>
+		<?php $models = $menuModel::get_models($menu->menuItems); ?>
 		@foreach ($menu->menuItems as $menu_item)
 			<tr data-id="{{ $menu_item->id }}">
 				<td style="width:190px;">
@@ -33,7 +31,7 @@
 					</button>
 				</td>
 				<td>
-					{{ get_class($models[$menu_item->order]) }}
+					{{ $menu_item->fmodel }}
 				</td>
 				@if (Config::get('core::languages') && !$single_language)
 					<td>

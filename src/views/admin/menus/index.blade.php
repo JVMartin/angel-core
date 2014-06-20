@@ -62,7 +62,7 @@
 						<td>{{ $menu->name }}</td>
 						<td data-id="{{ $menu->id }}">
 							@if (!$menu->deleted_at)
-								@include('core::admin.menus.items.render')
+								@include('core::admin.menus.items.index')
 								<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
 									<span class="glyphicon glyphicon-plus"></span>
 									Add Link
