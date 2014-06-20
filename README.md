@@ -4,9 +4,9 @@ Angel is a CMS built on top of Laravel.  It is available via [Packagist](https:/
 
 Try It
 ------
-Check out a [live deployment of the CMS here](http://angel.angelvision.tv/).
+Check out a [live deployment of the CMS here](http://angel-test.angelvision.tv/).
 
-Sign into the [admin section](http://angel.angelvision.tv/admin) with the credentials:
+Sign into the [admin section](http://angel-test.angelvision.tv/admin) with the credentials:
 ```
 User: avadmin
 Pass: password
