@@ -37,57 +37,57 @@ class CoreServiceProvider extends ServiceProvider {
 		//-------------------
 		// Models
 		//-------------------
-		App::bind('Change', function() {
+		App::singleton('Change', function() {
 			return new \Angel\Core\Change;
 		});
-		App::bind('Language', function() {
+		App::singleton('Language', function() {
 			return new \Angel\Core\Language;
 		});
-		App::bind('Menu', function() {
+		App::singleton('Menu', function() {
 			return new \Angel\Core\Menu;
 		});
-		App::bind('MenuItem', function() {
+		App::singleton('MenuItem', function() {
 			return new \Angel\Core\MenuItem;
 		});
-		App::bind('Page', function() {
+		App::singleton('Page', function() {
 			return new \Angel\Core\Page;
 		});
-		App::bind('PageModule', function() {
+		App::singleton('PageModule', function() {
 			return new \Angel\Core\PageModule;
 		});
-		App::bind('Setting', function() {
+		App::singleton('Setting', function() {
 			return new \Angel\Core\Setting;
 		});
 
 		//-------------------
 		// Back-End Controllers
 		//-------------------
-		App::bind('AdminLanguageController', function() {
+		App::singleton('AdminLanguageController', function() {
 			return new \Angel\Core\AdminLanguageController;
 		});
-		App::bind('AdminMenuController', function() {
+		App::singleton('AdminMenuController', function() {
 			return new \Angel\Core\AdminMenuController;
 		});
-		App::bind('AdminMenuItemController', function() {
+		App::singleton('AdminMenuItemController', function() {
 			return new \Angel\Core\AdminMenuItemController;
 		});
-		App::bind('AdminPageController', function() {
+		App::singleton('AdminPageController', function() {
 			return new \Angel\Core\AdminPageController;
 		});
-		App::bind('AdminSettingController', function() {
+		App::singleton('AdminSettingController', function() {
 			return new \Angel\Core\AdminSettingController;
 		});
-		App::bind('AdminUserController', function() {
+		App::singleton('AdminUserController', function() {
 			return new \Angel\Core\AdminUserController;
 		});
 
 		//-------------------
 		// Front-End Controllers
 		//-------------------
-		App::bind('PageController', function() {
+		App::singleton('PageController', function() {
 			return new \Angel\Core\PageController;
 		});
-		App::bind('UserController', function() {
+		App::singleton('UserController', function() {
 			return new \Angel\Core\UserController;
 		});
 	}
