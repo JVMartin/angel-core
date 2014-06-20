@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use Session, Auth, View, Validator, Input, Redirect;
+
 class UserController extends AngelController {
 
 	public function signin()

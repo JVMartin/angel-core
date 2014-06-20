@@ -88,7 +88,7 @@ class CoreServiceProvider extends ServiceProvider {
 			return new \Angel\Core\PageController;
 		});
 		App::bind('UserController', function() {
-			return new \Angel\Core\PageController;
+			return new \Angel\Core\UserController;
 		});
 	}
 

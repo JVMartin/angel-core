@@ -5,9 +5,10 @@
 ///////////////////////////////////////////////
 
 Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'admin'), function() {
-	Route::get('/', array(
-		'uses' => 'AdminPageController@index'
-	));
+	Route::get('/', function() {
+		Session::reflash();
+		return Redirect::to(admin_uri('pages'));
+	});
 
 	//------------------------
 	// AdminUserController
