@@ -49,8 +49,8 @@ php artisan config:publish angel/core        # Publish the config
 php artisan migrate --package="angel/core"   # Run the migrations
 ```
 
-Usage
------
+Configuration
+-------------
 Take a look at the config file you just published in `app/packages/angel/core/config.php`.
 
 ### Languages
@@ -113,6 +113,28 @@ Extending the Core
 ------------------
 Every class in the core is easily extendable.
 
+Let's start by extending the [PageController](https://github.com/JVMartin/angel/blob/master/src/controllers/PageController.php).
 
+Create the following file as `app/controllers/PageController.php`:
 
+```php
+<?php
 
+class PageController extends \Angel\Core\PageController {
+	
+	public function home()
+	{
+		return 'You are home!';
+	}
+
+}
+```
+
+Register your new PageController in `app/routes.php` (or anywhere you prefer):
+```php
+App::singleton('PageController', function() {
+	return new PageController;
+});
+```
+
+Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
