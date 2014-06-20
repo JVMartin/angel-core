@@ -53,6 +53,7 @@ Usage
 -----
 Take a look at the config file you just published in `app/packages/angel/core/config.php`.
 
+### Languages
 The first configurations are related to languages.  By default, only one language is used and your URLs will look like this for created pages:
 ```
 http://www.website.com/about-us
@@ -91,3 +92,27 @@ And finally, run the migrations so the languages table and relationships will be
 ```bash
 php artisan migrate --package="angel/core"
 ```
+
+### Admin URL
+By default, the following configuration is set:
+```
+'admin_prefix' => 'admin'
+```
+
+This allows one to access the administration panel via the url `http://yoursite.com/admin`.
+
+Feel free to change this prefix, or to even remove it completely, which will cause `http://yoursite.com` to show the administration panel.
+
+### Admin Menu
+The next section is the `'menu'` array.  When you install modules, you add their indexes to this array so that they appear in the administration panel's menu.
+
+### Menu Linkable Models
+Some modules come with models that you can create menu links to in the `Menu` module.  This array is used by the `Menu Link Creation Wizard` on the `Menu` module's index.
+
+Extending the Core
+------------------
+Every class in the core is easily extendable.
+
+
+
+
