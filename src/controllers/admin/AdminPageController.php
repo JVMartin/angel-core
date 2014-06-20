@@ -133,6 +133,7 @@ class AdminPageController extends AdminCrudController {
 		$input_modules = Input::get('modules');
 		$input_moduleNames = Input::get('moduleNames');
 		foreach ($input_modules as $number=>$html) {
+			$name = $input_moduleNames[$number];
 			$found_module = false;
 			foreach ($page->modules as $module) {
 				if ($number == $module->number) {
@@ -156,12 +157,12 @@ class AdminPageController extends AdminCrudController {
 				}
 			}
 			if (!$found_module) {
-				if (!$html && $number == 1 && count($input_modules) == 1) continue; // Don't create a module when it's -just- a blank Module 1
+				if (!$html && !$name && $number == 1 && count($input_modules) == 1) continue; // Don't create a module when it's -just- a blank Module 1
 				$module = new $pageModuleModel;
 				$module->page_id	= $page->id;
 				$module->number		= $number;
 				$module->html		= $html;
-				$module->name		= $input_moduleNames[$number];
+				$module->name		= $name;
 				$module->save();
 			}
 		}

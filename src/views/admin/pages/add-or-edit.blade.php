@@ -68,11 +68,10 @@
 				CKEDITOR.replace('ckMe'+newNumber);
 			});
 
-			// Show modules if there are modules to show
-			if($('input[name="moduleNames[1]"]').val() != '') {
-				$('#modules').show();
-				$('#modules').parent().parent().find('input[type=checkbox]').prop('checked', true);
-			}
+			{{-- Show modules if there are modules to show --}}
+			@if ($action == 'edit' && $page->modules->count())
+				$('#showModules').prop('checked', true).trigger('change');
+			@endif
 		});
 	</script>
 @stop
@@ -156,7 +155,7 @@
 							<b>Modules</b>
 							<div class="checkbox">
 								<label>
-									<input type="checkbox" class="showID" data-id="modules" /> Show
+									<input type="checkbox" id="showModules" class="showID" data-id="modules" /> Show
 								</label>
 							</div>
 						</td>
