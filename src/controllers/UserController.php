@@ -41,16 +41,7 @@ class UserController extends AngelController {
 		);
 
 		if (Auth::attempt($usernameCheck) || Auth::attempt($emailCheck)) {
-			if (Auth::user()->type == 'superadmin') {
-				Session::put('superadmin', true);
-				Session::put('admin', true);
-				return Redirect::intended(admin_uri('/'));
-			}
-			if (Auth::user()->type == 'admin') {
-				Session::put('admin', true);
-				return Redirect::intended(admin_uri('/'));
-			}
-			return Redirect::intended('/');
+			return Redirect::intended(admin_uri());
 		}
 
 		return Redirect::to('signin')->withInput()->withErrors('Login attempt failed.');

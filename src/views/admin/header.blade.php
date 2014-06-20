@@ -8,7 +8,7 @@
 			</button>
 			<a class="navbar-brand" href="{{ admin_url() }}">Admin</a>
 		</div>
-		@if (Session::get('admin'))
+		@if (Auth::check() && Auth::user()->is_admin())
 			<div class="navbar-collapse collapse">
 				@if (Config::get('core::languages') && !$single_language)
 					<ul class="nav navbar-nav navbar-left">

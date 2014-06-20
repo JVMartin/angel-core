@@ -16,9 +16,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return array(
 			'superadmin' => 'superadmin',
-			'admin'	=> 'admin',
-			'user'	=> 'user'
+			'admin'      => 'admin',
+			'user'       => 'user'
 		);
+	}
+
+	public function is_admin()
+	{
+		if (in_array($this->type, array('superadmin', 'admin'))) return true;
+		return false;
+	}
+
+	public function is_superadmin()
+	{
+		if ($this->type === 'superadmin') return true;
+		return false;
 	}
 
 	public function full_name()

@@ -11,7 +11,7 @@ class AdminUserController extends AdminAngelController {
 		$paginator = User::withTrashed();
 
 		// Limit viewable types if not superadmin
-		if (!Session::get('superadmin')) {
+		if (!Auth::user()->is_superadmin()) {
 			$paginator->whereIn('type', array_keys($this->okay_types()));
 		}
 
@@ -199,7 +199,7 @@ class AdminUserController extends AdminAngelController {
 	 */
 	public function okay_user($user)
 	{
-		if (!Session::get('superadmin') && ($user->type == 'superadmin' || $user->type == 'admin')) return false;
+		if (!Auth::user()->is_superadmin() && ($user->type == 'superadmin' || $user->type == 'admin')) return false;
 		return true;
 	}
 
@@ -211,7 +211,7 @@ class AdminUserController extends AdminAngelController {
 	public function okay_types()
 	{
 		$array = User::types_array();
-		if (!Session::get('superadmin')) {
+		if (!Auth::user()->is_superadmin()) {
 			unset($array['superadmin']);
 			unset($array['admin']);
 		}

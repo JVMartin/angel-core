@@ -33,7 +33,7 @@ $config = array(
 
 );
 
-if ($config['languages'] && Session::get('superadmin')) {
+if ($config['languages'] && Auth::user()->is_superadmin()) {
 	$config['menu']['Languages'] = 'languages';
 }
 
