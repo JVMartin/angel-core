@@ -51,7 +51,7 @@
 	@endif
 
 	<div class="row">
-		<div class="col-sm-7">
+		<div class="col-sm-9">
 			<table class="table table-striped">
 				<thead>
 					<tr>
