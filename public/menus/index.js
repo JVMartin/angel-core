@@ -6,9 +6,7 @@ $(function() {
 	//-----------------
 	var menu_id = '';
 	$(".showWizard").click(function() {
-		var $td = $(this).closest('td');
-		menu_id = $td.data('id');
-		$('input[name="menu_id"]').val(menu_id);
+		$('input[name="menu_id"]').val($(this).closest('.panel-body').data('id'));
 	});
 	$("#wizard").on('show.bs.modal', function () {
 		resetModal();

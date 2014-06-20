@@ -15,6 +15,9 @@
 			width:250px;
 			display:inline-block;
 		}
+		h3 {
+			margin:0;
+		}
 	</style>
 @stop
 
@@ -41,40 +44,29 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-12">
-			<table class="table table-striped">
-				<thead>
-				<tr>
-					<th style="width:60px;"></th>
-					<th style="width:80px;">ID</th>
-					<th style="width:200px;">Name</th>
-					<th>Links</th>
-				</tr>
-				</thead>
-				<tbody>
-				@foreach($menus as $menu)
-					<tr{{ $menu->deleted_at ? ' class="deleted"' : '' }}>
-						<td>
+			@foreach($menus as $menu)
+				<div class="panel {{ $menu->deleted_at ? 'panel-danger' : 'panel-default' }}">
+					<div class="panel-heading">
+						<h3>
 							<a href="{{ admin_url('menus/edit/' . $menu->id) }}" class="btn btn-xs btn-default">
 								<span class="glyphicon glyphicon-edit"></span>
 							</a>
-						</td>
-						<td>{{ $menu->id }}</td>
-						<td>{{ $menu->name }}</td>
-						<td data-id="{{ $menu->id }}">
-							@if (!$menu->deleted_at)
-								@include('core::admin.menus.items.index')
-								<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
-									<span class="glyphicon glyphicon-plus"></span>
-									Add Link
-								</button>
-							@else
-								<em>Restore to view</em>
-							@endif
-						</td>
-					</tr>
-				@endforeach
-				</tbody>
-			</table>
+							{{ $menu->name }}
+						</h3>
+					</div>
+					<div class="panel-body" data-id="{{ $menu->id }}">
+						@if (!$menu->deleted_at)
+							@include('core::admin.menus.items.index')
+							<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
+								<span class="glyphicon glyphicon-plus"></span>
+								Add Link
+							</button>
+						@else
+							<em>Restore to view</em>
+						@endif
+					</div>
+				</div>
+			@endforeach
 		</div>
 	</div>
 	<div class="row text-center">
