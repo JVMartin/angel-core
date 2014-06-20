@@ -115,6 +115,8 @@ Every class in the core is easily extendable.
 
 Let's start by extending the [PageController](https://github.com/JVMartin/angel/blob/master/src/controllers/PageController.php).
 
+When extending this controller, you can create a method for each page URI that you've created in the administration panel.
+
 Create the following file as `app/controllers/PageController.php`:
 
 ```php
