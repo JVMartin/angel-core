@@ -1,4 +1,6 @@
-<?php
+<?php namespace Angel\Core;
+
+use DB, Session;
 
 class ToolBelt {
 
@@ -11,12 +13,12 @@ class ToolBelt {
 
 	static function print_queries()
 	{
-		ToolBelt::debug(DB::getQueryLog());
+		static::debug(DB::getQueryLog());
 	}
 
 	static function print_session()
 	{
-		ToolBelt::debug(Session::all());
+		static::debug(Session::all());
 	}
 
 }
