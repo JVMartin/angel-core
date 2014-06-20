@@ -46,7 +46,7 @@
 				</td>
 				<td>
 					@if ($menu_item->childMenu)
-						{{ $menu_item->childMenu->id }} - {{ $menu_item->childMenu->name }}
+						{{ $menu_item->childMenu->name }}
 					@endif
 				</td>
 			</tr>

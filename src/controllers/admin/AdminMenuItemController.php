@@ -47,10 +47,10 @@ class AdminMenuItemController extends AdminCrudController {
 
 	public function edit($id)
 	{
-		$menuItemModel = App::make('MenuItem');
+		$menuModel = App::make('Menu');
 
-		$menus = $menuItemModel::all();
-		$menu_list = array('0'=>'None');
+		$menus = $menuModel::all();
+		$menu_list = array(''=>'None');
 		foreach ($menus as $menu) {
 			$menu_list[$menu->id] = $menu->name;
 		}
