@@ -21,6 +21,7 @@ $config = array(
 	'menu' => array(
 		'Pages'		=> 'pages',
 		'Menus'		=> 'menus',
+		'Links'		=> 'links',
 		'Users'		=> 'users',
 		'Settings'	=> 'settings'
 	),
@@ -28,7 +29,8 @@ $config = array(
 	// All linkable models must be declared here.
 	// 'Model Name' => 'admin uri'
 	'linkable_models'	=> array(
-		'Page' => 'pages'
+		'Page' => 'pages',
+		'Link' => 'links',
 	)
 
 );

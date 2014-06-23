@@ -1,5 +1,7 @@
 <?php namespace Angel\Core;
 
+use App, Redirect, Session, URL;
+
 class AdminLanguageController extends AdminCrudController {
 
 	protected $model	= 'Language';

@@ -43,6 +43,10 @@ class CoreServiceProvider extends ServiceProvider {
 		App::singleton('Language', function() {
 			return new \Angel\Core\Language;
 		});
+
+		App::singleton('Link', function() {
+			return new \Angel\Core\Link;
+		});
 		App::singleton('Menu', function() {
 			return new \Angel\Core\Menu;
 		});
@@ -64,6 +68,9 @@ class CoreServiceProvider extends ServiceProvider {
 		//-------------------
 		App::singleton('AdminLanguageController', function() {
 			return new \Angel\Core\AdminLanguageController;
+		});
+		App::singleton('AdminLinkController', function() {
+			return new \Angel\Core\AdminLinkController;
 		});
 		App::singleton('AdminMenuController', function() {
 			return new \Angel\Core\AdminMenuController;
