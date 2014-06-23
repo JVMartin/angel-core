@@ -8,7 +8,7 @@ class PageController extends AngelController {
 	{
 		$pageModel = App::make('Page');
 
-		$page = $pageModel::where('url', $url)->first();
+		$page = $pageModel::with('modules')->where('url', $url)->first();
 
 		if (!$page || !$page->is_published()) App::abort(404);
 
@@ -32,7 +32,8 @@ class PageController extends AngelController {
 
 		if (!$language) App::abort(404);
 
-		$page = $pageModel::where('language_id', $language->id)
+		$page = $pageModel::with('modules')
+						  ->where('language_id', $language->id)
 			              ->where('url', $url)
 					      ->first();
 
