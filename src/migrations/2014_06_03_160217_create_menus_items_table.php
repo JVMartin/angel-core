@@ -34,7 +34,6 @@ class CreateMenusItemsTable extends Migration {
 			array(
 				'order'			=> 0,
 				'menu_id'		=> 1,
-				'child_menu_id'	=> 0,
 				'fmodel'		=> 'Page',
 				'fid'			=> 1,
 				'created_at'	=> Carbon::now(),
