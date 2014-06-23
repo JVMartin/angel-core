@@ -26,6 +26,7 @@ class CreateMenusItemsTable extends Migration {
 			$table->softDeletes(); // Adds `deleted_at` column
 
 			$table->foreign('menu_id')->references('id')->on('menus')->onDelete('cascade');
+			$table->foreign('child_menu_id')->references('id')->on('menus');
 		});
 
 		// Create the home page menu item
