@@ -14,7 +14,9 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function view($name)
 	{
-		return $this->package . '::admin/' . $this->uri . '/' . $name;
+		$view = '';
+		if ($this->package) $view .= $this->package . '::';
+		return $view . 'admin/' . $this->uri . '/' . $name;
 	}
 
 	public function uri($append = '', $url = false)
