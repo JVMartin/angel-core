@@ -265,15 +265,15 @@ Route::get('signout', array(
 // Thus far, wrapping it in an App::before seems to do the trick.
 App::before(function() {
 	if (Config::get('core::languages')) {
-		Route::get('/',									page_controller() . '@show_language');
-		Route::get('{language_uri}/{url}/{section?}',	page_controller() . '@show_language');
+		Route::get('/',									'PageController@show_language');
+		Route::get('{language_uri}/{url}/{section?}',	'PageController@show_language');
 	} else {
-		Route::get('/',					page_controller() . '@show');
-		Route::get('{url}/{section?}',	page_controller() . '@show');
+		Route::get('/',					'PageController@show');
+		Route::get('{url}/{section?}',	'PageController@show');
 	}
 });
 
 App::missing(function($exception) {
-	$controller = App::make(page_controller());
+	$controller = App::make('PageController');
 	return $controller->page_missing();
 });

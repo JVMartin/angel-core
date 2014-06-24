@@ -11,7 +11,3 @@ function admin_uri($uri = '') {
 function admin_url($uri = '') {
 	return url(admin_uri($uri));
 }
-
-function page_controller() {
-	return file_exists(app_path('controllers/CustomPageController.php')) ? 'CustomPageController' : 'PageController';
-}
