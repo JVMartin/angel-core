@@ -19,7 +19,7 @@ class UserController extends AngelController {
 	public function attempt_signin()
 	{
 		Auth::logout();
-		
+
 		$rules = array(
 			'loguser' => 'required',
 			'logpass' => 'required'
