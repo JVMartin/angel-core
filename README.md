@@ -132,11 +132,9 @@ class PageController extends \Angel\Core\PageController {
 }
 ```
 
-Register your new PageController in `app/routes.php` (or anywhere you prefer):
-```php
-App::singleton('PageController', function() {
-	return new \PageController;
-});
+Register your new binding by changing the `'bindings'` array in `app/packages/angel/core/config.php`:
+```
+'PageController' => '\PageController'
 ```
 
 Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
