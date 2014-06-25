@@ -31,6 +31,26 @@ $config = array(
 	'linkable_models'	=> array(
 		'Page' => 'pages',
 		'Link' => 'links',
+	),
+
+	'bindings' => array(
+		'Change'                  => '\Angel\Core\Change',
+		'Language'                => '\Angel\Core\Language',
+		'Link'                    => '\Angel\Core\Link',
+		'Menu'                    => '\Angel\Core\Menu',
+		'MenuItem'                => '\Angel\Core\MenuItem',
+		'Page'                    => '\Angel\Core\Page',
+		'PageModule'              => '\Angel\Core\PageModule',
+		'Setting'                 => '\Angel\Core\Setting',
+		'AdminLanguageController' => '\Angel\Core\AdminLanguageController',
+		'AdminLinkController'     => '\Angel\Core\AdminLinkController',
+		'AdminMenuController'     => '\Angel\Core\AdminMenuController',
+		'AdminMenuItemController' => '\Angel\Core\AdminMenuItemController',
+		'AdminPageController'     => '\Angel\Core\AdminPageController',
+		'AdminSettingController'  => '\Angel\Core\AdminSettingController',
+		'AdminUserController'     => '\Angel\Core\AdminUserController',
+		'PageController'          => '\Angel\Core\PageController',
+		'UserController'          => '\Angel\Core\UserController'
 	)
 
 );

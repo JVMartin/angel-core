@@ -25,6 +25,13 @@ class CoreServiceProvider extends ServiceProvider {
 		include __DIR__ . '/ToolBelt.php';
 		include __DIR__ . '../../../routes.php';
 		include __DIR__ . '../../../filters.php';
+
+		$bindings = \Config::get('core::bindings');
+		foreach ($bindings as $name=>$class) {
+			App::singleton($name, function() use ($class) {
+				return new $class;
+			});
+		}
 	}
 
 	/**
@@ -34,69 +41,7 @@ class CoreServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		//-------------------
-		// Models
-		//-------------------
-		App::singleton('Change', function() {
-			return new \Angel\Core\Change;
-		});
-		App::singleton('Language', function() {
-			return new \Angel\Core\Language;
-		});
-
-		App::singleton('Link', function() {
-			return new \Angel\Core\Link;
-		});
-		App::singleton('Menu', function() {
-			return new \Angel\Core\Menu;
-		});
-		App::singleton('MenuItem', function() {
-			return new \Angel\Core\MenuItem;
-		});
-		App::singleton('Page', function() {
-			return new \Angel\Core\Page;
-		});
-		App::singleton('PageModule', function() {
-			return new \Angel\Core\PageModule;
-		});
-		App::singleton('Setting', function() {
-			return new \Angel\Core\Setting;
-		});
-
-		//-------------------
-		// Back-End Controllers
-		//-------------------
-		App::singleton('AdminLanguageController', function() {
-			return new \Angel\Core\AdminLanguageController;
-		});
-		App::singleton('AdminLinkController', function() {
-			return new \Angel\Core\AdminLinkController;
-		});
-		App::singleton('AdminMenuController', function() {
-			return new \Angel\Core\AdminMenuController;
-		});
-		App::singleton('AdminMenuItemController', function() {
-			return new \Angel\Core\AdminMenuItemController;
-		});
-		App::singleton('AdminPageController', function() {
-			return new \Angel\Core\AdminPageController;
-		});
-		App::singleton('AdminSettingController', function() {
-			return new \Angel\Core\AdminSettingController;
-		});
-		App::singleton('AdminUserController', function() {
-			return new \Angel\Core\AdminUserController;
-		});
-
-		//-------------------
-		// Front-End Controllers
-		//-------------------
-		App::singleton('PageController', function() {
-			return new \Angel\Core\PageController;
-		});
-		App::singleton('UserController', function() {
-			return new \Angel\Core\UserController;
-		});
+		//
 	}
 
 	/**
