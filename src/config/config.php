@@ -58,7 +58,7 @@ $config = array(
 
 );
 
-if ($config['languages'] && Auth::user()->is_superadmin()) {
+if ($config['languages'] && Auth::check() && Auth::user()->is_superadmin()) {
 	$config['menu']['Languages'] = 'languages';
 }
 
