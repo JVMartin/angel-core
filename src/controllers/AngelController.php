@@ -34,7 +34,11 @@ class AngelController extends BaseController {
 			}
 		}
 		if (Session::has('success')) {
-			$this->data['success'][] = Session::get('success');
+			if (is_array(Session::get('success'))) {
+				$this->data['success'] = Session::get('success');
+			} else {
+				$this->data['success'][] = Session::get('success');
+			}
 		}
 
 		if (Input::exists('pq')) {
