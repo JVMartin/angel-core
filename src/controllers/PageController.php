@@ -52,7 +52,7 @@ class PageController extends AngelController {
 
 	public function page_missing()
 	{
-		return View::make('core::errors.404', $this->data);
+		return Response::make(View::make('core::errors.404', $this->data), 404);
 	}
 
 }
