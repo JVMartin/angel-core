@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, View;
+use App, View, Response;
 
 class PageController extends AngelController {
 
