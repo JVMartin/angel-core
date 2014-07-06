@@ -199,7 +199,7 @@ class AdminUserController extends AdminAngelController {
 	 */
 	public function okay_user($user)
 	{
-		if (!Auth::user()->is_superadmin() && ($user->type == 'superadmin' || $user->type == 'admin')) return false;
+		if (!Auth::user()->is_superadmin() && ($user->type == 'superadmin')) return false;
 		return true;
 	}
 
@@ -213,7 +213,6 @@ class AdminUserController extends AdminAngelController {
 		$array = User::types_array();
 		if (!Auth::user()->is_superadmin()) {
 			unset($array['superadmin']);
-			unset($array['admin']);
 		}
 		return $array;
 	}
