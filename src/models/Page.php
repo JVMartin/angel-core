@@ -69,7 +69,9 @@ class Page extends LinkableModel {
 	{
 		$language_segment = (Config::get('core::languages')) ? $this->language->uri . '/' : '';
 
-		return url($language_segment . $this->url);
+		$url = ($this->url == 'home') ? '' : $this->url;
+
+		return url($language_segment . $url);
 	}
 	public function link_edit()
 	{
