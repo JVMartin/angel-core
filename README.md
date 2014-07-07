@@ -101,7 +101,7 @@ By default, the following configuration is set:
 
 This allows one to access the administration panel via the url `http://yoursite.com/admin`.
 
-Feel free to change this prefix, or to even remove it completely, which will cause `http://yoursite.com` to show the administration panel.
+To be secure, you may want to change this prefix.  Hackers tend to target sites with URLs like this.
 
 ### Admin Menu
 The next section is the `'menu'` array.  When you install modules, you add their indexes to this array so that they appear in the administration panel's menu.
