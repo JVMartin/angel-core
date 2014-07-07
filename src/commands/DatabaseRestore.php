@@ -3,21 +3,21 @@
 use Illuminate\Console\Command;
 use Config;
 
-class DatabaseBackup extends Command {
+class DatabaseRestore extends Command {
 
 	/**
 	 * The console command name.
 	 *
 	 * @var string
 	 */
-	protected $name = 'db:backup';
+	protected $name = 'db:restore';
 
 	/**
 	 * The console command description.
 	 *
 	 * @var string
 	 */
-	protected $description = 'Backup your MySQL database to a dump in the project root.';
+	protected $description = 'Restore a MySQL database from the dump created with db:backup.';
 
 	/**
 	 * Create a new command instance.
@@ -56,16 +56,16 @@ class DatabaseBackup extends Command {
 	 */
 	public function fire()
 	{
-		$this->info('Backing up MySQL database...');
+		$this->info('Restoring MySQL database...');
 		$host      = Config::get('database.connections.mysql.host');
 		$database  = Config::get('database.connections.mysql.database');
 		$username  = Config::get('database.connections.mysql.username');
 		$password  = Config::get('database.connections.mysql.password');
-		$command   = 'mysqldump -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' > ' . $database . '.sql';
+		$command   = 'mysql -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' < ' . $database . '.sql';
 		chdir(base_path());
 		$this->info('Issuing command: ' . $command);
 		exec($command);
-		$this->info('...finished.  Dump placed in ' . base_path());
+		$this->info('...finished.  Database restored!');
 	}
 
 }

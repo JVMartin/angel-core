@@ -1,6 +1,4 @@
-<?php namespace Angel\Core;
-
-use DB, Session;
+<?php
 
 class ToolBelt {
 

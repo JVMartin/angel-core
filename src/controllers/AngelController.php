@@ -5,7 +5,8 @@ use BaseController,
 	Input,
 	Session,
 	App,
-	Config;
+	Config,
+	ToolBelt;
 
 class AngelController extends BaseController {
 

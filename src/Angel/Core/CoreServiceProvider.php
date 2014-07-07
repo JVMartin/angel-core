@@ -29,9 +29,12 @@ class CoreServiceProvider extends ServiceProvider {
 		$this->app->bind('angel::command.db.backup', function() {
 			return new DatabaseBackup;
 		});
-
+		$this->app->bind('angel::command.db.restore', function() {
+			return new DatabaseRestore;
+		});
 		$this->commands(array(
-			'angel::command.db.backup'
+			'angel::command.db.backup',
+			'angel::command.db.restore'
 		));
 
 		$bindings = Config::get('core::bindings');
