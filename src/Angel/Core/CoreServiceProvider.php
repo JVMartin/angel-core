@@ -1,6 +1,7 @@
 <?php namespace Angel\Core;
 
 use Illuminate\Support\ServiceProvider;
+use Config;
 
 class CoreServiceProvider extends ServiceProvider {
 
@@ -33,7 +34,7 @@ class CoreServiceProvider extends ServiceProvider {
 			'angel::command.db.backup'
 		));
 
-		$bindings = \Config::get('core::bindings');
+		$bindings = Config::get('core::bindings');
 		foreach ($bindings as $name=>$class) {
 			$this->app->singleton($name, function() use ($class) {
 				return new $class;
