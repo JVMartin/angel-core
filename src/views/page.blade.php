@@ -6,10 +6,6 @@
 	{{ $page->meta_html() }}
 @stop
 
-@section('header')
-	@include('core::header')
-@stop
-
 @section('css')
 	@if ($page->css)
 		<style>
