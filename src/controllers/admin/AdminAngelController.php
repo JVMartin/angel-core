@@ -34,7 +34,7 @@ class AdminAngelController extends AngelController {
 		$i           = 1;
 
 		do {
-			$not_unique = $model::where($column, $slug);
+			$not_unique = $model::where($column, $unique_slug);
 			if ($id) $not_unique = $not_unique->where('id', '<>', $id);
 			$not_unique = $not_unique->count();
 			if ($not_unique) {
