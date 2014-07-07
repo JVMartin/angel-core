@@ -5,11 +5,15 @@ use App, View, Input, Redirect, Validator;
 abstract class AdminCrudController extends AdminAngelController {
 
 	/*
+	// Required:
 	protected $model	= 'ProductCategory';
 	protected $uri		= 'products/categories';
 	protected $plural	= 'categories';
 	protected $singular	= 'category';
 	protected $package	= 'products';
+
+	// Optional:
+	protected $slug     = 'name'; // Populate the 'slug' column with a sluggified version of the given column.  ('name', 'title', etc.)
 	*/
 
 	public function view($name)
@@ -93,6 +97,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		foreach($model::columns() as $column) {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
+		if ($this->slug) {
+			$object->slug = $this->slug($model, 'slug', $object->{$this->slug});
+		}
 		if ($object->reorderable) {
 			$object->order = $model::count();
 		}
@@ -134,6 +141,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		$object = $model::withTrashed()->findOrFail($id);
 		foreach ($model::columns() as $column) {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
+		}
+		if ($this->slug) {
+			$object->slug = $this->slug($model, 'slug', $object->{$this->slug}, $id);
 		}
 		$object->save();
 
