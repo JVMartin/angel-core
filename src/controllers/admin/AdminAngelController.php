@@ -34,13 +34,13 @@ class AdminAngelController extends AngelController {
 		$i           = 1;
 
 		do {
-			$counter = $model::where($column, $slug);
-			if ($id) $counter = $counter->where('id', '<>', $id);
-			$counter = $counter->count();
-			if ($counter) {
+			$not_unique = $model::where($column, $slug);
+			if ($id) $not_unique = $not_unique->where('id', '<>', $id);
+			$not_unique = $not_unique->count();
+			if ($not_unique) {
 				$unique_slug = $slug . '-' . $i++;
 			}
-		} while ($counter);
+		} while ($not_unique);
 
 		return $unique_slug;
 	}
