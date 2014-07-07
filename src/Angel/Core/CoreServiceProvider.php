@@ -1,7 +1,6 @@
 <?php namespace Angel\Core;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\App;
 
 class CoreServiceProvider extends ServiceProvider {
 
@@ -26,9 +25,17 @@ class CoreServiceProvider extends ServiceProvider {
 		include __DIR__ . '../../../routes.php';
 		include __DIR__ . '../../../filters.php';
 
+		$this->app->bind('angel::command.db.backup', function() {
+			return new DatabaseBackup;
+		});
+
+		$this->commands(array(
+			'angel::command.db.backup'
+		));
+
 		$bindings = \Config::get('core::bindings');
 		foreach ($bindings as $name=>$class) {
-			App::singleton($name, function() use ($class) {
+			$this->app->singleton($name, function() use ($class) {
 				return new $class;
 			});
 		}
