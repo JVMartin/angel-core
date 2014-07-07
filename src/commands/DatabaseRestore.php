@@ -17,7 +17,7 @@ class DatabaseRestore extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Restore a MySQL database from the dump created with db:backup.';
+	protected $description = 'Restore your MySQL database from the dump created with db:backup.';
 
 	/**
 	 * Create a new command instance.
