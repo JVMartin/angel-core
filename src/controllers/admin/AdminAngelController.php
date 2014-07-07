@@ -35,7 +35,7 @@ class AdminAngelController extends AngelController {
 
 		do {
 			$counter = $model::where($column, $slug);
-			if ($id) $counter = $counter->where($id, '<>', $id);
+			if ($id) $counter = $counter->where('id', '<>', $id);
 			$counter = $counter->count();
 			if ($counter) {
 				$unique_slug = $slug . '-' . $i++;
