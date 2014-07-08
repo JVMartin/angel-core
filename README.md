@@ -51,7 +51,7 @@ php artisan migrate --package="angel/core"   # Run the migrations
 
 Configuration
 -------------
-Take a look at the config file you just published in `app/packages/angel/core/config.php`.
+Take a look at the config file you just published in `app/config/packages/angel/core/config.php`.
 
 ### Languages
 The first configurations are related to languages.  By default, only one language is used and your URLs will look like this for created pages:
