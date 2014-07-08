@@ -8,8 +8,11 @@ $(function() {
 		$('input[name="menu_id"]').val($(this).closest('.panel-body').data('id'));
 	});
 	$("#wizard").on('show.bs.modal', function () {
-		resetModal();
+		$(".wizSlide").hide();
+		$(".wizSlide").first().show();
+		$('.modelType').first().prop('checked', true).trigger('change');
 	});
+
 	$(".wizNext").click(function() {
 		var $wizSlide = $(this).closest('.wizSlide');
 		$wizSlide.hide().next().show();
@@ -46,13 +49,6 @@ $(function() {
 			$('#newNext').attr('href', linkable_models[model].add+'?menu_id='+$('input[name="menu_id"]').val());
 		}
 	});
-
-	function resetModal() {
-		$(".wizSlide").hide();
-		$(".wizSlide").first().show();
-		$('.modelType').first().prop('checked', true).trigger('change');
-	}
-	resetModal();
 
 	//-----------------
 	// Delete link
