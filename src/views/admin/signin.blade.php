@@ -4,7 +4,7 @@
 
 @section('content')
 	<div class="row">
-		<div style="width:300px;margin:0 auto;">
+		<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 			{{ Form::open(array('url' => 'signin', 'role'=>'form')) }}
 				<h1>Sign In</h1>
 				<div class="form-group">
