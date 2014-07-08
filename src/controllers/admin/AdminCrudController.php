@@ -100,7 +100,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		if (isset($this->slug) && $this->slug) {
 			$object->slug = $this->slug($model, 'slug', $object->{$this->slug});
 		}
-		if ($object->reorderable) {
+		if (isset($object->reorderable) && $object->reorderable) {
 			$object->order = $model::count();
 		}
 		$object->save();
@@ -202,7 +202,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	{
 		$model = App::make($this->model);
 		$object = new $model;
-		if (!$object->reorderable) return;
+		if (!isset($object->reorderable) || !$object->reorderable) return;
 
 		$objects = $model::orderBy('order')->get();
 
