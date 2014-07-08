@@ -1,6 +1,6 @@
 @extends('core::admin.template')
 
-@section('title', 'Home')
+@section('title', 'Sign In')
 
 @section('content')
 	<div class="row">
