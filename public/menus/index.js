@@ -4,7 +4,6 @@ $(function() {
 	//-----------------
 	// Add link wizard
 	//-----------------
-	var menu_id = '';
 	$(".showWizard").click(function() {
 		$('input[name="menu_id"]').val($(this).closest('.panel-body').data('id'));
 	});
@@ -44,7 +43,7 @@ $(function() {
 		$('#'+type+'Next').show();
 		$('#'+type+'Next').siblings().hide();
 		if (type == 'new') {
-			$('#newNext').attr('href', linkable_models[model].add+'?menu_id='+menu_id);
+			$('#newNext').attr('href', linkable_models[model].add+'?menu_id='+$('input[name="menu_id"]').val());
 		}
 	});
 
