@@ -10,7 +10,7 @@ class AdminLinkController extends AdminCrudController {
 
 	public function index()
 	{
-		return parent::index_searchable(array('name', 'url'));
+		return $this->index_searchable(array('name', 'url'));
 	}
 
 	public function validate_rules($id = null)
