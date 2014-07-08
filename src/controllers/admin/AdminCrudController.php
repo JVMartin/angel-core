@@ -97,7 +97,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		foreach($model::columns() as $column) {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
-		if ($this->slug) {
+		if (isset($this->slug) && $this->slug) {
 			$object->slug = $this->slug($model, 'slug', $object->{$this->slug});
 		}
 		if ($object->reorderable) {
@@ -142,7 +142,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		foreach ($model::columns() as $column) {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
-		if ($this->slug) {
+		if (isset($this->slug) && $this->slug) {
 			$object->slug = $this->slug($model, 'slug', $object->{$this->slug}, $id);
 		}
 		$object->save();
