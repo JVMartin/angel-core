@@ -42,7 +42,8 @@ class UserController extends AngelController {
 			'password' => Input::get('logpass')
 		);
 
-		if (Auth::attempt($usernameCheck) || Auth::attempt($emailCheck)) {
+		if (Auth::attempt($usernameCheck, Input::get('remember')) ||
+			Auth::attempt($emailCheck, Input::get('remember'))) {
 			return Redirect::intended(admin_uri());
 		}
 

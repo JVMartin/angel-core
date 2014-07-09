@@ -15,6 +15,12 @@
 					{{ Form::label('logpass', 'Password', array('class'=>'sr-only')) }}
 					{{ Form::password('logpass', array('class'=>'form-control', 'placeholder'=>'Password')) }}
 				</div>
+				<div class="checkbox">
+					<label>
+						{{ Form::checkbox('remember') }}
+						Remember Me
+					</label>
+				</div>
 				<p class="text-right">
 					<input type="submit" class="btn btn-primary" value="Sign In" />
 				</p>
