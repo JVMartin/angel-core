@@ -159,7 +159,9 @@ And then setting the `slug` property to the name of the column from which to gen
 protected $slug = 'name';
 ```
 
-Now, you can use the generated slugs after adding some items to your module.
+Now, slugs will be automatically generated from the `name` column of the models as they are created or edited.  (You can just as easily use a `title` column or any other appropriate source.)
+
+You can use the generated slugs after adding or editing some items.
 
 For instance:
 ```php
