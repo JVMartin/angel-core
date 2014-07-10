@@ -4,11 +4,11 @@ Angel is a CMS built on top of Laravel.  It is available via [Packagist](https:/
 
 Table of Contents
 -----------------
-* [Try It](https://github.com/JVMartin/angel#try-it)
-* [Installation](https://github.com/JVMartin/angel#installation)
-* [Configuration](https://github.com/JVMartin/angel#configuration)
-* [Extending the Core](https://github.com/JVMartin/angel#extending-the-core)
-* [Using Slugs](https://github.com/JVMartin/angel#using-slugs)
+* [Try It](#try-it)
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Extending the Core](#extending-the-core)
+* [Using Slugs](#using-slugs)
 
 Try It
 ------
