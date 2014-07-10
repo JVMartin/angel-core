@@ -199,6 +199,8 @@ $article->slug  = $this->slug('NewsArticle', 'slug', Input::get('title'), $artic
 $article->save();
 ```
 
+[You can see the slug method stub here.](https://github.com/JVMartin/angel/blob/master/src/controllers/admin/AdminAngelController.php#L20)
+
 ### Sluggifying a String
 
 Similarly, from any controller that extends `\Angel\Core\AdminAngelController` or a descendant of it:
