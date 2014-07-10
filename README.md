@@ -138,3 +138,43 @@ Register your new binding by changing the `'bindings'` array in `app/packages/an
 ```
 
 Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
+
+
+Creating Slugs
+--------------
+Often times, you will want to let users access products, blog posts, news articles, etc. by name instead of by ID in the URL.
+
+For instance: `http://yoursite.com/products/big-orange-ball`.
+
+To do this, you want to 'sluggify' one of the columns / properties of the model.
+
+If you are extending the [AdminCrudController](https://github.com/JVMartin/angel/blob/master/src/controllers/admin/AdminCrudController.php), this is as simple as adding a `slug` column to your table with a unique index:
+
+```php
+$table->string('slug')->unique();
+```
+
+And then setting the `slug` property to the name of the column from which to generate the slug:
+```php
+protected $slug = 'name';
+```
+
+Now, you can use the generated slugs after adding some items to your module.
+
+For instance:
+```php
+// app/routes.php
+Route::get('products/{slug}', 'ProductController@view');
+
+// app/controllers/ProductController.php
+class ProductController extends \Angel\Core\BaseController {
+
+	public function view($slug) {
+		$this->data['product'] = Product::where('slug', $slug)->firstOrFail();
+		return View::make('products.view', $this->data);
+	}
+}
+```
+
+To create slugs manually,
+
