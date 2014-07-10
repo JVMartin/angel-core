@@ -2,6 +2,14 @@ Angel CMS
 =====
 Angel is a CMS built on top of Laravel.  It is available via [Packagist](https://packagist.org/packages/angel/core).
 
+Table of Contents
+-----------------
+* [Try It](https://github.com/JVMartin/angel#try-it)
+* [Installation](https://github.com/JVMartin/angel#installation)
+* [Configuration](https://github.com/JVMartin/angel#configuration)
+* [Extending the Core](https://github.com/JVMartin/angel#extending-the-core)
+* [Using Slugs](https://github.com/JVMartin/angel#using-slugs)
+
 Try It
 ------
 Check out a [live deployment of the CMS here](http://angel-test.angelvision.tv/).
@@ -140,7 +148,7 @@ Register your new binding by changing the `'bindings'` array in `app/packages/an
 Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
 
 
-Creating Unique Slugs
+Using Slugs
 ---------------------
 Often times, you will want to let users access products, blog posts, news articles, etc. by name instead of by ID in the URL.
 
