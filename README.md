@@ -140,8 +140,8 @@ Register your new binding by changing the `'bindings'` array in `app/packages/an
 Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
 
 
-Creating Slugs
---------------
+Creating Unique Slugs
+---------------------
 Often times, you will want to let users access products, blog posts, news articles, etc. by name instead of by ID in the URL.
 
 For instance: `http://yoursite.com/products/big-orange-ball`.
@@ -169,12 +169,37 @@ Route::get('products/{slug}', 'ProductController@view');
 // app/controllers/ProductController.php
 class ProductController extends \Angel\Core\BaseController {
 
-	public function view($slug) {
+	public function view($slug)
+	{
 		$this->data['product'] = Product::where('slug', $slug)->firstOrFail();
 		return View::make('products.view', $this->data);
 	}
+	
 }
 ```
 
-To create slugs manually,
+### Creating Unique Slugs Manually
 
+To create slugs manually from any controller, that controller must extend `\Angel\Core\AdminAngelController` or a descendant of it (such as the AdminCrudController).
+
+Then, you can create slugs like this:
+```php
+// Adding a new item:
+$article        = new NewsArticle;
+$article->title = Input::get('title');
+$article->slug  = $this->slug('NewsArticle', 'slug', Input::get('title'));
+$article->save();
+
+// Editing an item:
+$article        = Article::find(1);
+$article->title = Input::get('title');
+$article->slug  = $this->slug('NewsArticle', 'slug', Input::get('title'), $article->id);
+$article->save();
+```
+
+### Sluggifying a String
+
+Simply:
+```php
+$slug = $this->sluggify('String to sluggify!'); // Returns 'string-to-sluggify'
+```
