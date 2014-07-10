@@ -201,7 +201,7 @@ $article->save();
 
 ### Sluggifying a String
 
-Simply:
+Similarly, from any controller that extends `\Angel\Core\AdminAngelController` or a descendant of it:
 ```php
 $slug = $this->sluggify('String to sluggify!'); // Returns 'string-to-sluggify'
 ```
