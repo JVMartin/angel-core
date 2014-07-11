@@ -35,7 +35,11 @@ abstract class AdminCrudController extends AdminAngelController {
 	{
 		$model = App::make($this->model);
 
-		$paginator = $model::withTrashed()->paginate();
+		$paginator = $model::withTrashed();
+		if (isset($model->reorderable) && $model->reorderable) {
+			$paginator = $paginator->orderBy('order');
+		}
+		$paginator = $paginator->paginate();
 		$this->data[$this->plural] = $paginator->getCollection();
 		$appends = $_GET;
 		unset($appends['page']);
@@ -50,6 +54,9 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		$search = Input::get('search') ? urldecode(Input::get('search')) : null;
 		$paginator = $model::withTrashed();
+		if (isset($model->reorderable) && $model->reorderable) {
+			$paginator = $paginator->orderBy('order');
+		}
 
 		if ($search) {
 			$terms = explode(' ', $search);
