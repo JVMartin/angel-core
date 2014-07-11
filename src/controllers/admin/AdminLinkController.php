@@ -8,10 +8,10 @@ class AdminLinkController extends AdminCrudController {
 	protected $singular	= 'link';
 	protected $package	= 'core';
 
-	public function index()
-	{
-		return $this->index_searchable(array('name', 'url'));
-	}
+	protected $searchable = array(
+		'name',
+		'url'
+	);
 
 	public function validate_rules($id = null)
 	{
