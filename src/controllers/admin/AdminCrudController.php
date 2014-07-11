@@ -31,51 +31,38 @@ abstract class AdminCrudController extends AdminAngelController {
 		return admin_uri($uri);
 	}
 
-	public function index()
+	public function index($searchable = array())
 	{
 		$model = App::make($this->model);
+		$objects = $model::withTrashed();
 
-		$paginator = $model::withTrashed();
-		if (isset($model->reorderable) && $model->reorderable) {
-			$paginator = $paginator->orderBy('order');
-		}
-		$paginator = $paginator->paginate();
-		$this->data[$this->plural] = $paginator->getCollection();
-		$appends = $_GET;
-		unset($appends['page']);
-		$this->data['links'] = $paginator->appends($appends)->links();
+		if (count($searchable)) {
+			$search = Input::get('search') ? urldecode(Input::get('search')) : null;
+			$this->data['search'] = $search;
 
-		return View::make($this->view('index'), $this->data);
-	}
-
-	public function index_searchable($searchable = array())
-	{
-		$model = App::make($this->model);
-
-		$search = Input::get('search') ? urldecode(Input::get('search')) : null;
-		$paginator = $model::withTrashed();
-		if (isset($model->reorderable) && $model->reorderable) {
-			$paginator = $paginator->orderBy('order');
-		}
-
-		if ($search) {
-			$terms = explode(' ', $search);
-			$paginator = $paginator->where(function($query) use ($terms, $searchable) {
-				foreach ($terms as $term) {
-					$term = '%'.$term.'%';
-					foreach ($searchable as $column) {
-						$query->orWhere($column, 'like', $term);
+			if ($search) {
+				$terms = explode(' ', $search);
+				$objects = $objects->where(function($query) use ($terms, $searchable) {
+					foreach ($terms as $term) {
+						$term = '%'.$term.'%';
+						foreach ($searchable as $column) {
+							$query->orWhere($column, 'like', $term);
+						}
 					}
-				}
-			});
+				});
+			}
 		}
-		$paginator = $paginator->paginate();
 
-		$this->data[$this->plural] = $paginator->getCollection();
-		$appends = $_GET;
-		unset($appends['page']);
-		$this->data['links'] = $paginator->appends($appends)->links();
-		$this->data['search'] = $search;
+		if (isset($model->reorderable) && $model->reorderable) {
+			$this->data[$this->plural] = $objects->orderBy('order')->get();
+		} else {
+			$paginator = $objects->paginate();
+			$this->data[$this->plural] = $paginator->getCollection();
+			$appends = $_GET;
+			unset($appends['page']);
+			$this->data['links'] = $paginator->appends($appends)->links();
+		}
+
 		return View::make($this->view('index'), $this->data);
 	}
 
