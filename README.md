@@ -2,6 +2,14 @@ Angel CMS
 =====
 Angel is a CMS built on top of Laravel.  It is available via [Packagist](https://packagist.org/packages/angel/core).
 
+Table of Contents
+-----------------
+* [Try It](#try-it)
+* [Installation](#installation)
+* [Configuration](#configuration)
+* [Extending the Core](#extending-the-core)
+* [Using Slugs](#using-slugs)
+
 Try It
 ------
 Check out a [live deployment of the CMS here](http://angel-test.angelvision.tv/).
@@ -138,3 +146,72 @@ Register your new binding by changing the `'bindings'` array in `app/packages/an
 ```
 
 Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
+
+
+Using Slugs
+---------------------
+Often times, you will want to let users access products, blog posts, news articles, etc. by name instead of by ID in the URL.
+
+For instance: `http://yoursite.com/products/big-orange-ball`.
+
+To do this, you want to 'sluggify' one of the columns / properties of the model.
+
+If you are extending the [AdminCrudController](https://github.com/JVMartin/angel/blob/master/src/controllers/admin/AdminCrudController.php), this is as simple as adding a `slug` column to your table with a unique index:
+
+```php
+$table->string('slug')->unique();
+```
+
+And then setting the `slug` property to the name of the column from which to generate the slug:
+```php
+protected $slug = 'name';
+```
+
+Now, slugs will be automatically generated from the `name` column of the models as they are created or edited.  (You can just as easily use a `title` column or any other appropriate source.)
+
+You can use the generated slugs after adding or editing some items.
+
+For instance:
+```php
+// app/routes.php
+Route::get('products/{slug}', 'ProductController@view');
+
+// app/controllers/ProductController.php
+class ProductController extends \Angel\Core\BaseController {
+
+	public function view($slug)
+	{
+		$this->data['product'] = Product::where('slug', $slug)->firstOrFail();
+		return View::make('products.view', $this->data);
+	}
+	
+}
+```
+
+### Creating Unique Slugs Manually
+
+To create slugs manually from any controller, that controller must extend `\Angel\Core\AdminAngelController` or a descendant of it (such as the AdminCrudController).
+
+Then, you can create slugs like this:
+```php
+// Adding a new item:
+$article        = new NewsArticle;
+$article->title = Input::get('title');
+$article->slug  = $this->slug('NewsArticle', 'slug', Input::get('title'));
+$article->save();
+
+// Editing an item:
+$article        = Article::find(1);
+$article->title = Input::get('title');
+$article->slug  = $this->slug('NewsArticle', 'slug', Input::get('title'), $article->id);
+$article->save();
+```
+
+[You can see the slug method stub here.](https://github.com/JVMartin/angel/blob/master/src/controllers/admin/AdminAngelController.php#L20)
+
+### Sluggifying a String
+
+Similarly, from any controller that extends `\Angel\Core\AdminAngelController` or a descendant of it:
+```php
+$slug = $this->sluggify('String to sluggify!'); // Returns 'string-to-sluggify'
+```
