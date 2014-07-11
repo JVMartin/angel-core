@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, View, Input, Redirect, Validator;
+use App, Auth, View, Input, Redirect, Validator, Config;
 
 abstract class AdminCrudController extends AdminAngelController {
 
@@ -13,39 +13,33 @@ abstract class AdminCrudController extends AdminAngelController {
 	protected $package	= 'products';
 
 	// Optional:
-	protected $slug     = 'name'; // Populate the 'slug' column with a sluggified version of the given column.  ('name', 'title', etc.)
+	protected $log_changes = true;
+	protected $slug        = 'name'; // Populate the 'slug' column with a sluggified version of the given column.  ('name', 'title', etc.)
+	protected $searchable  = array(
+		'name',
+		'html'
+	);
 	*/
 
-	public function view($name)
-	{
-		$view = '';
-		if ($this->package) $view .= $this->package . '::';
-		return $view . 'admin/' . $this->uri . '/' . $name;
-	}
-
-	public function uri($append = '', $url = false)
-	{
-		$uri = $this->uri;
-		if ($append) $uri .= '/' . $append;
-		if ($url) return admin_url($uri);
-		return admin_uri($uri);
-	}
-
-	public function index($searchable = array())
+	public function index()
 	{
 		$model = App::make($this->model);
 		$objects = $model::withTrashed();
 
-		if (count($searchable)) {
+		if (Config::get('core::languages') && in_array(Config::get('language_models'), $this->model)) {
+			$objects = $objects->where('language_id', $this->data['active_language']->id);
+		}
+
+		if (isset($this->searchable) && count($this->searchable)) {
 			$search = Input::get('search') ? urldecode(Input::get('search')) : null;
 			$this->data['search'] = $search;
 
 			if ($search) {
 				$terms = explode(' ', $search);
-				$objects = $objects->where(function($query) use ($terms, $searchable) {
+				$objects = $objects->where(function($query) use ($terms) {
 					foreach ($terms as $term) {
 						$term = '%'.$term.'%';
-						foreach ($searchable as $column) {
+						foreach ($this->searchable as $column) {
 							$query->orWhere($column, 'like', $term);
 						}
 					}
@@ -126,6 +120,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function attempt_edit($id)
 	{
 		$model = App::make($this->model);
+		$changeModel = App::make('Change');
 
 		$errors = $this->validate($custom, $id);
 		if (count($errors)) {
@@ -133,15 +128,36 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 
 		$object = $model::withTrashed()->findOrFail($id);
+		$changes = array();
+
 		foreach ($model::columns() as $column) {
-			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
+
+			$new_value = isset($custom[$column]) ? $custom[$column] : Input::get($column);
+
+			if (isset($this->log_changes) && $this->log_changes && $object->{$column} != $new_value) {
+				$changes[$column] = array(
+					'old' => $object->{$column},
+					'new' => $new_value
+				);
+			}
+
+			$object->{$column} = $new_value;
 		}
 		if (isset($this->slug) && $this->slug) {
 			$object->slug = $this->slug($model, 'slug', $object->{$this->slug}, $id);
 		}
 		$object->save();
 
-		if (method_exists($this, 'after_save')) $this->after_save($object);
+		if (method_exists($this, 'after_save')) $this->after_save($object, $changes);
+
+		if (count($changes)) {
+			$change = new $changeModel;
+			$change->user_id 	= Auth::user()->id;
+			$change->fmodel		= $this->model;
+			$change->fid 		= $object->id;
+			$change->changes 	= json_encode($changes);
+			$change->save();
+		}
 
 		return Redirect::to($this->uri('edit/' . $id))->with('success', '
 			<p>' . $this->model . ' successfully updated.</p>
@@ -190,6 +206,11 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function validate_custom($id = null, &$errors)
 	{
 		return array();
+	}
+
+	public function after_save($object, &$changes = array())
+	{
+		//
 	}
 
 	public function reorder()
@@ -259,6 +280,21 @@ abstract class AdminCrudController extends AdminAngelController {
 		return Redirect::to($this->uri())->with('success', '
 			<p>' . $this->model . ' successfully deleted forever.</p>
 		');
+	}
+
+	public function view($name)
+	{
+		$view = '';
+		if ($this->package) $view .= $this->package . '::';
+		return $view . 'admin/' . $this->uri . '/' . $name;
+	}
+
+	public function uri($append = '', $url = false)
+	{
+		$uri = $this->uri;
+		if ($append) $uri .= '/' . $append;
+		if ($url) return admin_url($uri);
+		return admin_uri($uri);
 	}
 
 }

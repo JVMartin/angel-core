@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, Input, Config, View, Validator, Redirect, Auth;
+use App, Input, Config, View, Validator, Redirect;
 
 class AdminPageController extends AdminCrudController {
 
@@ -10,122 +10,14 @@ class AdminPageController extends AdminCrudController {
 	protected $singular	= 'page';
 	protected $package	= 'core';
 
-	public function index()
-	{
-		$pageModel = App::make('Page');
+	protected $log_changes = true;
+	protected $searchable  = array(
+		'url',
+		'title',
+		'html'
+	);
 
-		$search = Input::get('search') ? urldecode(Input::get('search')) : null;
-		$paginator = $pageModel::withTrashed();
-		if (Config::get($this->package . '::languages')) {
-			$paginator = $paginator->with('language')
-				                   ->where('language_id', $this->data['active_language']->id);
-		}
-		if ($search) {
-			$terms = explode(' ', $search);
-			$paginator = $paginator->where(function($query) use ($terms) {
-				foreach ($terms as $term) {
-					$term = '%'.$term.'%';
-					$query->orWhere('url', 'like', $term)
-						  ->orWhere('title', 'like', $term)
-						  ->orWhere('html', 'like', $term);
-				}
-			});
-		}
-		$paginator = $paginator->paginate();
-
-		$this->data['pages'] = $paginator->getCollection();
-		$appends = $_GET;
-		unset($appends['page']);
-		$this->data['links'] = $paginator->appends($appends)->links();
-		$this->data['search'] = $search;
-		return View::make($this->package . '::admin.pages.index', $this->data);
-	}
-
-	public function attempt_add()
-	{
-		$pageModel = App::make('Page');
-
-		$errors = $this->validate($custom);
-		if (count($errors)) {
-			return Redirect::to(admin_uri('pages/add'))->withInput()->withErrors($errors);
-		}
-
-		$page = new $pageModel;
-		foreach($pageModel::columns() as $column) {
-			$page->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
-		}
-		$page->save();
-		$this->handle_modules($page);
-
-		// Are we creating a page from the menu wizard?
-		if (Input::get('menu_id')) {
-			return $this->also_add_menu_item('Page', $page->id);
-		}
-
-		return Redirect::to(admin_uri('pages'))->with('success', '
-			<p>Page successfully created.</p>
-			<p><a href="'.url($page->link()).'" target="_blank">View Page</a></p>
-		');
-	}
-
-	public function edit($id)
-	{
-		$pageModel = App::make('Page');
-
-		$page = $pageModel::withTrashed()->with('modules')->find($id);
-		$this->data['page'] = $page;
-		$this->data['changes'] = $page->changes();
-		$this->data['action'] = 'edit';
-
-		return View::make($this->package . '::admin.pages.add-or-edit', $this->data);
-	}
-
-	public function attempt_edit($id)
-	{
-		$pageModel = App::make('Page');
-		$changeModel = App::make('Change');
-
-		$errors = $this->validate($custom, $id);
-		if (count($errors)) {
-			return Redirect::to(admin_uri('pages/edit/'.$id))->withInput()->withErrors($errors);
-		}
-
-		$page = $pageModel::withTrashed()->with('modules')->findOrFail($id);
-		$changes = array();
-		foreach($pageModel::columns() as $column) {
-			$value = isset($custom[$column]) ? $custom[$column] : Input::get($column);
-
-			// If the value has changed...
-			if ($page->{$column} != $value) {
-				// Log the change
-				$changes[$column] = array(
-					'old' => $page->{$column},
-					'new' => $value
-				);
-				// Update the value
-				$page->{$column} = $value;
-			}
-		}
-		$page->save();
-		$this->handle_modules($page, $changes);
-
-		if (count($changes)) {
-			$change = new $changeModel;
-			$change->user_id 	= Auth::user()->id;
-			$change->fmodel		= 'Page';
-			$change->fid 		= $page->id;
-			$change->changes 	= json_encode($changes);
-			$change->save();
-		}
-
-		return Redirect::to(admin_uri('pages/edit/'.$id))->with('success', '
-			<p>Page successfully updated.</p>
-			<p><a href="'.url($page->link()).'" target="_blank">View Page</a></p>
-			<p><a href="'.admin_url('pages').'">Return to Pages</a></p>
-		');
-	}
-
-	private function handle_modules($page, &$changes = null)
+	public function after_save($page, &$changes = array())
 	{
 		$pageModuleModel = App::make('PageModule');
 
@@ -166,6 +58,18 @@ class AdminPageController extends AdminCrudController {
 				$module->save();
 			}
 		}
+	}
+
+	public function edit($id)
+	{
+		$pageModel = App::make('Page');
+
+		$page = $pageModel::withTrashed()->with('modules')->find($id);
+		$this->data['page'] = $page;
+		$this->data['changes'] = $page->changes();
+		$this->data['action'] = 'edit';
+
+		return View::make($this->package . '::admin.pages.add-or-edit', $this->data);
 	}
 
 	/**
