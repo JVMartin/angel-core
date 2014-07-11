@@ -101,6 +101,10 @@ abstract class AdminCrudController extends AdminAngelController {
 			return $this->also_add_menu_item($this->model, $object->id);
 		}
 
+		return $this->add_redirect($object);
+	}
+	public function add_redirect($object)
+	{
 		return Redirect::to($this->uri())->with('success', '
 			<p>' . $this->model . ' successfully created.</p>
 		');
@@ -159,7 +163,11 @@ abstract class AdminCrudController extends AdminAngelController {
 			$change->save();
 		}
 
-		return Redirect::to($this->uri('edit/' . $id))->with('success', '
+		return $this->edit_redirect($object);
+	}
+	public function edit_redirect($object)
+	{
+		return Redirect::to($this->uri('edit/' . $object->id))->with('success', '
 			<p>' . $this->model . ' successfully updated.</p>
 			<p><a href="' . $this->uri('', true) . '">Return to index</a></p>
 		');
