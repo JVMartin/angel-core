@@ -15,7 +15,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	// Optional:
 	protected $log_changes = true;
 	protected $slug        = 'name'; // Populate the 'slug' column with a sluggified version of the given column.  ('name', 'title', etc.)
-	protected $searchable  = array(
+	protected $searchable  = array(  // Searchable columns of the model for use in index() searches
 		'name',
 		'html'
 	);
