@@ -7,7 +7,7 @@ abstract class LinkableModel extends Eloquent {
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////
-	public function linkable()
+	public function menuItem()
 	{
 		return $this->morphOne(App::make('MenuItem'), 'linkable');
 	}
