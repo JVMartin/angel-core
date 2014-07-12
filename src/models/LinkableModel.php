@@ -9,10 +9,9 @@ abstract class LinkableModel extends Eloquent {
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////
-	// All menu-linkable models must have a language associated
-	public function language()
+	public function linkable()
 	{
-		return $this->belongsTo('Language');
+		return $this->morphTo();
 	}
 
 	// Handling relationships in controller CRUD methods

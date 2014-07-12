@@ -20,8 +20,8 @@ class CreateMenusItemsTable extends Migration {
 			$table->integer('order')->unsigned();
 			$table->integer('menu_id')->unsigned();
 			$table->integer('child_menu_id')->unsigned()->nullable();
-			$table->string('fmodel');
-			$table->integer('fid')->unsigned();
+			$table->string('linkable_type');
+			$table->integer('linkable_id')->unsigned();
 			$table->timestamps(); // Adds `created_at` and `updated_at` columns
 			$table->softDeletes(); // Adds `deleted_at` column
 
@@ -34,8 +34,8 @@ class CreateMenusItemsTable extends Migration {
 			array(
 				'order'			=> 0,
 				'menu_id'		=> 1,
-				'fmodel'		=> 'Page',
-				'fid'			=> 1,
+				'linkable_type'	=> 'Page',
+				'linkable_id'	=> 1,
 				'created_at'	=> Carbon::now(),
 				'updated_at' 	=> Carbon::now()
 			)
