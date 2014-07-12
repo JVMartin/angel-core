@@ -2,14 +2,17 @@
 
 use Eloquent, App, Config;
 
+// NOTE: Always eager-load the language relationship when grabbing linkable models
+
 abstract class LinkableModel extends Eloquent {
 
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////
-	public function menuItem()
+	// All menu-linkable models must have a language associated
+	public function language()
 	{
-		return $this->morphOne(App::make('MenuItem'), 'linkable');
+		return $this->belongsTo('Language');
 	}
 
 	// Handling relationships in controller CRUD methods

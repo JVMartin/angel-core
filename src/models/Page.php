@@ -4,8 +4,6 @@ use App, Config;
 
 class Page extends LinkableModel {
 
-	protected $morphType = 'Page';
-
 	protected $softDelete = true;
 
 	// Columns to update/insert on edit/add
