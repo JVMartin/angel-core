@@ -12,6 +12,13 @@ class AdminMenuController extends AdminCrudController {
 
 	public function index()
 	{
+
+		$menu_item = MenuItem::find(1);
+
+		echo $menu_item->linkable();
+
+		dd($menu_item);
+
 		$menuModel = App::make('Menu');
 
 		$paginator = $menuModel::withTrashed()->with('menuItems', 'menuItems.childMenu');

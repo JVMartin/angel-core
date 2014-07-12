@@ -18,7 +18,7 @@
 						<span class="glyphicon glyphicon-resize-vertical"></span>
 					</button>
 					@if (get_class($menu_item->linkable) != 'Modal')
-						<a href="{{ $models[$menu_item->order]->link() }}" class="btn btn-xs btn-info" target="_blank">
+						<a href="{{ $menu_item->linkable->link() }}" class="btn btn-xs btn-info" target="_blank">
 							<span class="glyphicon glyphicon-eye-open"></span>
 						</a>
 					@endif

@@ -21,7 +21,7 @@ class Menu extends Eloquent {
 	///////////////////////////////////////////////
 	public function menuItems()
 	{
-		return $this->morphMany(App::make('MenuItem'), 'linkable')->with('childMenu')->orderBy('order', 'asc');
+		return $this->hasMany(App::make('MenuItem'))->with('childMenu', 'linkable')->orderBy('order', 'asc');
 	}
 	public function language()
 	{

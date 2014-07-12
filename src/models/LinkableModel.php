@@ -2,8 +2,6 @@
 
 use Eloquent, App, Config;
 
-// NOTE: Always eager-load the language relationship when grabbing linkable models
-
 abstract class LinkableModel extends Eloquent {
 
 	///////////////////////////////////////////////
@@ -11,7 +9,7 @@ abstract class LinkableModel extends Eloquent {
 	///////////////////////////////////////////////
 	public function linkable()
 	{
-		return $this->morphTo();
+		return $this->morphOne(App::make('MenuItem'), 'linkable');
 	}
 
 	// Handling relationships in controller CRUD methods
