@@ -21,7 +21,11 @@ class Menu extends Eloquent {
 	///////////////////////////////////////////////
 	public function menuItems()
 	{
-		return $this->hasMany(App::make('MenuItem'))->with('childMenu')->orderBy('order', 'asc');
+		return $this->hasMany(App::make('MenuItem'))->with('childMenu', 'childMenu.menuItemsNoDeeper')->orderBy('order', 'asc');
+	}
+	public function menuItemsNoDeeper()
+	{
+		return $this->hasMany(App::make('MenuItem'))->orderBy('order', 'asc');
 	}
 	public function language()
 	{
@@ -32,7 +36,40 @@ class Menu extends Eloquent {
 	///////////////////////////////////////////////
 	//               View-Related                //
 	///////////////////////////////////////////////
-	public static function display($id)
+	public function display()
+	{
+		$this->fillItems();
+
+
+	}
+
+	public function fillItems()
+	{
+		$modelsToFetch = $this->modelsToFetch($this->menuItems);
+
+		$models = array();
+		foreach ($modelsToFetch as $modelToFetch=>$ids) {
+			$modelToFetch = App::make($modelToFetch);
+		}
+	}
+
+	private function modelsToFetch($menuItems, $fetchModels = array(), $goDeeper = true)
+	{
+		foreach ($menuItems as $menuItem) {
+			if (!isset($fetchModels[$menuItem->fmodel])) {
+				$fetchModels[$menuItem->fmodel] = array();
+			}
+			if (!in_array($menuItem->fid, $fetchModels[$menuItem->fmodel])) {
+				$fetchModels[$menuItem->fmodel][] = $menuItem->fid;
+			}
+			if ($goDeeper && $menuItem->childMenu) {
+				$fetchModels = $this->modelsToFetch($menuItem->childMenu->menuItemsNoDeeper, $fetchModels, false);
+			}
+		}
+		return $fetchModels;
+	}
+
+	/*public static function display($id)
 	{
 		$menuModel = App::make('Menu');
 
@@ -41,7 +78,7 @@ class Menu extends Eloquent {
 		$models = $menuModel::get_models($menu->menuItems);
 
 		return View::make('core::menus.render', array('models'=>$models));
-	}
+	}*/
 
 	///////////////////////////////////////////////
 	//                  Other                    //
@@ -89,11 +126,6 @@ class Menu extends Eloquent {
 				$models[$order] = $temp_models->find($fmodel_row['fid']);
 
 				if (!empty($fmodel_row['menu_children'])) $models[$order]['menu_children'] = $fmodel_row['menu_children'];
-				/*
-				$temp_model = $temp_models->find($id);
-				if (method_exists($temp_model, 'is_published') && !$temp_model->is_published()) continue;
-				$models[$order] = $temp_model;
-				*/
 			}
 		}
 

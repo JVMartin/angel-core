@@ -67,10 +67,13 @@ class AdminMenuItemController extends AdminCrudController {
 	{
 		$menuItemModel = App::make('MenuItem');
 
-		if (!$id) return array();
+		//if (!$id) return array();
 		$menu_item = $menuItemModel::findOrFail($id);
 		if (Input::get('child_menu_id') == $menu_item->menu_id) {
 			$errors[] = 'The child menu cannot be the same as the parent menu.  A recursive loop would occur.';
+		}
+		if ($menuItemModel::where('child_menu_id', $menu_item->menu_id)->count()) {
+			$errors[] = 'A child menu cannot have a child menu nested within it.';
 		}
 	}
 }
