@@ -136,7 +136,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		foreach ($model::columns() as $column) {
 
-			$new_value = isset($custom[$column]) ? $custom[$column] : Input::get($column);
+			$new_value = array_key_exists($column, $custom) ? $custom[$column] : Input::get($column);
 
 			if (isset($this->log_changes) && $this->log_changes && $object->{$column} != $new_value) {
 				$changes[$column] = array(

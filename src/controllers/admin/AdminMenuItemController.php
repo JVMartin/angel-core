@@ -75,5 +75,10 @@ class AdminMenuItemController extends AdminCrudController {
 		if ($menuItemModel::where('child_menu_id', $menu_item->menu_id)->count()) {
 			$errors[] = 'A child menu cannot have a child menu nested within it.';
 		}
+		if (!Input::get('child_menu_id')) {
+			return array(
+				'child_menu_id' => null
+			);
+		}
 	}
 }
