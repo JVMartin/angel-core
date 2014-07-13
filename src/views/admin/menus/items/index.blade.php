@@ -11,19 +11,19 @@
 		</tr>
 	</thead>
 	<tbody data-url="menus/items/order">
-		<?php $models = $menuModel::get_models($menu->menuItems); ?>
-		@foreach ($menu->menuItems as $menu_item)
-			<tr data-id="{{ $menu_item->id }}">
+		<?php $menu->fillItems(); ?>
+		@foreach ($menu->menuItems as $menuItem)
+			<tr data-id="{{ $menuItem->id }}">
 				<td style="width:190px;">
 					<button type="button" class="btn btn-xs btn-default handle">
 						<span class="glyphicon glyphicon-resize-vertical"></span>
 					</button>
-					@if (get_class($models[$menu_item->order]) != 'Modal')
-						<a href="{{ $models[$menu_item->order]->link() }}" class="btn btn-xs btn-info" target="_blank">
+					@if ($menuItem->fmodel != 'Modal')
+						<a href="{{ $menuItem->model->link() }}" class="btn btn-xs btn-info" target="_blank">
 							<span class="glyphicon glyphicon-eye-open"></span>
 						</a>
 					@endif
-					<a href="{{ admin_url('menus/items/edit/' . $menu_item->id) }}" class="btn btn-xs btn-default">
+					<a href="{{ admin_url('menus/items/edit/' . $menuItem->id) }}" class="btn btn-xs btn-default">
 						<span class="glyphicon glyphicon-edit"></span>
 					</a>
 					<button type="button" class="btn btn-xs btn-danger deleteLink">
@@ -31,22 +31,22 @@
 					</button>
 				</td>
 				<td>
-					{{ $menu_item->fmodel }}
+					{{ $menuItem->fmodel }}
 				</td>
 				@if (Config::get('core::languages') && !$single_language)
 					<td>
-						{{ $models[$menu_item->order]->language->name }}
+						{{ $menuItem->model->language->name }}
 					</td>
 				@endif
 				<td>
-					{{ Form::hidden(null, $menu_item->order, array('class'=>'orderInput')) }}
-					<a href="{{ $models[$menu_item->order]->link_edit() }}">
-						{{ $models[$menu_item->order]->name() }}
+					{{ Form::hidden(null, $menuItem->order, array('class'=>'orderInput')) }}
+					<a href="{{ $menuItem->model->link_edit() }}">
+						{{ $menuItem->model->name() }}
 					</a>
 				</td>
 				<td>
-					@if ($menu_item->childMenu)
-						{{ $menu_item->childMenu->name }}
+					@if ($menuItem->childMenu)
+						{{ $menuItem->childMenu->name }}
 					@endif
 				</td>
 			</tr>

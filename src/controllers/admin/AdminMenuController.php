@@ -31,13 +31,6 @@ class AdminMenuController extends AdminCrudController {
 		}
 		
 		$this->data['model_select'] = Form::select('fmodel', $model_list, null, array('id'=>'modelSelect', 'class' => 'form-control', 'autocomplete'=>'off'));
-
-		$menus = $menuModel::all();
-		$menu_list = array('0'=>'None');
-		foreach ($menus as $menu) {
-			$menu_list[$menu->id] = $menu->name;
-		}
-		
 		$this->data['menus'] = $paginator->getCollection();
 		$appends = $_GET;
 		unset($appends['page']);
