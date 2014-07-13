@@ -1,6 +1,6 @@
-@foreach ($models as $model)
+@foreach ($menu->menuItems as $menuItem)
 	<?php
-		$active = ($model->link() == Request::url()) ? ' class="active"' : '';
+		$active = ($menuItem->model->link() == Request::url()) ? ' class="active"' : '';
 		$unique = uniqid();
 	?>
 	
@@ -15,15 +15,15 @@
 	@endif
 
 	<li{{ $active }} id="menuItem{{ $unique }}">
-		<a href="{{ $model->link() }}" class="{{ get_class($model) == 'Modal' ? 'fancybox' : '' }}">
-			{{ $model->name() }}
-			@if (get_class($model) == 'Modal')
-				{{ $model->render(); }}
+		<a href="{{ $menuItem->model->link() }}" class="{{ $menuItem->fmodel == 'Modal' ? 'fancybox' : '' }}">
+			{{ $menuItem->model->name() }}
+			@if ($menuItem->fmodel == 'Modal')
+				{{ $menuItem->model->render(); }}
 			@endif
 		</a>
-		@if ($model->menu_children)
+		@if (!isset($noDeeper) && $menuItem->childMenu)
 			<ul class="nav nav-child">
-				{{ View::make('core::menus.render', array('models'=>$model->menu_children)) }}
+				{{ View::make('core::menus.render', array('menu'=>$menuItem->childMenu, 'noDeeper'=>true)) }}
 			</ul>
 		@endif
 	</li>

@@ -21,9 +21,9 @@ class Menu extends Eloquent {
 	///////////////////////////////////////////////
 	public function menuItems()
 	{
-		return $this->hasMany(App::make('MenuItem'))->with('childMenu', 'childMenu.menuItemsNoDeeper')->orderBy('order', 'asc');
+		return $this->hasMany(App::make('MenuItem'))->with('childMenu', 'childMenu.childMenuItems')->orderBy('order', 'asc');
 	}
-	public function menuItemsNoDeeper()
+	public function childMenuItems()
 	{
 		return $this->hasMany(App::make('MenuItem'))->orderBy('order', 'asc');
 	}
@@ -40,7 +40,7 @@ class Menu extends Eloquent {
 	{
 		$this->fillItems();
 
-
+		return View::make('core::menus.render', array('menu' => $this));
 	}
 
 	public function fillItems()
@@ -49,8 +49,18 @@ class Menu extends Eloquent {
 
 		$models = array();
 		foreach ($modelsToFetch as $modelToFetch=>$ids) {
-			$modelToFetch = App::make($modelToFetch);
+			$iocModel = App::make($modelToFetch);
+			$models[$modelToFetch] = $iocModel::whereIn('id', $ids)->get();
 		}
+
+		$this->menuItems = $this->menuItems->each(function($menuItem) use ($models) {
+			$menuItem->model = $models[$menuItem->fmodel]->find($menuItem->fid);
+			if ($menuItem->childMenu) {
+				$menuItem->childMenu->menuItems = $menuItem->childMenu->childMenuItems->each(function($menuItem) use ($models) {
+					$menuItem->model = $models[$menuItem->fmodel]->find($menuItem->fid);
+				});
+			}
+		});
 	}
 
 	private function modelsToFetch($menuItems, $fetchModels = array(), $goDeeper = true)
@@ -63,7 +73,7 @@ class Menu extends Eloquent {
 				$fetchModels[$menuItem->fmodel][] = $menuItem->fid;
 			}
 			if ($goDeeper && $menuItem->childMenu) {
-				$fetchModels = $this->modelsToFetch($menuItem->childMenu->menuItemsNoDeeper, $fetchModels, false);
+				$fetchModels = $this->modelsToFetch($menuItem->childMenu->childMenuItems, $fetchModels, false);
 			}
 		}
 		return $fetchModels;
@@ -99,7 +109,7 @@ class Menu extends Eloquent {
 		$fmodels = array();
 		foreach ($menu_items as $menu_item) {
 			$fmodels[$menu_item->fmodel][$menu_item->order]['fid'] = $menu_item->fid;
-			
+
 			if ($menu_item->childMenu) {
 				$fmodels[$menu_item->fmodel][$menu_item->order]['menu_children'] = static::get_models($menu_item->childMenu->menuItems);
 			}
@@ -115,7 +125,7 @@ class Menu extends Eloquent {
 			foreach ($fmodel_rows as $fmodel_row) {
 				$ids[] = $fmodel_row['fid'];
 			}
-			
+
 			$temp_models = $fmodel::whereIn('id', $ids);
 			if (Config::get('core::languages')) {
 				$temp_models = $temp_models->with('language');
