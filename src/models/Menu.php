@@ -32,7 +32,6 @@ class Menu extends Eloquent {
 		return $this->belongsTo(App::make('Language'));
 	}
 
-
 	///////////////////////////////////////////////
 	//               View-Related                //
 	///////////////////////////////////////////////
