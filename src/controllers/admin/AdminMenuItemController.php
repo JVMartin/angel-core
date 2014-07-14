@@ -80,5 +80,7 @@ class AdminMenuItemController extends AdminCrudController {
 				'child_menu_id' => null
 			);
 		}
+
+		return array();
 	}
 }
