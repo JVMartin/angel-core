@@ -53,7 +53,7 @@ class Page extends LinkableModel {
 	public function pre_hard_delete()
 	{
 		parent::pre_hard_delete();
-		$changeModel = App::make(App::make('Change'));
+		$changeModel = App::make('Change');
 		$changeModel::where('fmodel', 'Page')
 			        ->where('fid', $this->id)
 			        ->delete();
