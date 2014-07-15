@@ -18,26 +18,26 @@ abstract class LinkableModel extends Eloquent {
 	// Handling relationships in controller CRUD methods
 	public function pre_delete()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$menuItemModel::where('fmodel', get_class($this))
+		$MenuItem::where('fmodel', get_class($this))
 				      ->where('fid', $this->id)
 				      ->delete();
 	}
 	public function pre_restore()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$menuItemModel::withTrashed()
+		$MenuItem::withTrashed()
 				      ->where('fmodel', get_class($this))
 				      ->where('fid', $this->id)
 				      ->restore();
 	}
 	public function pre_hard_delete()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$menuItemModel::withTrashed()
+		$MenuItem::withTrashed()
 				      ->where('fmodel', get_class($this))
 				      ->where('fid', $this->id)
 				      ->forceDelete();

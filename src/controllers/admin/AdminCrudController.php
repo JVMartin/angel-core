@@ -124,7 +124,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function attempt_edit($id)
 	{
 		$model = App::make($this->model);
-		$changeModel = App::make('Change');
+		$Change = App::make('Change');
 
 		$errors = $this->validate($custom, $id);
 		if (count($errors)) {
@@ -155,7 +155,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		if (method_exists($this, 'after_save')) $this->after_save($object, $changes);
 
 		if (count($changes)) {
-			$change = new $changeModel;
+			$change = new $Change;
 			$change->user_id 	= Auth::user()->id;
 			$change->fmodel		= $this->model;
 			$change->fid 		= $object->id;

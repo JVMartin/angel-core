@@ -19,7 +19,7 @@ class AdminPageController extends AdminCrudController {
 
 	public function after_save($page, &$changes = array())
 	{
-		$pageModuleModel = App::make('PageModule');
+		$PageModule = App::make('PageModule');
 
 		if (!$changes) $changes = array();
 		$input_modules = Input::get('modules');
@@ -50,7 +50,7 @@ class AdminPageController extends AdminCrudController {
 			}
 			if (!$found_module) {
 				if (!$html && !$name && $number == 1 && count($input_modules) == 1) continue; // Don't create a module when it's -just- a blank Module 1
-				$module = new $pageModuleModel;
+				$module = new $PageModule;
 				$module->page_id	= $page->id;
 				$module->number		= $number;
 				$module->html		= $html;
@@ -62,9 +62,9 @@ class AdminPageController extends AdminCrudController {
 
 	public function edit($id)
 	{
-		$pageModel = App::make('Page');
+		$Page = App::make('Page');
 
-		$page = $pageModel::withTrashed()->with('modules')->find($id);
+		$page = $Page::withTrashed()->with('modules')->find($id);
 		$this->data['page'] = $page;
 		$this->data['changes'] = $page->changes();
 		$this->data['action'] = 'edit';
@@ -127,9 +127,9 @@ class AdminPageController extends AdminCrudController {
 	 */
 	public function url_taken($id = null)
 	{
-		$pageModel = App::make('Page');
+		$Page = App::make('Page');
 
-		$page = $pageModel::where('url', Input::get('url'));
+		$page = $Page::where('url', Input::get('url'));
 		if (Config::get('core::languages')) {
 			$page = $page->where('language_id', Input::get('language_id'));
 		}
@@ -146,20 +146,20 @@ class AdminPageController extends AdminCrudController {
 	 */
 	public function copy()
 	{
-		$pageModel = App::make('Page');
-		$languageModel = App::make('Language');
+		$Page = App::make('Page');
+		$Language = App::make('Language');
 
-		$pages = $pageModel::where('language_id', $this->data['active_language']->id);
+		$pages = $Page::where('language_id', $this->data['active_language']->id);
 		if (!Input::get('all')) {
 			$pages = $pages->whereIn('id', Input::get('ids'));
 		}
 		$pages = $pages->get();
 
 		$errors = $success = '';
-		$target_language = $languageModel::findOrFail(Input::get('language_id'));
+		$target_language = $Language::findOrFail(Input::get('language_id'));
 		foreach ($pages as $page) {
 			// Make sure a page with that URL doesn't already exist
-			if ($pageModel::withTrashed()->where('language_id', $target_language->id)->where('url', $page->url)->count()) {
+			if ($Page::withTrashed()->where('language_id', $target_language->id)->where('url', $page->url)->count()) {
 				$errors .= '
 					<p>
 						Could not copy page with url "' . $page->url . '"

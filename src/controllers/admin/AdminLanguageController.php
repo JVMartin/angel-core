@@ -27,9 +27,9 @@ class AdminLanguageController extends AdminCrudController {
 			');
 		}
 
-		$languageModel = App::make('Language');
+		$Language = App::make('Language');
 
-		$language = $languageModel::find($id);
+		$language = $Language::find($id);
 		$language->pre_hard_delete();
 		$language->forceDelete();
 
@@ -40,8 +40,8 @@ class AdminLanguageController extends AdminCrudController {
 
 	public function make_active($id)
 	{
-		$languageModel = App::make('Language');
-		$language = $languageModel::findOrFail($id);
+		$Language = App::make('Language');
+		$language = $Language::findOrFail($id);
 		Session::put('language', $language->id);
 		return Redirect::to(URL::previous());
 	}

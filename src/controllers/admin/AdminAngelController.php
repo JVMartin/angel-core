@@ -73,10 +73,10 @@ class AdminAngelController extends AngelController {
 	 */
 	protected function also_add_menu_item($fmodel, $fid)
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$order				= $menuItemModel::where('menu_id', Input::get('menu_id'))->count();
-		$menu_item			= new $menuItemModel;
+		$order				= $MenuItem::where('menu_id', Input::get('menu_id'))->count();
+		$menu_item			= new $MenuItem;
 		$menu_item->menu_id	= Input::get('menu_id');
 		$menu_item->fmodel	= $fmodel;
 		$menu_item->fid 	= $fid;

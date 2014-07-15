@@ -10,7 +10,7 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav nav-main navbar-nav navbar-right">
-				{{ $menuModel::find(1)->display() }}
+				{{ $Menu::find(1)->display() }}
 			</ul>
 		</div>
 	</div>
