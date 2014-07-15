@@ -4,7 +4,7 @@ use App, Input, Redirect;
 
 class AdminMenuItemController extends AdminCrudController {
 
-	protected $model	= 'MenuItem';
+	protected $Model	= 'MenuItem';
 	protected $uri		= 'menus/items';
 	protected $plural	= 'items';
 	protected $singular	= 'item';

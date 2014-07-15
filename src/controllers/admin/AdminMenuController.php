@@ -4,7 +4,7 @@ use App, Config, View, Form, Input;
 
 class AdminMenuController extends AdminCrudController {
 
-	protected $model	= 'Menu';
+	protected $Model	= 'Menu';
 	protected $uri		= 'menus';
 	protected $plural	= 'menus';
 	protected $singular	= 'menu';

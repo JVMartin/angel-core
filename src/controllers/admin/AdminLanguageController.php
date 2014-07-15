@@ -4,7 +4,7 @@ use App, Redirect, Session, URL;
 
 class AdminLanguageController extends AdminCrudController {
 
-	protected $model	= 'Language';
+	protected $Model	= 'Language';
 	protected $uri		= 'languages';
 	protected $plural	= 'languages';
 	protected $singular	= 'language';

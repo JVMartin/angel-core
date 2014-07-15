@@ -4,7 +4,7 @@ use App, Input, Config, View, Validator, Redirect;
 
 class AdminPageController extends AdminCrudController {
 
-	protected $model	= 'Page';
+	protected $Model	= 'Page';
 	protected $uri		= 'pages';
 	protected $plural	= 'pages';
 	protected $singular	= 'page';
