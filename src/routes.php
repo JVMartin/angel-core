@@ -259,16 +259,18 @@ Route::get('signout', array(
 	'before' => 'auth',
 	'uses' => 'UserController@signout'
 ));
-
+if (Config::get('core::languages')) {
+	Route::get('/', 'PageController@show_language');
+} else {
+	Route::get('/', 'PageController@show');
+}
 // We need to ensure that this is the -absolute- last route, otherwise
 // we'll get caught in it before the router reaches other packages, due to the base-level URI variables.
 // Thus far, wrapping it in an App::before seems to do the trick.
 App::before(function() {
 	if (Config::get('core::languages')) {
-		Route::get('/',									'PageController@show_language');
 		Route::get('{language_uri}/{url}/{section?}',	'PageController@show_language');
 	} else {
-		Route::get('/',					'PageController@show');
 		Route::get('{url}/{section?}',	'PageController@show');
 	}
 });
