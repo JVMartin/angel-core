@@ -86,7 +86,7 @@ class AdminPageController extends AdminCrudController {
 		$errors = array();
 		$rules = array(
 			'name' => 'required',
-			'url' => 'required|alpha_dash'
+			'url' => 'alpha_dash'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->fails()) {

@@ -25,6 +25,9 @@ body.theme-slate {
 .stripe {
   background-color: #f9f9f9; }
 
+.required {
+  color: #ff0000; }
+
 .pad {
   padding: 10px; }
 
