@@ -17,7 +17,7 @@ $config = array(
 
 	// This is the menu in the admin console.
 	// Add modules here after installation.
-	// 'Name' => 'uri'
+	// 'Name' => 'admin uri'
 	'menu' => array(
 		'Pages'		=> 'pages',
 		'Menus'		=> 'menus',
