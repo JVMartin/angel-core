@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, Config, View, Form, Input;
+use App, Config, View, Form, Input, Redirect;
 
 class AdminMenuController extends AdminCrudController {
 
@@ -44,6 +44,28 @@ class AdminMenuController extends AdminCrudController {
 		return array(
 			'name' => 'required'
 		);
+	}
+
+	public function delete($id)
+	{
+		$Menu = App::make('Menu');
+		$MenuItem = App::make('MenuItem');
+
+		$menu = $Menu::findOrFail($id);
+
+		if ($MenuItem::where('child_menu_id', $menu->id)->count()) {
+			return Redirect::to($this->uri('edit/' . $menu->id))->withErrors('
+				You cannot delete a menu while it is another menu\'s child.
+			');
+		}
+
+		if ($MenuItem::whereNotNull('child_menu_id')->where('menu_id', $menu->id)->count()) {
+			return Redirect::to($this->uri('edit/' . $menu->id))->withErrors('
+				You cannot delete a menu while it has child menus.
+			');
+		}
+
+		return parent::delete($id);
 	}
 
 	/**
