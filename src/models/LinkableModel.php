@@ -2,20 +2,13 @@
 
 use Eloquent, App, Config, ReflectionClass;
 
-// NOTE: Always eager-load the language relationship when grabbing linkable models
+// NOTE: If languages are enabled, always eager-load the language relationship when grabbing linkable models.
 
 abstract class LinkableModel extends Eloquent {
-
-	public function short_name()
-	{
-		$reflection = new ReflectionClass($this);
-		return $reflection->getShortName();
-	}
 
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////
-	// All menu-linkable models must have a language associated
 	public function language()
 	{
 		return $this->belongsTo('Language');
@@ -26,7 +19,7 @@ abstract class LinkableModel extends Eloquent {
 	{
 		$MenuItem = App::make('MenuItem');
 
-		$MenuItem::where('fmodel', $this->short_name())
+		$MenuItem::where('fmodel', short_name($this))
 				 ->where('fid', $this->id)
 				 ->delete();
 	}
@@ -35,7 +28,7 @@ abstract class LinkableModel extends Eloquent {
 		$MenuItem = App::make('MenuItem');
 
 		$MenuItem::withTrashed()
-				 ->where('fmodel', $this->short_name())
+				 ->where('fmodel', short_name($this))
 				 ->where('fid', $this->id)
 				 ->restore();
 	}
@@ -44,7 +37,7 @@ abstract class LinkableModel extends Eloquent {
 		$MenuItem = App::make('MenuItem');
 
 		$MenuItem::withTrashed()
-				 ->where('fmodel', $this->short_name())
+				 ->where('fmodel', short_name($this))
 				 ->where('fid', $this->id)
 				 ->forceDelete();
 	}
