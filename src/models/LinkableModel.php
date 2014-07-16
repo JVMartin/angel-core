@@ -1,10 +1,16 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, Config;
+use Eloquent, App, Config, ReflectionClass;
 
 // NOTE: Always eager-load the language relationship when grabbing linkable models
 
 abstract class LinkableModel extends Eloquent {
+
+	public function short_name()
+	{
+		$reflection = new ReflectionClass($this);
+		return $reflection->getShortName();
+	}
 
 	///////////////////////////////////////////////
 	//               Relationships               //
@@ -20,16 +26,16 @@ abstract class LinkableModel extends Eloquent {
 	{
 		$MenuItem = App::make('MenuItem');
 
-		$MenuItem::where('fmodel', get_class($this))
-				      ->where('fid', $this->id)
-				      ->delete();
+		$MenuItem::where('fmodel', $this->short_name())
+				 ->where('fid', $this->id)
+				 ->delete();
 	}
 	public function pre_restore()
 	{
 		$MenuItem = App::make('MenuItem');
 
 		$MenuItem::withTrashed()
-				      ->where('fmodel', get_class($this))
+				      ->where('fmodel', $this->short_name())
 				      ->where('fid', $this->id)
 				      ->restore();
 	}
@@ -38,9 +44,9 @@ abstract class LinkableModel extends Eloquent {
 		$MenuItem = App::make('MenuItem');
 
 		$MenuItem::withTrashed()
-				      ->where('fmodel', get_class($this))
-				      ->where('fid', $this->id)
-				      ->forceDelete();
+				 ->where('fmodel', $this->short_name())
+				 ->where('fid', $this->id)
+				 ->forceDelete();
 	}
 
 	///////////////////////////////////////////////
