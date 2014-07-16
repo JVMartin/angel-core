@@ -35,9 +35,9 @@ abstract class LinkableModel extends Eloquent {
 		$MenuItem = App::make('MenuItem');
 
 		$MenuItem::withTrashed()
-				      ->where('fmodel', $this->short_name())
-				      ->where('fid', $this->id)
-				      ->restore();
+				 ->where('fmodel', $this->short_name())
+				 ->where('fid', $this->id)
+				 ->restore();
 	}
 	public function pre_hard_delete()
 	{
