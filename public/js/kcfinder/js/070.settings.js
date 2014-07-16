@@ -2,7 +2,7 @@
   *
   *      @desc Settings panel functionality
   *   @package KCFinder
-  *   @version 3.0-dev
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -10,91 +10,77 @@
   *      @link http://kcfinder.sunhater.com
   */
 
-browser.initSettings = function() {
+_.initSettings = function() {
+    $('#settings').disableTextSelect();
+    $('#settings fieldset, #settings input, #settings label').uniform();
 
-    if (!this.shows.length) {
-        var showInputs = $('#show input[type="checkbox"]').toArray();
-        $.each(showInputs, function (i, input) {
-            browser.shows[i] = input.name;
+    if (!_.shows.length)
+        $('#show input[type="checkbox"]').each(function(i) {
+            _.shows[i] = this.name;
         });
-    }
 
-    var shows = this.shows;
+    var shows = _.shows;
 
     if (!$.$.kuki.isSet('showname')) {
-        $.$.kuki.set('showname', 'on');
+        $.$.kuki.set('showname', "on");
         $.each(shows, function (i, val) {
-            if (val != "name") $.$.kuki.set('show' + val, 'off');
+            if (val != "name") $.$.kuki.set('show' + val, "off");
         });
     }
 
     $('#show input[type="checkbox"]').click(function() {
-        var kuki = $(this).get(0).checked ? 'on' : 'off';
-        $.$.kuki.set('show' + $(this).get(0).name, kuki)
-        if ($(this).get(0).checked)
-            $('#files .file div.' + $(this).get(0).name).css('display', 'block');
-        else
-            $('#files .file div.' + $(this).get(0).name).css('display', 'none');
+        $.$.kuki.set('show' + this.name, this.checked ? "on" : "off")
+        $('#files .file div.' + this.name).css('display', this.checked ? "block" : "none");
     });
 
     $.each(shows, function(i, val) {
-        var checked = ($.$.kuki.get('show' + val) == 'on') ? 'checked' : '';
-        $('#show input[name="' + val + '"]').get(0).checked = checked;
+        $('#show input[name="' + val + '"]').get(0).checked = ($.$.kuki.get('show' + val) == "on") ? "checked" : "";
     });
 
-    if (!this.orders.length) {
-        var orderInputs = $('#order input[type="radio"]').toArray();
-        $.each(orderInputs, function (i, input) {
-            browser.orders[i] = input.value;
-        });
-    }
+    if (!_.orders.length)
+        $('#order input[type="radio"]').each(function(i) {
+            _.orders[i] = this.value;
+        })
 
-    var orders = this.orders;
+    var orders = _.orders;
 
     if (!$.$.kuki.isSet('order'))
-        $.$.kuki.set('order', 'name');
+        $.$.kuki.set('order', "name");
 
     if (!$.$.kuki.isSet('orderDesc'))
-        $.$.kuki.set('orderDesc', 'off');
+        $.$.kuki.set('orderDesc', "off");
 
     $('#order input[value="' + $.$.kuki.get('order') + '"]').get(0).checked = true;
-    $('#order input[name="desc"]').get(0).checked = ($.$.kuki.get('orderDesc') == 'on');
+    $('#order input[name="desc"]').get(0).checked = ($.$.kuki.get('orderDesc') == "on");
 
     $('#order input[type="radio"]').click(function() {
-        $.$.kuki.set('order', $(this).get(0).value);
-        browser.orderFiles();
+        $.$.kuki.set('order', this.value);
+        _.orderFiles();
     });
 
     $('#order input[name="desc"]').click(function() {
-        $.$.kuki.set('orderDesc', $(this).get(0).checked ? 'on' : 'off');
-        browser.orderFiles();
+        $.$.kuki.set('orderDesc', this.checked ? 'on' : "off");
+        _.orderFiles();
     });
 
     if (!$.$.kuki.isSet('view'))
-        $.$.kuki.set('view', 'thumbs');
+        $.$.kuki.set('view', "thumbs");
 
-    if ($.$.kuki.get('view') == 'list') {
-        $('#show input').each(function() { this.checked = true; });
-        $('#show input').each(function() { this.disabled = true; });
-    }
+    if ($.$.kuki.get('view') == "list")
+        $('#show').parent().hide();
 
     $('#view input[value="' + $.$.kuki.get('view') + '"]').get(0).checked = true;
 
     $('#view input').click(function() {
-        var view = $(this).attr('value');
+        var view = this.value;
         if ($.$.kuki.get('view') != view) {
             $.$.kuki.set('view', view);
-            if (view == 'list') {
-                $('#show input').each(function() { this.checked = true; });
-                $('#show input').each(function() { this.disabled = true; });
-            } else {
-                $.each(browser.shows, function(i, val) {
-                    $('#show input[name="' + val + '"]').get(0).checked =
-                        ($.$.kuki.get('show' + val) == "on");
-                });
-                $('#show input').each(function() { this.disabled = false; });
-            }
+            if (view == "list")
+                $('#show').parent().hide();
+            else
+                $('#show').parent().show();
         }
-        browser.refresh();
+        _.fixFilesHeight();
+        _.refresh();
     });
 };

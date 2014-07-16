@@ -4,7 +4,7 @@
   *
   *      @desc This file is included first, before each other
   *   @package KCFinder
-  *   @version 3.0-dev
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -16,8 +16,8 @@
   *     1. Set PHP ini settings using ini_set()
   *     2. Custom session save handler with session_set_save_handler()
   *     3. Any custom integration code. If you use any global variables
-  *        here, they can be accessed in config.php via $GLOBALS array.
-  *        It's recommended to use constants instead.
+  *        here, they can be accessed in conf/config.php via $GLOBALS
+  *        array. It's recommended to use constants instead.
   */
 
 
