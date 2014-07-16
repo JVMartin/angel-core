@@ -109,12 +109,12 @@ class AdminPageController extends AdminCrudController {
 		}
 
 		$custom = array(
-			'title'				=> Input::get('title') ? Input::get('title') : Input::get('name'),
-			'published'			=> Input::get('published') ? 1 : 0,
-			'published_range'	=> Input::get('published_range') ? 1 : 0,
-			'published_start'	=> $published_start,
-			'published_end'		=> $published_end,
-			'url'				=> strtolower(Input::get('url'))
+			'title'           => Input::get('title') ? Input::get('title') : Input::get('name'),
+			'published'       => Input::get('published') ? 1 : 0,
+			'published_range' => Input::get('published_range') ? 1 : 0,
+			'published_start' => $published_start,
+			'published_end'   => $published_end,
+			'url'             => strtolower(Input::get('url'))
 		);
 
 		return $errors;
