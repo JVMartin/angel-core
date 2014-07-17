@@ -52,7 +52,7 @@ class Menu extends Eloquent {
 			$models[$modelToFetch] = $iocModel::whereIn('id', $ids)->get();
 		}
 
-		$this->menuItems = $this->menuItems->each(function($menuItem) use ($models) {
+		$this->menuItems->each(function($menuItem) use ($models) {
 			$menuItem->model = $models[$menuItem->fmodel]->find($menuItem->fid);
 			if ($menuItem->childMenu) {
 				$menuItem->childMenu->menuItems = $menuItem->childMenu->childMenuItems->each(function($menuItem) use ($models) {
