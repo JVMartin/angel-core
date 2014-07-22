@@ -17,7 +17,7 @@
    See http://kcfinder.sunhater.com/install for setting descriptions */
 
 $ds = DIRECTORY_SEPARATOR;
-$upload_path = str_replace('packages' . $ds . 'angel' . $ds . 'core' . $ds . 'js' . $ds . 'kcfinder' . $ds . 'conf' . $ds . 'config.php', '', realpath(__FILE__) . 'uploads' . $ds . 'kcfinder' . $ds);
+$upload_path = str_replace('packages' . $ds . 'angel' . $ds . 'core' . $ds . 'js' . $ds . 'kcfinder' . $ds . 'conf', '', realpath(__DIR__) . 'uploads' . $ds . 'kcfinder' . $ds);
 // search, replace, subject
 $upload_url = '/uploads/kcfinder/';
 
