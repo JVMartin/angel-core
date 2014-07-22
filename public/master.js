@@ -108,7 +108,7 @@ $(function() {bindImageBrowsers();});
 
 function bindFileBrowsers() {
 	// KCFinder browsing
-	$('.fileBrowse').click(function() {
+	$('.fileBrowse').unbind('click').click(function() {
 		var $self = $(this);
 		var $input = $self.parent().prev();
 		window.KCFinder = {};
