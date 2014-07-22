@@ -51,21 +51,21 @@ class AngelController extends BaseController {
 		///////////////////////////////////////////////
 		//           Global View Bindings            //
 		///////////////////////////////////////////////
-		$this->data['menuModel'] = App::make('Menu');
+		$this->data['Menu'] = App::make('Menu');
 
 		///////////////////////////////////////////////
 		//                Settings                   //
 		///////////////////////////////////////////////
-		$settingModel = App::make('Setting');
-		$this->settings = $settingModel::currentSettings();
+		$Setting = App::make('Setting');
+		$this->settings = $Setting::currentSettings();
 		$this->data['settings'] = $this->settings;
 
 		///////////////////////////////////////////////
 		//                Languages                  //
 		///////////////////////////////////////////////
 		if (Config::get('core::languages'))  {
-			$languageModel = App::make('Language');
-			$this->languages = $languageModel::all();
+			$Language = App::make('Language');
+			$this->languages = $Language::all();
 			$language_drop = array();
 			foreach ($this->languages as $language) {
 				$language_drop[$language->id] = $language->name;
@@ -76,7 +76,7 @@ class AngelController extends BaseController {
 
 			// Handle the current active language
 			if (!Session::get('language')) {
-				Session::put('language', $languageModel::primary()->id);
+				Session::put('language', $Language::primary()->id);
 			}
 			$this->data['active_language'] = $this->languages->find(Session::get('language'));
 		}

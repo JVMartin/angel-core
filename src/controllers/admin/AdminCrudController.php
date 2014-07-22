@@ -6,7 +6,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	/*
 	// Required:
-	protected $model	= 'ProductCategory';
+	protected $Model	= 'ProductCategory';
 	protected $uri		= 'products/categories';
 	protected $plural	= 'categories';
 	protected $singular	= 'category';
@@ -23,10 +23,10 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function index()
 	{
-		$model = App::make($this->model);
-		$objects = $model::withTrashed();
+		$Model = App::make($this->Model);
+		$objects = $Model::withTrashed();
 
-		if (Config::get('core::languages') && in_array(Config::get('language_models'), $this->model)) {
+		if (Config::get('core::languages') && in_array(Config::get('language_models'), $this->Model)) {
 			$objects = $objects->where('language_id', $this->data['active_language']->id);
 		}
 
@@ -47,7 +47,7 @@ abstract class AdminCrudController extends AdminAngelController {
 			}
 		}
 
-		if (isset($model->reorderable) && $model->reorderable) {
+		if (isset($Model->reorderable) && $Model->reorderable) {
 			$this->data[$this->plural] = $objects->orderBy('order')->get();
 		} else {
 			$paginator = $objects->paginate();
@@ -74,22 +74,22 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function attempt_add()
 	{
-		$model = App::make($this->model);
+		$Model = App::make($this->Model);
 
 		$errors = $this->validate($custom);
 		if (count($errors)) {
 			return Redirect::to($this->uri('add'))->withInput()->withErrors($errors);
 		}
 
-		$object = new $model;
-		foreach($model::columns() as $column) {
+		$object = new $Model;
+		foreach($Model::columns() as $column) {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
 		if (isset($this->slug) && $this->slug) {
-			$object->slug = $this->slug($model, 'slug', $object->{$this->slug});
+			$object->slug = $this->slug($Model, 'slug', $object->{$this->slug});
 		}
 		if (isset($object->reorderable) && $object->reorderable) {
-			$object->order = $model::count();
+			$object->order = $Model::count();
 		}
 		$object->save();
 
@@ -98,7 +98,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		// Are we creating this object from the menu wizard?
 		// NOTE:  You only need this for menu-linkable models
 		if (Input::get('menu_id')) {
-			return $this->also_add_menu_item($this->model, $object->id);
+			return $this->also_add_menu_item($this->Model, $object->id);
 		}
 
 		return $this->add_redirect($object);
@@ -106,15 +106,15 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function add_redirect($object)
 	{
 		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->model . ' successfully created.</p>
+			<p>' . $this->Model . ' successfully created.</p>
 		');
 	}
 
 	public function edit($id)
 	{
-		$model = App::make($this->model);
+		$Model = App::make($this->Model);
 
-		$object = $model::withTrashed()->findOrFail($id);
+		$object = $Model::withTrashed()->findOrFail($id);
 		$this->data[$this->singular] = $object;
 		$this->data['action'] = 'edit';
 
@@ -123,18 +123,18 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function attempt_edit($id)
 	{
-		$model = App::make($this->model);
-		$changeModel = App::make('Change');
+		$Model = App::make($this->Model);
+		$Change = App::make('Change');
 
 		$errors = $this->validate($custom, $id);
 		if (count($errors)) {
 			return Redirect::to($this->uri('edit/' . $id))->withInput()->withErrors($errors);
 		}
 
-		$object = $model::withTrashed()->findOrFail($id);
+		$object = $Model::withTrashed()->findOrFail($id);
 		$changes = array();
 
-		foreach ($model::columns() as $column) {
+		foreach ($Model::columns() as $column) {
 
 			$new_value = array_key_exists($column, $custom) ? $custom[$column] : Input::get($column);
 
@@ -148,16 +148,16 @@ abstract class AdminCrudController extends AdminAngelController {
 			$object->{$column} = $new_value;
 		}
 		if (isset($this->slug) && $this->slug) {
-			$object->slug = $this->slug($model, 'slug', $object->{$this->slug}, $id);
+			$object->slug = $this->slug($Model, 'slug', $object->{$this->slug}, $id);
 		}
 		$object->save();
 
 		if (method_exists($this, 'after_save')) $this->after_save($object, $changes);
 
 		if (count($changes)) {
-			$change = new $changeModel;
+			$change = new $Change;
 			$change->user_id 	= Auth::user()->id;
-			$change->fmodel		= $this->model;
+			$change->fmodel		= $this->Model;
 			$change->fid 		= $object->id;
 			$change->changes 	= json_encode($changes);
 			$change->save();
@@ -168,7 +168,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function edit_redirect($object)
 	{
 		return Redirect::to($this->uri('edit/' . $object->id))->with('success', '
-			<p>' . $this->model . ' successfully updated.</p>
+			<p>' . $this->Model . ' successfully updated.</p>
 			<p><a href="' . $this->uri('', true) . '">Return to index</a></p>
 		');
 	}
@@ -223,11 +223,11 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function reorder()
 	{
-		$model = App::make($this->model);
-		$object = new $model;
+		$Model = App::make($this->Model);
+		$object = new $Model;
 		if (!isset($object->reorderable) || !$object->reorderable) return;
 
-		$objects = $model::orderBy('order')->get();
+		$objects = $Model::orderBy('order')->get();
 
 		$order = 0;
 		foreach ($objects as $object) {
@@ -238,9 +238,9 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function delete($id)
 	{
-		$model = App::make($this->model);
+		$Model = App::make($this->Model);
 
-		$object = $model::find($id);
+		$object = $Model::find($id);
 		if (method_exists($object, 'pre_delete')) {
 			$object->pre_delete();
 		}
@@ -249,16 +249,16 @@ abstract class AdminCrudController extends AdminAngelController {
 		$this->reorder();
 
 		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->model . ' successfully deleted.</p>
+			<p>' . $this->Model . ' successfully deleted.</p>
 			<p><a href="'.$this->uri('restore/' . $object->id, true).'">Undo</a></p>
 		');
 	}
 
 	public function restore($id)
 	{
-		$model = App::make($this->model);
+		$Model = App::make($this->Model);
 
-		$object = $model::withTrashed()->find($id);
+		$object = $Model::withTrashed()->find($id);
 		if (method_exists($object, 'pre_restore')) {
 			$object->pre_restore();
 		}
@@ -267,15 +267,15 @@ abstract class AdminCrudController extends AdminAngelController {
 		$this->reorder();
 
 		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->model . ' successfully restored.</p>
+			<p>' . $this->Model . ' successfully restored.</p>
 		');
 	}
 
 	public function hard_delete($id, $ajax = false)
 	{
-		$model = App::make($this->model);
+		$Model = App::make($this->Model);
 
-		$object = $model::withTrashed()->findOrFail($id);
+		$object = $Model::withTrashed()->findOrFail($id);
 		if (method_exists($object, 'pre_hard_delete')) {
 			$object->pre_hard_delete();
 		}
@@ -286,7 +286,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		if ($ajax) return 1;
 
 		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->model . ' successfully deleted forever.</p>
+			<p>' . $this->Model . ' successfully deleted forever.</p>
 		');
 	}
 

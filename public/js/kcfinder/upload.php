@@ -4,7 +4,7 @@
   *
   *      @desc Upload calling script
   *   @package KCFinder
-  *   @version 3.0-dev
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -13,7 +13,7 @@
   */
 
 require "core/bootstrap.php";
-$uploader = "kcfinder\\uploader";  // To execute core/autoload.php on older
+$uploader = "kcfinder\\uploader";  // To execute core/bootstrap.php on older
 $uploader = new $uploader();       // PHP versions (even PHP 4)
 $uploader->upload();
 

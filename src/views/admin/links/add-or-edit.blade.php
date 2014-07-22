@@ -33,22 +33,20 @@
 				<tbody>
 					<tr>
 						<td>
+							<span class="required">*</span>
 							{{ Form::label('name', 'Name') }}
 						</td>
 						<td>
-							<div style="width:300px">
-								{{ Form::text('name', null, array('class'=>'form-control', 'placeholder'=>'Name')) }}
-							</div>
+							{{ Form::text('name', null, array('class'=>'form-control', 'placeholder'=>'Name', 'required')) }}
 						</td>
 					</tr>
 					<tr>
 						<td>
+							<span class="required">*</span>
 							{{ Form::label('url', 'URL') }}
 						</td>
 						<td>
-							<div>
-								{{ Form::text('url', null, array('class'=>'form-control', 'placeholder'=>'URL')) }}
-							</div>
+							{{ Form::text('url', null, array('class'=>'form-control', 'placeholder'=>'URL', 'required')) }}
 						</td>
 					</tr>
 				</tbody>

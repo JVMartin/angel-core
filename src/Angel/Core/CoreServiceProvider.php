@@ -37,8 +37,7 @@ class CoreServiceProvider extends ServiceProvider {
 			'angel::command.db.restore'
 		));
 
-		$bindings = Config::get('core::bindings');
-		foreach ($bindings as $name=>$class) {
+		foreach (Config::get('core::bindings') as $name=>$class) {
 			$this->app->singleton($name, function() use ($class) {
 				return new $class;
 			});

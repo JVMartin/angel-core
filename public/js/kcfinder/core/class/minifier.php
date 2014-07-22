@@ -1,5 +1,17 @@
 <?php
 
+/** This file is part of KCFinder project
+  *
+  *      @desc Minify JS & CSS
+  *   @package KCFinder
+  *   @version 3.12
+  *    @author Pavel Tzonkov <sunhater@sunhater.com>
+  * @copyright 2010-2014 KCFinder Project
+  *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
+  *   @license http://opensource.org/licenses/LGPL-3.0 LGPLv3
+  *      @link http://kcfinder.sunhater.com
+  */
+
 namespace kcfinder;
 
 class minifier {
@@ -7,12 +19,16 @@ class minifier {
     protected $config;
     protected $type = "js";
     protected $minCmd = "";
+    protected $mime = array(
+        'js' => "text/javascript",
+        'css' => "text/css"
+    );
 
     public function __construct($type=null) {
-        require "config.php";
+        require "conf/config.php";
         $this->config = $_CONFIG;
         $type = strtolower($type);
-        if (in_array($type, array("js", "css")))
+        if (isset($this->mime[$type]))
             $this->type = $type;
         if (isset($_CONFIG["_{$this->type}MinCmd"]))
             $this->minCmd = $_CONFIG["_{$this->type}MinCmd"];
@@ -26,7 +42,7 @@ class minifier {
         $mtFiles = array(
             __FILE__,
             $_SERVER['SCRIPT_FILENAME'],
-            "config.php"
+            "conf/config.php"
         );
 
         // GET SOURCE CODE FILES
@@ -43,11 +59,13 @@ class minifier {
                 $mtime = $fmtime;
         }
 
+        $header = "Content-Type: {$this->mime[$this->type]}";
+
         // GET SOURCE CODE FROM CLIENT HTTP CACHE IF EXISTS
-        httpCache::checkMTime($mtime);
+        httpCache::checkMTime($mtime, $header);
 
         // OUTPUT SOURCE CODE
-        header("Content-Type: text/{$this->type}; charset=utf-8");
+        header($header);
 
         // GET SOURCE CODE FROM SERVER-SIDE CACHE
         if (($cacheFile !== null) &&

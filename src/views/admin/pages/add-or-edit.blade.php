@@ -124,11 +124,12 @@
 					@endif
 					<tr>
 						<td>
+							<span class="required">*</span>
 							{{ Form::label('name', 'Name') }}
 						</td>
 						<td>
 							<div style="width:300px">
-								{{ Form::text('name', null, array('class'=>'form-control', 'placeholder'=>'Name')) }}
+								{{ Form::text('name', null, array('class'=>'form-control', 'placeholder'=>'Name', 'required')) }}
 							</div>
 						</td>
 					</tr>

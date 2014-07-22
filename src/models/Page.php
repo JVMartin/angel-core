@@ -36,9 +36,9 @@ class Page extends LinkableModel {
 	///////////////////////////////////////////////
 	public function changes()
 	{
-		$changeModel = App::make('Change');
+		$Change = App::make('Change');
 
-		return $changeModel::where('fmodel', 'Page')
+		return $Change::where('fmodel', 'Page')
 				   	       ->where('fid', $this->id)
 				   	       ->with('user')
 				   	       ->orderBy('created_at', 'DESC')
@@ -53,8 +53,8 @@ class Page extends LinkableModel {
 	public function pre_hard_delete()
 	{
 		parent::pre_hard_delete();
-		$changeModel = App::make('Change');
-		$changeModel::where('fmodel', 'Page')
+		$Change = App::make('Change');
+		$Change::where('fmodel', 'Page')
 			        ->where('fid', $this->id)
 			        ->delete();
 	}

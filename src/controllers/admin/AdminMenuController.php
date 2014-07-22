@@ -1,10 +1,10 @@
 <?php namespace Angel\Core;
 
-use App, Config, View, Form, Input;
+use App, Config, View, Form, Input, Redirect;
 
 class AdminMenuController extends AdminCrudController {
 
-	protected $model	= 'Menu';
+	protected $Model	= 'Menu';
 	protected $uri		= 'menus';
 	protected $plural	= 'menus';
 	protected $singular	= 'menu';
@@ -12,9 +12,9 @@ class AdminMenuController extends AdminCrudController {
 
 	public function index()
 	{
-		$menuModel = App::make('Menu');
+		$Menu = App::make('Menu');
 
-		$paginator = $menuModel::withTrashed()->with('menuItems');
+		$paginator = $Menu::withTrashed()->with('menuItems');
 		if (Config::get('core::languages')) {
 			$paginator = $paginator->where('language_id', $this->data['active_language']->id);
 		}
@@ -44,6 +44,28 @@ class AdminMenuController extends AdminCrudController {
 		return array(
 			'name' => 'required'
 		);
+	}
+
+	public function delete($id)
+	{
+		$Menu = App::make('Menu');
+		$MenuItem = App::make('MenuItem');
+
+		$menu = $Menu::findOrFail($id);
+
+		if ($MenuItem::where('child_menu_id', $menu->id)->count()) {
+			return Redirect::to($this->uri('edit/' . $menu->id))->withErrors('
+				You cannot delete a menu while it is another menu\'s child.
+			');
+		}
+
+		if ($MenuItem::whereNotNull('child_menu_id')->where('menu_id', $menu->id)->count()) {
+			return Redirect::to($this->uri('edit/' . $menu->id))->withErrors('
+				You cannot delete a menu while it has child menus.
+			');
+		}
+
+		return parent::delete($id);
 	}
 
 	/**

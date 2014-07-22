@@ -2,7 +2,7 @@
   *
   *      @desc Helper functions integrated in jQuery
   *   @package KCFinder
-  *   @version 3.0-dev
+  *   @version 3.12
   *    @author Pavel Tzonkov <sunhater@sunhater.com>
   * @copyright 2010-2014 KCFinder Project
   *   @license http://opensource.org/licenses/GPL-3.0 GPLv3
@@ -28,6 +28,22 @@
             field.selectionEnd = end;
         }
         field.focus();
+    };
+
+    $.fn.disableTextSelect = function() {
+        return this.each(function() {
+            if ($.agent.firefox) { // Firefox
+                $(this).css('MozUserSelect', "none");
+            } else if ($.agent.msie) { // IE
+                $(this).bind('selectstart', function() {
+                    return false;
+                });
+            } else { //Opera, etc.
+                $(this).mousedown(function() {
+                    return false;
+                });
+            }
+        });
     };
 
     $.fn.outerSpace = function(type, mbp) {
@@ -78,17 +94,70 @@
         return (this.outerTopSpace(mbp) + this.outerBottomSpace(mbp));
     };
 
-    $.$ = {
+    $.fn.fullscreen = function() {
+        if (!$(this).get(0))
+            return
+        var t = $(this).get(0),
+            requestMethod =
+                t.requestFullScreen ||
+                t.requestFullscreen ||
+                t.webkitRequestFullScreen ||
+                t.mozRequestFullScreen ||
+                t.msRequestFullscreen;
 
-        unselect: function() {
-            if (document.selection && document.selection.empty)
-                document.selection.empty() ;
-            else if (window.getSelection) {
-                var sel = window.getSelection();
-                if (sel && sel.removeAllRanges)
-                sel.removeAllRanges();
-            }
-        },
+        if (requestMethod)
+            requestMethod.call(t);
+
+        else if (typeof window.ActiveXObject !== "undefined") {
+            var wscript = new ActiveXObject("WScript.Shell");
+            if (wscript !== null)
+                wscript.SendKeys("{F11}");
+        }
+    };
+
+    $.fn.toggleFullscreen = function(doc) {
+        if ($.isFullscreen(doc))
+            $.exitFullscreen(doc);
+        else
+            $(this).fullscreen();
+    };
+
+    $.exitFullscreen = function(doc) {
+        var d = doc ? doc : document,
+            requestMethod =
+                d.cancelFullScreen ||
+                d.cancelFullscreen ||
+                d.webkitCancelFullScreen ||
+                d.mozCancelFullScreen ||
+                d.msExitFullscreen ||
+                d.exitFullscreen;
+
+        if (requestMethod)
+            requestMethod.call(d);
+
+        else if (typeof window.ActiveXObject !== "undefined") {
+            var wscript = new ActiveXObject("WScript.Shell");
+            if (wscript !== null)
+                wscript.SendKeys("{F11}");
+        }
+    };
+
+    $.isFullscreen = function(doc) {
+        var d = doc ? doc : document;
+        return (d.fullScreenElement && (d.fullScreenElement !== null)) ||
+               (d.fullscreenElement && (d.fullscreenElement !== null)) ||
+               (d.msFullscreenElement && (d.msFullscreenElement !== null)) ||
+               d.mozFullScreen || d.webkitIsFullScreen;
+    };
+
+    $.clearSelection = function() {
+        if (document.selection)
+            document.selection.empty();
+        else if (window.getSelection)
+            window.getSelection().removeAllRanges();
+    };
+
+    $.$ = {
 
         htmlValue: function(value) {
             return value
@@ -98,11 +167,13 @@
         },
 
         htmlData: function(value) {
-            return value
+            return value.toString()
                 .replace(/\&/g, "&amp;")
                 .replace(/\</g, "&lt;")
                 .replace(/\>/g, "&gt;")
-                .replace(/\ /g, "&nbsp;");
+                .replace(/\ /g, "&nbsp;")
+                .replace(/\"/g, "&quot;")
+                .replace(/\'/g, "&#39;");
         },
 
         jsValue: function(value) {
@@ -114,19 +185,21 @@
         },
 
         basename: function(path) {
-            return /^.*\/([^\/]+)\/?$/g.test(path)
+            var expr = /^.*\/([^\/]+)\/?$/g;
+            return expr.test(path)
                 ? path.replace(expr, "$1")
                 : path;
         },
 
         dirname: function(path) {
-            return /^(.*)\/[^\/]+\/?$/g.test(path)
+            var expr = /^(.*)\/[^\/]+\/?$/g;
+            return expr.test(path)
                 ? path.replace(expr, "$1")
                 : '';
         },
 
         inArray: function(needle, arr) {
-            if ((typeof arr == 'undefined') || !arr.length || !arr.push)
+            if (!$.isArray(arr))
                 return false;
             for (var i = 0; i < arr.length; i++)
                 if (arr[i] == needle)

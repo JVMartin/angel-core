@@ -4,7 +4,7 @@ use App, Input, Redirect;
 
 class AdminMenuItemController extends AdminCrudController {
 
-	protected $model	= 'MenuItem';
+	protected $Model	= 'MenuItem';
 	protected $uri		= 'menus/items';
 	protected $plural	= 'items';
 	protected $singular	= 'item';
@@ -12,11 +12,11 @@ class AdminMenuItemController extends AdminCrudController {
 
 	public function attempt_add()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$order = $menuItemModel::where('menu_id', Input::get('menu_id'))->count();
+		$order = $MenuItem::where('menu_id', Input::get('menu_id'))->count();
 
-		$menu_item = new $menuItemModel;
+		$menu_item = new $MenuItem;
 		$menu_item->order	= $order;
 		$menu_item->menu_id = Input::get('menu_id');
 		$menu_item->fmodel	= Input::get('fmodel');
@@ -33,10 +33,10 @@ class AdminMenuItemController extends AdminCrudController {
 	 */
 	public function order()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
 		$orders = Input::get('orders');
-		$menu_items = $menuItemModel::whereIn('id', array_keys($orders))->get();
+		$menu_items = $MenuItem::whereIn('id', array_keys($orders))->get();
 		foreach($menu_items as $menu_item) {
 			$menu_item->order = $orders[$menu_item->id];
 			//echo "Item: " . $menu_item->id . " | Order: " . $orders[$menu_item->id] . "\n";
@@ -47,9 +47,9 @@ class AdminMenuItemController extends AdminCrudController {
 
 	public function edit($id)
 	{
-		$menuModel = App::make('Menu');
+		$Menu = App::make('Menu');
 
-		$menus = $menuModel::all();
+		$menus = $Menu::all();
 		$menu_list = array(''=>'None');
 		foreach ($menus as $menu) {
 			$menu_list[$menu->id] = $menu->name;
@@ -65,14 +65,14 @@ class AdminMenuItemController extends AdminCrudController {
 	 */
 	public function validate_custom($id = null, &$errors)
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
 		//if (!$id) return array();
-		$menu_item = $menuItemModel::findOrFail($id);
+		$menu_item = $MenuItem::findOrFail($id);
 		if (Input::get('child_menu_id') == $menu_item->menu_id) {
 			$errors[] = 'The child menu cannot be the same as the parent menu.  A recursive loop would occur.';
 		}
-		if ($menuItemModel::where('child_menu_id', $menu_item->menu_id)->count()) {
+		if ($MenuItem::where('child_menu_id', $menu_item->menu_id)->count()) {
 			$errors[] = 'A child menu cannot have a child menu nested within it.';
 		}
 		if (!Input::get('child_menu_id')) {

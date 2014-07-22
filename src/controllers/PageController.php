@@ -6,9 +6,9 @@ class PageController extends AngelController {
 
 	public function show($url = 'home', $section = null)
 	{
-		$pageModel = App::make('Page');
+		$Page = App::make('Page');
 
-		$page = $pageModel::with('modules')->where('url', $url)->first();
+		$page = $Page::with('modules')->where('url', $url)->first();
 
 		if (!$page || !$page->is_published()) App::abort(404);
 
@@ -24,7 +24,7 @@ class PageController extends AngelController {
 
 	public function show_language($language_uri = 'en', $url = 'home', $section = null)
 	{
-		$pageModel = App::make('Page');
+		$Page = App::make('Page');
 
 		$language = $this->languages->filter(function ($language) use ($language_uri) {
 			return ($language->uri == $language_uri);
@@ -32,7 +32,7 @@ class PageController extends AngelController {
 
 		if (!$language) App::abort(404);
 
-		$page = $pageModel::with('modules')
+		$page = $Page::with('modules')
 						  ->where('language_id', $language->id)
 			              ->where('url', $url)
 					      ->first();

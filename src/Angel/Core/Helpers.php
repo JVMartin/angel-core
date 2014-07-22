@@ -11,3 +11,8 @@ function admin_uri($uri = '') {
 function admin_url($uri = '') {
 	return url(admin_uri($uri));
 }
+
+function short_name($object) {
+	$reflection = new ReflectionClass($object);
+	return $reflection->getShortName();
+}

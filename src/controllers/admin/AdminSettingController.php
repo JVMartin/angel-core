@@ -11,13 +11,13 @@ class AdminSettingController extends AdminAngelController {
 
 	public function update()
 	{
-		$settingModel = App::make('Setting');
+		$Setting = App::make('Setting');
 
-		foreach ($settingModel::currentSettings() as $key=>$setting) {
+		foreach ($Setting::currentSettings() as $key=>$setting) {
 			if (!Input::exists($key) || Input::get($key) === $setting['value']) continue;
-			$setting = $settingModel::find($key);
+			$setting = $Setting::find($key);
 			if (!$setting) {
-				$setting = new $settingModel;
+				$setting = new $Setting;
 				$setting->key = $key;
 			}
 			$setting->value = Input::get($key);

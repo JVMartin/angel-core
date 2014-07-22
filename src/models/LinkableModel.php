@@ -1,15 +1,14 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, Config;
+use Eloquent, App, Config, ReflectionClass;
 
-// NOTE: Always eager-load the language relationship when grabbing linkable models
+// NOTE: If languages are enabled, always eager-load the language relationship when grabbing linkable models.
 
 abstract class LinkableModel extends Eloquent {
 
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////
-	// All menu-linkable models must have a language associated
 	public function language()
 	{
 		return $this->belongsTo('Language');
@@ -18,29 +17,29 @@ abstract class LinkableModel extends Eloquent {
 	// Handling relationships in controller CRUD methods
 	public function pre_delete()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$menuItemModel::where('fmodel', get_class($this))
-				      ->where('fid', $this->id)
-				      ->delete();
+		$MenuItem::where('fmodel', short_name($this))
+				 ->where('fid', $this->id)
+				 ->delete();
 	}
 	public function pre_restore()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$menuItemModel::withTrashed()
-				      ->where('fmodel', get_class($this))
-				      ->where('fid', $this->id)
-				      ->restore();
+		$MenuItem::withTrashed()
+				 ->where('fmodel', short_name($this))
+				 ->where('fid', $this->id)
+				 ->restore();
 	}
 	public function pre_hard_delete()
 	{
-		$menuItemModel = App::make('MenuItem');
+		$MenuItem = App::make('MenuItem');
 
-		$menuItemModel::withTrashed()
-				      ->where('fmodel', get_class($this))
-				      ->where('fid', $this->id)
-				      ->forceDelete();
+		$MenuItem::withTrashed()
+				 ->where('fmodel', short_name($this))
+				 ->where('fid', $this->id)
+				 ->forceDelete();
 	}
 
 	///////////////////////////////////////////////

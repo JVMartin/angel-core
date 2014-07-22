@@ -32,27 +32,30 @@
 				<tbody>
 					<tr>
 						<td>
+							<span class="required">*</span>
 							{{ Form::label('type', 'Type') }}
 						</td>
 						<td>
-							{{ Form::select('type', $okay_types, null, array('class' => 'form-control')) }}
+							{{ Form::select('type', $okay_types, null, array('class' => 'form-control', 'required')) }}
 						</td>
 					</tr>
 					<tr>
 						<td>
+							<span class="required">*</span>
 							{{ Form::label('email', 'Email') }}
 						</td>
 						<td>
-							{{ Form::text('email', null, array('class'=>'form-control', 'placeholder'=>'Email')) }}
+							{{ Form::text('email', null, array('class'=>'form-control', 'placeholder'=>'Email', 'required')) }}
 						</td>
 					</tr>
 					<tr>
 						<td>
+							<span class="required">*</span>
 							{{ Form::label('username', 'Username') }}
 							<br />(4 - 16 characters)
 						</td>
 						<td>
-							{{ Form::text('username', null, array('class'=>'form-control', 'placeholder'=>'Username')) }}
+							{{ Form::text('username', null, array('class'=>'form-control', 'placeholder'=>'Username', 'required')) }}
 						</td>
 					</tr>
 					<tr>
@@ -74,19 +77,21 @@
 					@if ($action == 'add')
 						<tr>
 							<td>
+								<span class="required">*</span>
 								{{ Form::label('password', 'Password') }}
 								<br />(Min. 6 characters)
 							</td>
 							<td>
-								{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')) }}
+								{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password', 'required')) }}
 							</td>
 						</tr>
 						<tr>
 							<td>
+								<span class="required">*</span>
 								{{ Form::label('password_confirmation', 'Confirm Password') }}
 							</td>
 							<td>
-								{{ Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password')) }}
+								{{ Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password', 'required')) }}
 							</td>
 						</tr>
 					@endif
@@ -103,19 +108,21 @@
 					<tbody>
 						<tr>
 							<td>
+								<span class="required">*</span>
 								{{ Form::label('password', 'Password') }}
 								<br />(Min. 6 characters)
 							</td>
 							<td>
-								{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')) }}
+								{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password', 'required')) }}
 							</td>
 						</tr>
 						<tr>
 							<td>
+								<span class="required">*</span>
 								{{ Form::label('password_confirmation', 'Confirm Password') }}
 							</td>
 							<td>
-								{{ Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password')) }}
+								{{ Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password', 'required')) }}
 							</td>
 						</tr>
 					</tbody>
