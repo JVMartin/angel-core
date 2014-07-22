@@ -65,7 +65,7 @@ class DatabaseBackup extends Command {
 		chdir(base_path());
 		$this->info('Issuing command: ' . $command);
 		exec($command);
-		$this->info('...finished.  Dump placed in ' . base_path());
+		$this->info('...finished.  Dump placed in ' . base_path() . '/' . $database . '.sql');
 	}
 
 }
