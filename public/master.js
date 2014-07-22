@@ -105,3 +105,24 @@ function bindImageBrowsers() {
 	});
 }
 $(function() {bindImageBrowsers();});
+
+function bindFileBrowsers() {
+	// KCFinder browsing
+	$('.fileBrowse').click(function() {
+		var $self = $(this);
+		var $input = $self.parent().prev();
+		window.KCFinder = {};
+		window.KCFinder.callBack = function(url) {
+			if ($self.hasClass('fileBrowseAbsolute')) {
+				var base_url = config.base_url;
+				base_url = base_url.substring(0, base_url.length - 1); // Remove trailing slash
+				$input.val(base_url + url); // Absolute URL
+			} else {
+				$input.val(url); // Relative URL
+			}
+			window.KCFinder = null;
+		};
+		window.open('/packages/angel/core/js/kcfinder/browse.php?type=files', 'file_finder', 'width=1000,height=600');
+	});
+}
+$(function() {bindFileBrowsers();});
