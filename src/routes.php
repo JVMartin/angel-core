@@ -276,6 +276,11 @@ App::before(function() {
 });
 
 App::missing(function($exception) {
-	$controller = App::make('PageController');
-	return $controller->page_missing();
+	$PageController = App::make('PageController');
+	return $PageController->page_missing();
+});
+
+App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+	$PageController = App::make('PageController');
+	return $PageController->page_missing();
 });
