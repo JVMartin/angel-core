@@ -14,7 +14,7 @@
 <body>
 <div id="masterContainer" class="container">
 	@include('core::header')
-	@include('core::admin.alerts')
+	@include('core::alerts')
 	@yield('content')
 </div><!-- #masterContainer -->
 {{ HTML::script('packages/angel/core/js/jquery/jquery.min.js') }}
