@@ -47,6 +47,12 @@ class AngelController extends BaseController {
 				ToolBelt::print_queries();
 			});
 		}
+		if (Input::exists('flush_session')) {
+			Session::flush();
+		}
+		if (Input::exists('print_session')) {
+			ToolBelt::debug(Session::all());
+		}
 
 		///////////////////////////////////////////////
 		//           Global View Bindings            //
