@@ -29,6 +29,16 @@
 								</div>
 							</td>
 						</tr>
+						@if (Config::get('products::stripe'))
+							<tr>
+								<td></td>
+								<td>
+									<label>
+										{{ Form::checkbox('stripe', $settings['stripe']['value']) }} Stripe Production Mode
+									</label>
+								</td>
+							</tr>
+						@endif
 					</tbody>
 				</table>
 			</div>{{-- Left Column --}}

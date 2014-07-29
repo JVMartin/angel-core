@@ -17,7 +17,10 @@ class Setting extends Eloquent {
 					'default'	=> 'Default',
 					'slate'		=> 'Slate'
 				)
-			)
+			),
+			'stripe' => array( // 0 = Development, 1 = Production
+				'value' => 0
+			),
 		);
 	}
 
