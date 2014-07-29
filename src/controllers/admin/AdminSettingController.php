@@ -23,7 +23,7 @@ class AdminSettingController extends AdminAngelController {
 			$setting->value = Input::get($key);
 			$setting->save();
 		}
-		return Redirect::to(Config::get('core::admin_prefix') . '/settings')->with('success', 'Settings updated.');
+		return Redirect::to(admin_uri('settings'))->with('success', 'Settings updated.');
 	}
 
 }
