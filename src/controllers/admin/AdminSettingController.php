@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use View, App, Input, Redirect, Config;
+use View, App, Input, Redirect;
 
 class AdminSettingController extends AdminAngelController {
 
