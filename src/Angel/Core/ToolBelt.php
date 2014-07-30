@@ -19,4 +19,9 @@ class ToolBelt {
 		static::debug(Session::all());
 	}
 
+	static function pennies($dollars)
+	{
+		return str_replace('.', '', number_format((float)$dollars, 2, '.', ''));
+	}
+
 }
