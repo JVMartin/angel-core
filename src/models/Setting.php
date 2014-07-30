@@ -18,8 +18,8 @@ class Setting extends Eloquent {
 					'slate'		=> 'Slate'
 				)
 			),
-			'stripe' => array( // 0 = Development, 1 = Production
-				'value' => 0
+			'stripe' => array(
+				'value' => 'test'
 			),
 		);
 	}
