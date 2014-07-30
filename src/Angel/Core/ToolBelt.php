@@ -21,7 +21,7 @@ class ToolBelt {
 
 	static function pennies($dollars)
 	{
-		return str_replace('.', '', number_format((float)$dollars, 2, '.', ''));
+		return (int)str_replace('.', '', number_format((float)$dollars, 2, '.', ''));
 	}
 
 }
