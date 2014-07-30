@@ -37,7 +37,30 @@ class CoreServiceProvider extends ServiceProvider {
 			'angel::command.db.restore'
 		));
 
-		foreach (Config::get('core::bindings') as $name=>$class) {
+		$bindings = array(
+			// Models
+			'Change'                  => '\Angel\Core\Change',
+			'Language'                => '\Angel\Core\Language',
+			'Link'                    => '\Angel\Core\Link',
+			'Menu'                    => '\Angel\Core\Menu',
+			'MenuItem'                => '\Angel\Core\MenuItem',
+			'Page'                    => '\Angel\Core\Page',
+			'PageModule'              => '\Angel\Core\PageModule',
+			'Setting'                 => '\Angel\Core\Setting',
+
+			// Controllers
+			'AdminLanguageController' => '\Angel\Core\AdminLanguageController',
+			'AdminLinkController'     => '\Angel\Core\AdminLinkController',
+			'AdminMenuController'     => '\Angel\Core\AdminMenuController',
+			'AdminMenuItemController' => '\Angel\Core\AdminMenuItemController',
+			'AdminPageController'     => '\Angel\Core\AdminPageController',
+			'AdminSettingController'  => '\Angel\Core\AdminSettingController',
+			'AdminUserController'     => '\Angel\Core\AdminUserController',
+			'PageController'          => '\Angel\Core\PageController',
+			'UserController'          => '\Angel\Core\UserController'
+		);
+
+		foreach ($bindings as $name=>$class) {
 			$this->app->singleton($name, function() use ($class) {
 				return new $class;
 			});
