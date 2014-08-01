@@ -11,7 +11,6 @@ class UserController extends AngelController {
 
 	public function signout()
 	{
-		Session::flush();
 		Auth::logout();
 		return Redirect::to('signin')->with('success', 'You have been signed out.');
 	}
