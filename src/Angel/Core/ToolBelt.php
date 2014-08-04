@@ -19,6 +19,13 @@ class ToolBelt {
 		static::debug(Session::all());
 	}
 
+	/**
+	 * Convert dollars and cents to a number of pennies for Stripe usage.
+	 * i.e.:  $1044.22 -> 104422
+	 *
+	 * @param float $dollars
+	 * @return int - The number of pennies.
+	 */
 	static function pennies($dollars)
 	{
 		return (int)str_replace('.', '', number_format((float)$dollars, 2, '.', ''));
@@ -41,6 +48,8 @@ class ToolBelt {
 	 * Test if the MySQL version is greater than a given number.
 	 *
 	 * i.e.:  \ToolBelt::mysql_greater(5, 5, 10);  // Greater than 5.5.10?
+	 *
+	 * @return true/false
 	 */
 	static function mysql_greater($a, $b, $c)
 	{
