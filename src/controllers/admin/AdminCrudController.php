@@ -230,7 +230,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		$orders = Input::get('orders');
 		$objects = $Model::whereIn('id', array_keys($orders))->get();
-		foreach($objects as $object) {
+		foreach ($objects as $object) {
 			$object->order = $orders[$object->id];
 			$object->save();
 		}
