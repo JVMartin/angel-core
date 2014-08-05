@@ -17,6 +17,31 @@ class AdminPageController extends AdminCrudController {
 		'html'
 	);
 
+	// Columns to update on edit/add
+	protected static function columns()
+	{
+		$columns = array(
+			'name',
+			'url',
+			'html',
+			'js',
+			'css',
+			'title',
+			'meta_description',
+			'meta_keywords',
+			'og_type',
+			'og_image',
+			'twitter_card',
+			'twitter_image',
+			'published',
+			'published_range',
+			'published_start',
+			'published_end'
+		);
+		if (Config::get('core::languages')) $columns[] = 'language_id';
+		return $columns;
+	}
+
 	public function after_save($page, &$changes = array())
 	{
 		$PageModule = App::make('PageModule');

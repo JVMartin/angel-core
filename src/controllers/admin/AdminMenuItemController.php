@@ -10,6 +10,14 @@ class AdminMenuItemController extends AdminCrudController {
 	protected $singular	= 'item';
 	protected $package	= 'core';
 
+	// Columns to update/insert on edit/add
+	protected static function columns()
+	{
+		return array(
+			'child_menu_id'
+		);
+	}
+
 	public function attempt_add()
 	{
 		$MenuItem = App::make('MenuItem');

@@ -1,20 +1,10 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, Config, View;
+use Eloquent, App, View;
 
 class Menu extends Eloquent {
 
 	protected $softDelete = true;
-
-	// Columns to update/insert on edit/add
-	public static function columns()
-	{
-		$columns = array(
-			'name'
-		);
-		if (Config::get('core::languages')) $columns[] = 'language_id';
-		return $columns;
-	}
 
 	///////////////////////////////////////////////
 	//               Relationships               //

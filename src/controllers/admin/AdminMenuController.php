@@ -10,6 +10,16 @@ class AdminMenuController extends AdminCrudController {
 	protected $singular	= 'menu';
 	protected $package	= 'core';
 
+	// Columns to update on edit/add
+	protected static function columns()
+	{
+		$columns = array(
+			'name'
+		);
+		if (Config::get('core::languages')) $columns[] = 'language_id';
+		return $columns;
+	}
+
 	public function index()
 	{
 		$Menu = App::make('Menu');

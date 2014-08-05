@@ -10,6 +10,15 @@ class AdminLanguageController extends AdminCrudController {
 	protected $singular	= 'language';
 	protected $package	= 'core';
 
+	// Columns to update on edit/add
+	protected static function columns()
+	{
+		return array(
+			'name',
+			'uri'
+		);
+	}
+
 	public function validate_rules($id = null)
 	{
 		return array(

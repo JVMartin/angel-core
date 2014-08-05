@@ -6,31 +6,6 @@ class Page extends LinkableModel {
 
 	protected $softDelete = true;
 
-	// Columns to update/insert on edit/add
-	public static function columns()
-	{
-		$columns = array(
-			'name',
-			'url',
-			'html',
-			'js',
-			'css',
-			'title',
-			'meta_description',
-			'meta_keywords',
-			'og_type',
-			'og_image',
-			'twitter_card',
-			'twitter_image',
-			'published',
-			'published_range',
-			'published_start',
-			'published_end'
-		);
-		if (Config::get('core::languages')) $columns[] = 'language_id';
-		return $columns;
-	}
-
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////

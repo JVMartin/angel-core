@@ -22,6 +22,12 @@ abstract class AdminCrudController extends AdminAngelController {
 	protected $reorderable = true;
 	*/
 
+	// Columns to update on edit/add
+	protected static function columns()
+	{
+		return array();
+	}
+
 	public function index()
 	{
 		$Model = App::make($this->Model);
@@ -83,7 +89,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 
 		$object = new $Model;
-		foreach($Model::columns() as $column) {
+		foreach(static::columns() as $column) {
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
 		if (isset($this->slug) && $this->slug) {
@@ -135,7 +141,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		$object = $Model::withTrashed()->findOrFail($id);
 		$changes = array();
 
-		foreach ($Model::columns() as $column) {
+		foreach (static::columns() as $column) {
 
 			$new_value = array_key_exists($column, $custom) ? $custom[$column] : Input::get($column);
 

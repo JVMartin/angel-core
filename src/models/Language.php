@@ -4,15 +4,6 @@ use Eloquent, Config;
 
 class Language extends Eloquent {
 
-	// Columns to update/insert on edit/add
-	public static function columns()
-	{
-		return array(
-			'name',
-			'uri'
-		);
-	}
-
 	///////////////////////////////////////////////
 	//                  Other                    //
 	///////////////////////////////////////////////
