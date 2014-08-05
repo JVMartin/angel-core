@@ -238,6 +238,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		return 1;
 	}
 
+	/**
+	 * Called after delete/restore/etc. to ensure that the 'gap' in orders is filled in.
+	 */
 	public function reorder()
 	{
 		$Model = App::make($this->Model);
