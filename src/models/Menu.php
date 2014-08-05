@@ -52,7 +52,7 @@ class Menu extends Eloquent {
 		});
 	}
 
-	private function modelsToFetch($menuItems, $fetchModels = array(), $goDeeper = true)
+	protected function modelsToFetch($menuItems, $fetchModels = array(), $goDeeper = true)
 	{
 		foreach ($menuItems as $menuItem) {
 			if (!isset($fetchModels[$menuItem->fmodel])) {

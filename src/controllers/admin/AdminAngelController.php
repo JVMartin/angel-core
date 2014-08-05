@@ -52,7 +52,7 @@ class AdminAngelController extends AngelController {
 	 * @param string $name - The string to sluggify.
 	 * @return string $slug - The sluggified string.
 	 */
-	private function sluggify($name)
+	protected function sluggify($name)
 	{
 		$slug = strtolower($name);
 		$slug = strip_tags($slug);
