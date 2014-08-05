@@ -1,14 +1,9 @@
 <?php namespace Angel\Core;
 
-use BaseController,
-	Mobile_Detect,
-	Input,
-	Session,
-	App,
-	Config,
-	ToolBelt;
+use Mobile_Detect, ToolBelt;
+use Input, Session, App, Config;
 
-class AngelController extends BaseController {
+class AngelController extends \BaseController {
 
 	protected $settings;
 
