@@ -9,6 +9,7 @@ Table of Contents
 * [Configuration](#configuration)
 * [Extending the Core](#extending-the-core)
 * [Using Slugs](#using-slugs)
+* [Develop Modules](#develop-modules)
 
 Try It
 ------
@@ -217,4 +218,45 @@ $article->save();
 Similarly, from any controller that extends `\Angel\Core\AdminAngelController` or a descendant of it:
 ```php
 $slug = $this->sluggify('String to sluggify!'); // Returns 'string-to-sluggify'
+```
+
+Develop Modules
+---------------
+Here is where we'll put code snippets for developing modules.
+
+### Reorderable Indexes
+
+Assume we're developing a `persons` module.
+
+First, make sure that `AdminPersonsController` extends `\Angel\Core\AdminCrudController` and has the property `protected $reorderable = true;`.
+
+```php
+// module/src/views/admin/module/index.blade.php
+@section('js')
+    {{ HTML::script('packages/angel/core/js/jquery/jquery-ui.min.js') }}
+    <script>
+    	$(function() {
+            $('tbody').sortable(sortObj);
+    	});
+    </script>
+@stop
+@section('content')
+    <table class="table table-striped">
+        <tbody data-url="persons/order"><!-- This data-url is appended to the admin url and posted. -->
+            @foreach ($persons as $person)
+                <tr>
+                    {{ Form::hidden(null, $person->order, array('class'=>'orderInput')) }}
+                    <button type="button" class="btn btn-xs btn-default handle">
+                        <span class="glyphicon glyphicon-resize-vertical"></span>
+                    </button>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@stop
+
+// module/src/routes.php
+Route::group(array('prefix' => admin_uri('persons'), 'before' => 'admin'), function() {
+	Route::post('order', 'AdminPersonsController@order');
+});
 ```
