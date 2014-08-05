@@ -216,6 +216,12 @@ abstract class AdminCrudController extends AdminAngelController {
 		return array();
 	}
 
+	/**
+	 * This method is called after the model is saved in add() and edit()
+	 *
+	 * @param $object - The instance of the model being saved.
+	 * @param array $changes - The array of changes.
+	 */
 	public function after_save($object, &$changes = array())
 	{
 		//
