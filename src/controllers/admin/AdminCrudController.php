@@ -221,6 +221,23 @@ abstract class AdminCrudController extends AdminAngelController {
 		//
 	}
 
+	/**
+	 * AJAX for reordering menu items
+	 */
+	public function order()
+	{
+		$Model = App::make($this->Model);
+
+		$orders = Input::get('orders');
+		$objects = $Model::whereIn('id', array_keys($orders))->get();
+		foreach($objects as $object) {
+			$object->order = $orders[$object->id];
+			$object->save();
+		}
+
+		return 1;
+	}
+
 	public function reorder()
 	{
 		$Model = App::make($this->Model);
