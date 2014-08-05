@@ -226,12 +226,12 @@ Here is where we'll put code snippets for developing modules.
 
 ### Reorderable Indexes
 
-Assume we're developing a `persons` module.
+Assume we're developing a `persons` module package.
 
 First, make sure that `AdminPersonsController` extends `\Angel\Core\AdminCrudController` and has the property `protected $reorderable = true;`.
 
 ```php
-// module/src/views/admin/module/index.blade.php
+// persons/src/views/admin/persons/index.blade.php
 @section('js')
     {{ HTML::script('packages/angel/core/js/jquery/jquery-ui.min.js') }}
     <script>
@@ -255,7 +255,7 @@ First, make sure that `AdminPersonsController` extends `\Angel\Core\AdminCrudCon
     </table>
 @stop
 
-// module/src/routes.php
+// persons/src/routes.php
 Route::group(array('prefix' => admin_uri('persons'), 'before' => 'admin'), function() {
 	Route::post('order', 'AdminPersonsController@order');
 });
