@@ -149,6 +149,8 @@ App::singleton('PageController', function() {
 });
 ```
 
+Do a `composer dump-autoload`.
+
 Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
 
 
