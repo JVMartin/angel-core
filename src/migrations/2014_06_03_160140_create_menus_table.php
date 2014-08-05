@@ -30,7 +30,7 @@ class CreateMenusTable extends Migration {
 		// Create the main menu
 		DB::table('menus')->insert(
 			array(
-				'name' 			=> 'Main Menu',
+				'name' 			=> 'Main',
 				'created_at'	=> Carbon::now(),
 				'updated_at' 	=> Carbon::now()
 			)
