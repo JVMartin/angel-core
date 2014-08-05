@@ -19,6 +19,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		'name',
 		'html'
 	);
+	protected $reorderable = true;
 	*/
 
 	public function index()
@@ -47,7 +48,7 @@ abstract class AdminCrudController extends AdminAngelController {
 			}
 		}
 
-		if (isset($Model->reorderable) && $Model->reorderable) {
+		if (isset($this->reorderable) && $this->reorderable) {
 			$this->data[$this->plural] = $objects->orderBy('order')->get();
 		} else {
 			$paginator = $objects->paginate();
@@ -88,7 +89,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		if (isset($this->slug) && $this->slug) {
 			$object->slug = $this->slug($Model, 'slug', $object->{$this->slug});
 		}
-		if (isset($object->reorderable) && $object->reorderable) {
+		if (isset($this->reorderable) && $this->reorderable) {
 			$object->order = $Model::count();
 		}
 		$object->save();
@@ -250,8 +251,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function reorder()
 	{
 		$Model = App::make($this->Model);
-		$object = new $Model;
-		if (!isset($object->reorderable) || !$object->reorderable) return;
+		if (!isset($this->reorderable) || !$this->reorderable) return;
 
 		$objects = $Model::orderBy('order')->get();
 
