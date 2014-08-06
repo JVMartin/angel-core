@@ -97,9 +97,9 @@
 	@endif
 
 	@if ($action == 'edit')
-		{{ Form::model($page) }}
+		{{ Form::model($page, array('role'=>'form')) }}
 	@elseif ($action == 'add')
-		{{ Form::open(array('role'=>'form', 'method'=>'post')) }}
+		{{ Form::open(array('role'=>'form')) }}
 	@endif
 
 	@if (isset($menu_id))
