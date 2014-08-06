@@ -24,9 +24,9 @@
 			@endif
 		@endif
 		@if ($action == 'edit')
-			{{ Form::model($edit_user) }}
+			{{ Form::model($edit_user, array('role'=>'form')) }}
 		@elseif ($action == 'add')
-			{{ Form::open(array('role'=>'form', 'method'=>'post')) }}
+			{{ Form::open(array('role'=>'form')) }}
 		@endif
 			<table class="table table-striped">
 				<tbody>

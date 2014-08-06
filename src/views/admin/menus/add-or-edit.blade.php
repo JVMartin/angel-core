@@ -24,9 +24,9 @@
 	<div class="row">
 		<div class="col-sm-10">
 			@if ($action == 'edit')
-				{{ Form::model($menu) }}
+				{{ Form::model($menu, array('role'=>'form')) }}
 			@elseif ($action == 'add')
-				{{ Form::open(array('role'=>'form', 'method'=>'post')) }}
+				{{ Form::open(array('role'=>'form')) }}
 			@endif
 				<table class="table table-striped">
 					<tbody>

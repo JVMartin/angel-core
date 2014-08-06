@@ -18,7 +18,7 @@
 
 @section('content')
 	<h1>Settings</h1>
-	{{ Form::open(array('role'=>'form', 'method'=>'post')) }}
+	{{ Form::open(array('role'=>'form')) }}
 		<div class="row">
 			<div class="col-md-9">
 				<table class="table table-striped">

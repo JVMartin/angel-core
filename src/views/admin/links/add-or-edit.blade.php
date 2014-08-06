@@ -18,9 +18,9 @@
 	@endif
 
 	@if ($action == 'edit')
-		{{ Form::model($link) }}
+		{{ Form::model($link, array('role'=>'form')) }}
 	@elseif ($action == 'add')
-		{{ Form::open(array('role'=>'form', 'method'=>'post')) }}
+		{{ Form::open(array('role'=>'form')) }}
 	@endif
 
 	@if (isset($menu_id))
