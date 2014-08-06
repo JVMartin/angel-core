@@ -56,7 +56,7 @@ class AdminMenuController extends AdminCrudController {
 		);
 	}
 
-	public function delete($id)
+	public function delete($id, $ajax = null)
 	{
 		$Menu = App::make('Menu');
 		$MenuItem = App::make('MenuItem');
