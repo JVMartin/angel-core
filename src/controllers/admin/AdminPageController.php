@@ -12,9 +12,10 @@ class AdminPageController extends AdminCrudController {
 
 	protected $log_changes = true;
 	protected $searchable  = array(
+		'name',
 		'url',
 		'title',
-		'html'
+		'plaintext'
 	);
 
 	// Columns to update on edit/add

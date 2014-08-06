@@ -42,7 +42,7 @@ class CreatePagesTable extends Migration {
 			}
 
 			if (ToolBelt::mysql_greater(5, 6, 4)) {
-				DB::statement('ALTER TABLE `pages` ADD FULLTEXT search(`name`, `plaintext`, `meta_description`, `meta_keywords`)');
+				DB::statement('ALTER TABLE `pages` ADD FULLTEXT search(`name`, `url`, `plaintext`, `meta_description`, `meta_keywords`)');
 			}
 		});
 
