@@ -46,6 +46,7 @@ class AdminPageController extends AdminCrudController {
 	{
 		$PageModule = App::make('PageModule');
 
+		// Update changes to PageModules and log the changes.
 		if (!$changes) $changes = array();
 		$input_modules = Input::get('modules');
 		$input_moduleNames = Input::get('moduleNames');
