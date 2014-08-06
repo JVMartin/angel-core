@@ -44,6 +44,9 @@ class AdminPageController extends AdminCrudController {
 
 	public function after_save($page, &$changes = array())
 	{
+		$page->plaintext = strip_tags($page->html);
+		$page->save();
+
 		$PageModule = App::make('PageModule');
 
 		// Update changes to PageModules and log the changes.
