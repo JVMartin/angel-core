@@ -283,8 +283,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		if ($ajax) return 1;
 
 		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->Model . ' successfully deleted.</p>
-			<p><a href="'.$this->uri('restore/' . $object->id, true).'">Undo</a></p>
+			<p>' . $this->Model . ' successfully deleted forever.</p>
 		');
 	}
 
