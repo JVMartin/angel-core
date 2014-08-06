@@ -34,7 +34,6 @@ class CreatePagesTable extends Migration {
 			$table->timestamp('published_start');
 			$table->timestamp('published_end');
 			$table->timestamps(); // Adds `created_at` and `updated_at` columns
-			$table->softDeletes(); // Adds `deleted_at` column
 
 			if (Config::get('core::languages')) {
 				$table->integer('language_id')->unsigned()->default(1);

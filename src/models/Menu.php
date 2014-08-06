@@ -4,8 +4,6 @@ use Eloquent, App, View;
 
 class Menu extends Eloquent {
 
-	protected $softDelete = true;
-
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////

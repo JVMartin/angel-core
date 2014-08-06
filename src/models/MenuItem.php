@@ -6,8 +6,6 @@ class MenuItem extends Eloquent {
 
 	protected $table = 'menus_items';
 
-	protected $softDelete = true;
-
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////

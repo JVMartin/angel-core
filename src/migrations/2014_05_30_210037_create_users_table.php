@@ -25,7 +25,6 @@ class CreateUsersTable extends Migration {
 			$table->string('password');
 			$table->string('remember_token')->nullable();
 			$table->timestamps(); // Adds `created_at` and `updated_at` columns
-			$table->softDeletes(); // Adds `deleted_at` column
 
 			$table->unique('email');
 			$table->unique('username');

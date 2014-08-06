@@ -45,7 +45,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			@foreach($menus as $menu)
-				<div class="panel {{ $menu->deleted_at ? 'panel-danger' : 'panel-default' }}">
+				<div class="panel">
 					<div class="panel-heading">
 						<h3>
 							<a href="{{ admin_url('menus/edit/' . $menu->id) }}" class="btn btn-xs btn-default">
@@ -55,15 +55,11 @@
 						</h3>
 					</div>
 					<div class="panel-body" data-id="{{ $menu->id }}">
-						@if (!$menu->deleted_at)
-							@include('core::admin.menus.items.index')
-							<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
-								<span class="glyphicon glyphicon-plus"></span>
-								Add Link
-							</button>
-						@else
-							<em>Restore to view</em>
-						@endif
+						@include('core::admin.menus.items.index')
+						<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
+							<span class="glyphicon glyphicon-plus"></span>
+							Add Link
+						</button>
 					</div>
 				</div>
 			@endforeach

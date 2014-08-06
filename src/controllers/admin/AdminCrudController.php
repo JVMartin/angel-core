@@ -268,7 +268,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 	}
 
-	public function delete($id)
+	public function delete($id, $ajax = false)
 	{
 		$Model = App::make($this->Model);
 
@@ -280,45 +280,11 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		$this->reorder();
 
-		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->Model . ' successfully deleted.</p>
-			<p><a href="'.$this->uri('restore/' . $object->id, true).'">Undo</a></p>
-		');
-	}
-
-	public function restore($id)
-	{
-		$Model = App::make($this->Model);
-
-		$object = $Model::withTrashed()->find($id);
-		if (method_exists($object, 'pre_restore')) {
-			$object->pre_restore();
-		}
-		$object->restore();
-
-		$this->reorder();
-
-		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->Model . ' successfully restored.</p>
-		');
-	}
-
-	public function hard_delete($id, $ajax = false)
-	{
-		$Model = App::make($this->Model);
-
-		$object = $Model::withTrashed()->findOrFail($id);
-		if (method_exists($object, 'pre_hard_delete')) {
-			$object->pre_hard_delete();
-		}
-		$object->forceDelete();
-
-		$this->reorder();
-
 		if ($ajax) return 1;
 
 		return Redirect::to($this->uri())->with('success', '
-			<p>' . $this->Model . ' successfully deleted forever.</p>
+			<p>' . $this->Model . ' successfully deleted.</p>
+			<p><a href="'.$this->uri('restore/' . $object->id, true).'">Undo</a></p>
 		');
 	}
 

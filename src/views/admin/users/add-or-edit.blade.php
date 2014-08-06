@@ -7,21 +7,12 @@
 	<div class="col-md-7 col-sm-8">
 		<h1>{{ ucfirst($action) }} User</h1>
 		@if ($action == 'edit' && $edit_user != Auth::user())
-			@if (!$edit_user->deleted_at)
-				{{ Form::open(array('role'=>'form',
-									'url'=>admin_uri('users/delete/'.$edit_user->id),
-									'style'=>'margin-bottom:15px;')) }}
-					<input type="submit" class="btn btn-sm btn-danger" value="Delete" />
-				{{ Form::close() }}
-			@else
-				{{ Form::open(array('role'=>'form',
-									'url'=>admin_uri('users/hard-delete/'.$edit_user->id),
-									'class'=>'deleteForm',
-									'data-confirm'=>'Delete this user forever?')) }}
-					<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
-				{{ Form::close() }}
-				<a href="{{ admin_url('users/restore/'.$edit_user->id) }}" class="btn btn-sm btn-success">Restore</a>
-			@endif
+			{{ Form::open(array('role'=>'form',
+								'url'=>admin_uri('users/hard-delete/'.$edit_user->id),
+								'class'=>'deleteForm',
+								'data-confirm'=>'Delete this user forever?')) }}
+				<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
+			{{ Form::close() }}
 		@endif
 		@if ($action == 'edit')
 			{{ Form::model($edit_user, array('role'=>'form')) }}

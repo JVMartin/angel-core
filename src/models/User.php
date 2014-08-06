@@ -5,8 +5,6 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
-	protected $softDelete = true;
-
 	/**
 	 * This is where you can add user types.
 	 *

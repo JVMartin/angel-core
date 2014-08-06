@@ -28,7 +28,7 @@
 			</thead>
 			<tbody>
 			@foreach($languages as $language)
-				<tr{{ $language->deleted_at ? ' class="deleted"' : '' }}>
+				<tr>
 					<td>
 						<a href="{{ admin_url('languages/edit/' . $language->id) }}" class="btn btn-xs btn-default">
 							<span class="glyphicon glyphicon-edit"></span>

@@ -39,7 +39,7 @@
 				</thead>
 				<tbody>
 				@foreach($link_models as $link)
-					<tr{{ $link->deleted_at ? ' class="deleted"' : '' }}>
+					<tr>
 						<td>
 							<a href="{{ $link->link_edit() }}" class="btn btn-xs btn-default">
 								<span class="glyphicon glyphicon-edit"></span>

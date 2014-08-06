@@ -67,16 +67,14 @@
 				</thead>
 				<tbody>
 				@foreach ($pages as $page)
-					<tr{{ $page->deleted_at ? ' class="deleted"' : '' }}>
+					<tr>
 						<td>
 							<a href="{{ $page->link_edit() }}" class="btn btn-xs btn-default">
 								<span class="glyphicon glyphicon-edit"></span>
 							</a>
-							@if (!$page->deleted_at)
-								<a href="{{ $page->link() }}" class="btn btn-xs btn-info" target="_blank">
-									<span class="glyphicon glyphicon-eye-open"></span>
-								</a>
-							@endif
+							<a href="{{ $page->link() }}" class="btn btn-xs btn-info" target="_blank">
+								<span class="glyphicon glyphicon-eye-open"></span>
+							</a>
 						</td>
 						@if (Config::get('core::languages') && !$single_language)
 							<td>{{ Form::checkbox('ids[]', $page->id, false, array('class'=>'idCheckbox')) }}</td>

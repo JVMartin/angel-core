@@ -4,8 +4,6 @@ use App, Config;
 
 class Page extends LinkableModel {
 
-	protected $softDelete = true;
-
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////
@@ -25,9 +23,9 @@ class Page extends LinkableModel {
 	}
 
 	// Handling relationships in controller CRUD methods
-	public function pre_hard_delete()
+	public function pre_delete()
 	{
-		parent::pre_hard_delete();
+		parent::pre_delete();
 		$Change = App::make('Change');
 		$Change::where('fmodel', 'Page')
 			        ->where('fid', $this->id)

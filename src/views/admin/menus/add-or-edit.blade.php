@@ -5,21 +5,12 @@
 @section('content')
 	<h1>{{ ucfirst($action) }} Menu</h1>
 	@if ($action == 'edit')
-		@if (!$menu->deleted_at)
-			{{ Form::open(array('role'=>'form',
-								'url'=>admin_uri('menus/delete/'.$menu->id),
-								'style'=>'margin-bottom:15px;')) }}
-				<input type="submit" class="btn btn-sm btn-danger" value="Delete" />
-			{{ Form::close() }}
-		@else
-			{{ Form::open(array('role'=>'form',
-								'url'=>admin_uri('menus/hard-delete/'.$menu->id),
-								'class'=>'deleteForm',
-								'data-confirm'=>'Delete this menu forever?')) }}
-				<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
-			{{ Form::close() }}
-			<a href="{{ admin_url('menus/restore/'.$menu->id) }}" class="btn btn-sm btn-success">Restore</a>
-		@endif
+		{{ Form::open(array('role'=>'form',
+							'url'=>admin_uri('menus/hard-delete/'.$menu->id),
+							'class'=>'deleteForm',
+							'data-confirm'=>'Delete this menu forever?')) }}
+			<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
+		{{ Form::close() }}
 	@endif
 	<div class="row">
 		<div class="col-sm-10">

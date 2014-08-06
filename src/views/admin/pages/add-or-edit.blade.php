@@ -79,21 +79,12 @@
 @section('content')
 	<h1>{{ ucfirst($action) }} Page</h1>
 	@if ($action == 'edit')
-		@if (!$page->deleted_at)
-			{{ Form::open(array('role'=>'form',
-								'url'=>admin_uri('pages/delete/'.$page->id),
-								'style'=>'margin-bottom:15px;')) }}
-				<input type="submit" class="btn btn-sm btn-danger" value="Delete" />
-			{{ Form::close() }}
-		@else
-			{{ Form::open(array('role'=>'form',
-								'url'=>admin_uri('pages/hard-delete/'.$page->id),
-								'class'=>'deleteForm',
-								'data-confirm'=>'Delete this page forever?  This action cannot be undone!')) }}
-				<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
-			{{ Form::close() }}
-			<a href="{{ admin_url('pages/restore/'.$page->id) }}" class="btn btn-sm btn-success">Restore</a>
-		@endif
+		{{ Form::open(array('role'=>'form',
+							'url'=>admin_uri('pages/hard-delete/'.$page->id),
+							'class'=>'deleteForm',
+							'data-confirm'=>'Delete this page forever?  This action cannot be undone!')) }}
+			<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
+		{{ Form::close() }}
 	@endif
 
 	@if ($action == 'edit')

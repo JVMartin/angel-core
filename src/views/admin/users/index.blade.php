@@ -42,7 +42,7 @@
 			</thead>
 			<tbody>
 			@foreach($users as $user)
-				<tr{{ $user->deleted_at ? ' class="deleted"' : '' }}>
+				<tr>
 					<td>
 						<a href="{{ admin_url('users/edit/' . $user->id) }}" class="btn btn-xs btn-default">
 							<span class="glyphicon glyphicon-edit"></span>
