@@ -80,7 +80,7 @@
 	<h1>{{ ucfirst($action) }} Page</h1>
 	@if ($action == 'edit')
 		{{ Form::open(array('role'=>'form',
-							'url'=>admin_uri('pages/hard-delete/'.$page->id),
+							'url'=>admin_uri('pages/delete/'.$page->id),
 							'class'=>'deleteForm',
 							'data-confirm'=>'Delete this page forever?  This action cannot be undone!')) }}
 			<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />

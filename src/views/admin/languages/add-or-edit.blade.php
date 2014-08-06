@@ -6,7 +6,7 @@
 	<h1>{{ ucfirst($action) }} Language</h1>
 	@if ($action == 'edit')
 		{{ Form::open(array('role'=>'form',
-							'url'=>admin_uri('languages/hard-delete/'.$language->id),
+							'url'=>admin_uri('languages/delete/'.$language->id),
 							'class'=>'deleteForm',
 							'data-confirm'=>"WARNING:\nYou are about to delete an entire language and all related content irretrievably.\nAre you sure you want to do this?")) }}
 			<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />

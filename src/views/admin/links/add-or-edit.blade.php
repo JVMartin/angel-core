@@ -10,7 +10,7 @@
 	<h1>{{ ucfirst($action) }} Link</h1>
 	@if ($action == 'edit')
 		{{ Form::open(array('role'=>'form',
-							'url'=>admin_uri('links/hard-delete/'.$link->id),
+							'url'=>admin_uri('links/delete/'.$link->id),
 							'class'=>'deleteForm',
 							'data-confirm'=>'Delete this link forever?  This action cannot be undone!')) }}
 			<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />

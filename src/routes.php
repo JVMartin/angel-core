@@ -42,13 +42,6 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 			'before' => 'csrf',
 			'uses' => $controller . '@delete'
 		));
-		Route::post('hard-delete/{id}', array(
-			'before' => 'csrf',
-			'uses' => $controller . '@hard_delete'
-		));
-		Route::get('restore/{id}', array(
-			'uses' => $controller . '@restore'
-		));
 	});
 
 	//------------------------
@@ -91,9 +84,9 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 				'before' => 'csrf',
 				'uses' => $controller . '@attempt_edit'
 			));
-			Route::post('hard-delete/{id}', array(
+			Route::post('delete/{id}', array(
 				'before' => 'csrf',
-				'uses' => $controller . '@hard_delete'
+				'uses' => $controller . '@delete'
 			));
 		});
 		// Any admin can change their active (editing) language... not just super admin
@@ -130,9 +123,9 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 			'before' => 'csrf',
 			'uses' => $controller . '@delete'
 		));
-		Route::post('hard-delete/{id}', array(
+		Route::post('delete/{id}', array(
 			'before' => 'csrf',
-			'uses' => $controller . '@hard_delete'
+			'uses' => $controller . '@delete'
 		));
 		Route::get('restore/{id}', array(
 			'uses' => $controller . '@restore'
@@ -171,14 +164,6 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 			'before' => 'csrf',
 			'uses' => $controller . '@delete'
 		));
-		Route::post('hard-delete/{id}', array(
-			'before' => 'csrf',
-			'uses' => $controller . '@hard_delete'
-		));
-		Route::get('restore/{id}', array(
-			'before' => 'admin',
-			'uses' => $controller . '@restore'
-		));
 		Route::post('model-drop-down', array( // AJAX
 			'uses' => $controller . '@model_drop_down'
 		));
@@ -203,8 +188,8 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 				'before' => 'csrf',
 				'uses' => $controller . '@attempt_edit'
 			));
-			Route::post('hard-delete/{id}/{ajax?}', array( // AJAX
-				'uses' => $controller . '@hard_delete'
+			Route::post('delete/{id}/{ajax?}', array( // AJAX
+				'uses' => $controller . '@delete'
 			));
 		});
 	});
@@ -233,9 +218,9 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 			'before' => 'csrf',
 			'uses' => $controller . '@attempt_edit'
 		));
-		Route::post('hard-delete/{id}', array(
+		Route::post('delete/{id}', array(
 			'before' => 'csrf',
-			'uses' => $controller . '@hard_delete'
+			'uses' => $controller . '@delete'
 		));
 	});
 });

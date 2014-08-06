@@ -6,7 +6,7 @@
 	<h1>{{ ucfirst($action) }} Menu</h1>
 	@if ($action == 'edit')
 		{{ Form::open(array('role'=>'form',
-							'url'=>admin_uri('menus/hard-delete/'.$menu->id),
+							'url'=>admin_uri('menus/delete/'.$menu->id),
 							'class'=>'deleteForm',
 							'data-confirm'=>'Delete this menu forever?')) }}
 			<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />

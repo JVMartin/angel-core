@@ -56,7 +56,7 @@ $(function() {
 	$(".deleteLink").click(function() {
 		if (!confirm("Delete this link?")) return;
 		var $tr = $(this).closest('tr');
-		$.post(config.admin_url+"menus/items/hard-delete/"+$tr.data('id')+"/1", {}, function(data) {
+		$.post(config.admin_url+"menus/items/delete/"+$tr.data('id')+"/1", {}, function(data) {
 			if (data != 1) {
 				alert('There was an error connecting to our servers.');
 				console.log(data);

@@ -8,7 +8,7 @@
 		<h1>{{ ucfirst($action) }} User</h1>
 		@if ($action == 'edit' && $edit_user != Auth::user())
 			{{ Form::open(array('role'=>'form',
-								'url'=>admin_uri('users/hard-delete/'.$edit_user->id),
+								'url'=>admin_uri('users/delete/'.$edit_user->id),
 								'class'=>'deleteForm',
 								'data-confirm'=>'Delete this user forever?')) }}
 				<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
