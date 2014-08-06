@@ -20,6 +20,7 @@ class CreatePagesTable extends Migration {
 			$table->string('name');
 			$table->string('url');
 			$table->text('html');
+			$table->text('plaintext');
 			$table->text('js');
 			$table->text('css');
 			$table->string('title');
@@ -38,6 +39,10 @@ class CreatePagesTable extends Migration {
 			if (Config::get('core::languages')) {
 				$table->integer('language_id')->unsigned()->default(1);
 				$table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
+			}
+
+			if (ToolBelt::mysql_greater(5, 6, 4)) {
+				DB::statement('ALTER TABLE `pages` ADD FULLTEXT search(`name`, `plaintext`, `meta_description`, `meta_keywords`)');
 			}
 		});
 
