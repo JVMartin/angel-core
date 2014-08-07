@@ -84,7 +84,7 @@
 				var $newModule = $module.clone();
 				ckMe++;
 				$newModule.find('.ckeditor').attr('id', 'ckMe'+ckMe);
-				$('.modules').append($newModule);
+				$('#modules').append($newModule);
 				CKEDITOR.replace('ckMe'+ckMe);
 				fixModules();
 			});
