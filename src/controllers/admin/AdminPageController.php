@@ -127,7 +127,6 @@ class AdminPageController extends AdminCrudController {
 	{
 		if ($this->url_taken($id)) {
 			$errors[] = 'A page with that URL in this language already exists.';
-			return array();
 		}
 
 		$published_start = Input::get('published_start');
