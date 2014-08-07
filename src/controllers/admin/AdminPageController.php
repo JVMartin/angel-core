@@ -67,20 +67,15 @@ class AdminPageController extends AdminCrudController {
 			$module          = ($module_existing) ? $module_existing : new $PageModule;
 
 			// If the module exists, log its changes.
+			$input_module['number'] = $number;
 			if ($module_existing) {
-				foreach (array('html', 'name') as $column) {
+				foreach (array('number', 'html', 'name') as $column) {
 					if ($input_module[$column] != $module->$column) {
-						$changes['Module ' . $number . ' ' . $column] = array(
+						$changes['Module ID#' . $module->id . ' ' . $column] = array(
 							'old' => $module->$column,
 							'new' => $input_module[$column]
 						);
 					}
-				}
-				if ($number != $module->number) {
-					$changes['Module Number'] = array(
-						'old' => $module->number,
-						'new' => $number
-					);
 				}
 			}
 
