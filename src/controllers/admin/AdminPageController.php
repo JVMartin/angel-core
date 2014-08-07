@@ -48,12 +48,11 @@ class AdminPageController extends AdminCrudController {
 		$page->plaintext = strip_tags($page->html);
 		$page->save();
 
-		$PageModule = App::make('PageModule');
 
+		$PageModule    = App::make('PageModule');
 		$modules       = $PageModule::where('page_id', $page->id)->get();
 		$input_modules = Input::get('modules');
 
-		if (!$changes) $changes = array();
 		$input_module_ids = array();
 		foreach ($input_modules as $number=>$input_module) {
 			// If there's only one module and it's blank, skip it.
@@ -100,11 +99,12 @@ class AdminPageController extends AdminCrudController {
 		$Page = App::make('Page');
 
 		$page = $Page::withTrashed()->with('modules')->find($id);
-		$this->data['page'] = $page;
-		$this->data['changes'] = $page->changes();
-		$this->data['action'] = 'edit';
 
-		return View::make($this->package . '::admin.pages.add-or-edit', $this->data);
+		$this->data['page']    = $page;
+		$this->data['changes'] = $page->changes();
+		$this->data['action']  = 'edit';
+
+		return View::make($this->view('add-or-edit'), $this->data);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class AdminPageController extends AdminCrudController {
 		$errors = array();
 		$rules = array(
 			'name' => 'required',
-			'url' => 'alpha_dash'
+			'url'  => 'alpha_dash'
 		);
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->fails()) {

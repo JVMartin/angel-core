@@ -30,7 +30,7 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function index()
 	{
-		$Model = App::make($this->Model);
+		$Model   = App::make($this->Model);
 		$objects = $Model::withTrashed();
 
 		if (Config::get('core::languages') && in_array(Config::get('language_models'), $this->Model)) {
@@ -121,16 +121,15 @@ abstract class AdminCrudController extends AdminAngelController {
 	{
 		$Model = App::make($this->Model);
 
-		$object = $Model::withTrashed()->findOrFail($id);
-		$this->data[$this->singular] = $object;
-		$this->data['action'] = 'edit';
+		$this->data[$this->singular] = $Model::withTrashed()->findOrFail($id);
+		$this->data['action']        = 'edit';
 
 		return View::make($this->view('add-or-edit'), $this->data);
 	}
 
 	public function attempt_edit($id)
 	{
-		$Model = App::make($this->Model);
+		$Model  = App::make($this->Model);
 		$Change = App::make('Change');
 
 		$errors = $this->validate($custom, $id);
@@ -138,11 +137,10 @@ abstract class AdminCrudController extends AdminAngelController {
 			return Redirect::to($this->uri('edit/' . $id))->withInput()->withErrors($errors);
 		}
 
-		$object = $Model::withTrashed()->findOrFail($id);
+		$object  = $Model::withTrashed()->findOrFail($id);
 		$changes = array();
 
 		foreach (static::columns() as $column) {
-
 			$new_value = array_key_exists($column, $custom) ? $custom[$column] : Input::get($column);
 
 			if (isset($this->log_changes) && $this->log_changes && $object->{$column} != $new_value) {
@@ -163,10 +161,10 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		if (count($changes)) {
 			$change = new $Change;
-			$change->user_id 	= Auth::user()->id;
-			$change->fmodel		= $this->Model;
-			$change->fid 		= $object->id;
-			$change->changes 	= json_encode($changes);
+			$change->user_id = Auth::user()->id;
+			$change->fmodel  = $this->Model;
+			$change->fid     = $object->id;
+			$change->changes = json_encode($changes);
 			$change->save();
 		}
 
@@ -256,8 +254,8 @@ abstract class AdminCrudController extends AdminAngelController {
 	 */
 	public function reorder()
 	{
-		$Model = App::make($this->Model);
 		if (!isset($this->reorderable) || !$this->reorderable) return;
+		$Model = App::make($this->Model);
 
 		$objects = $Model::orderBy('order')->get();
 

@@ -38,9 +38,9 @@ class AdminMenuItemController extends AdminCrudController {
 
 	public function edit($id)
 	{
-		$Menu = App::make('Menu');
-
+		$Menu  = App::make('Menu');
 		$menus = $Menu::all();
+
 		$menu_list = array(''=>'None');
 		foreach ($menus as $menu) {
 			$menu_list[$menu->id] = $menu->name;
@@ -56,10 +56,9 @@ class AdminMenuItemController extends AdminCrudController {
 	 */
 	public function validate_custom($id = null, &$errors)
 	{
-		$MenuItem = App::make('MenuItem');
-
-		//if (!$id) return array();
+		$MenuItem  = App::make('MenuItem');
 		$menu_item = $MenuItem::findOrFail($id);
+
 		if (Input::get('child_menu_id') == $menu_item->menu_id) {
 			$errors[] = 'The child menu cannot be the same as the parent menu.  A recursive loop would occur.';
 		}
