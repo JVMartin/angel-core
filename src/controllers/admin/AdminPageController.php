@@ -53,7 +53,6 @@ class AdminPageController extends AdminCrudController {
 		$modules       = $PageModule::where('page_id', $page->id)->get();
 		$input_modules = Input::get('modules');
 
-
 		if (!$changes) $changes = array();
 		$input_module_ids = array();
 		foreach ($input_modules as $number=>$input_module) {
@@ -65,7 +64,7 @@ class AdminPageController extends AdminCrudController {
 
 			// Grab the existing module if it exists.
 			$module_existing = $modules->find($input_module['id']);
-			$module = ($module_existing) ? $module_existing : new $PageModule;
+			$module          = ($module_existing) ? $module_existing : new $PageModule;
 
 			// If the module exists, log its changes.
 			if ($module_existing) {
@@ -76,6 +75,12 @@ class AdminPageController extends AdminCrudController {
 							'new' => $input_module[$column]
 						);
 					}
+				}
+				if ($number != $module->number) {
+					$changes['Module Number'] = array(
+						'old' => $module->number,
+						'new' => $number
+					);
 				}
 			}
 
