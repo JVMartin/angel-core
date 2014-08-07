@@ -45,7 +45,7 @@
 	<div class="row">
 		<div class="col-xs-12">
 			@foreach($menus as $menu)
-				<div class="panel">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<h3>
 							<a href="{{ admin_url('menus/edit/' . $menu->id) }}" class="btn btn-xs btn-default">
