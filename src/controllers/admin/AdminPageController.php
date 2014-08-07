@@ -118,15 +118,12 @@ class AdminPageController extends AdminCrudController {
 	 */
 	public function validate(&$custom, $id = null)
 	{
-		$errors = array();
 		$rules = array(
 			'name' => 'required',
 			'url'  => 'alpha_dash'
 		);
 		$validator = Validator::make(Input::all(), $rules);
-		if ($validator->fails()) {
-			$errors = $validator->messages()->toArray();
-		}
+		$errors = ($validator->fails()) ? $validator->messages()->toArray() : array();
 		if ($this->url_taken($id)) {
 			$errors[] = 'A page with that URL in that language already exists.';
 		}
