@@ -183,25 +183,27 @@
 							<b>Modules</b>
 							<div class="checkbox">
 								<label>
-									<input type="checkbox" id="showModules" class="showID" data-id="modules" /> Show
+									<input type="checkbox" id="showModules" class="showID" data-id="moduleWrap" /> Show
 								</label>
 							</div>
 						</td>
 						<td>
-							<div id="modules">
-								@if ($action == 'edit')
-									@foreach($page->modules as $module)
-										@include('core::admin.pages.module')
-									@endforeach
-								@endif
-								<?php unset($module); ?>
-								@include('core::admin.pages.module')
-							</div>
-							<div class="pad">
-								<button type="button" id="addModule" class="btn btn-sm btn-default">
-									<span class="glyphicon glyphicon-plus"></span>
-									Add Module
-								</button>
+							<div id="moduleWrap">
+								<div id="modules">
+									@if ($action == 'edit')
+										@foreach($page->modules as $module)
+											@include('core::admin.pages.module')
+										@endforeach
+									@endif
+									<?php unset($module); ?>
+									@include('core::admin.pages.module')
+								</div>
+								<div class="pad">
+									<button type="button" id="addModule" class="btn btn-sm btn-default">
+										<span class="glyphicon glyphicon-plus"></span>
+										Add Module
+									</button>
+								</div>
 							</div>
 						</td>
 					</tr>
