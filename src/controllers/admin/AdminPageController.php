@@ -50,42 +50,39 @@ class AdminPageController extends AdminCrudController {
 
 		$PageModule = App::make('PageModule');
 
-		// Update changes to PageModules and log the changes.
-		if (!$changes) $changes = array();
+		$modules       = $PageModule::where('page_id', $page->id)->get();
 		$input_modules = Input::get('modules');
-		$input_moduleNames = Input::get('moduleNames');
-		foreach ($input_modules as $number=>$html) {
-			$name = $input_moduleNames[$number];
-			$found_module = false;
-			foreach ($page->modules as $module) {
-				if ($number == $module->number) {
-					$found_module = true;
-					if ($html != $module->html) {
-						$changes['Module ' . $module->number . ' HTML'] = array(
-							'old' => $module->html,
-							'new' => $html
+
+
+		if (!$changes) $changes = array();
+		$input_module_ids = array();
+		foreach ($input_modules as $number=>$input_module) {
+			if ($input_module['id']) $input_module_ids[] = $input_module['id'];
+			if (!$input_module['name'] && !$input_module['html'] && count($input_modules) == 1) continue;
+			$module_existing = $modules->find($input_module['id']);
+			$module = ($module_existing) ? $module_existing : new $PageModule;
+
+			if ($module_existing) {
+				foreach (array('html', 'name') as $column) {
+					if ($input_module[$column] != $module->$column) {
+						$changes['Module ' . $number . ' ' . $column] = array(
+							'old' => $module->$column,
+							'new' => $input_module[$column]
 						);
-						$module->html = $html;
 					}
-					if ($input_moduleNames[$number] != $module->name) {
-						$changes['Module ' . $module->number . ' Name'] = array(
-							'old' => $module->name,
-							'new' => $input_moduleNames[$number]
-						);
-						$module->name = $input_moduleNames[$number];
-					}
-					$module->save();
-					break;
 				}
 			}
-			if (!$found_module) {
-				if (!$html && !$name && $number == 1 && count($input_modules) == 1) continue; // Don't create a module when it's -just- a blank Module 1
-				$module = new $PageModule;
-				$module->page_id	= $page->id;
-				$module->number		= $number;
-				$module->html		= $html;
-				$module->name		= $name;
-				$module->save();
+
+			$module->page_id = $page->id;
+			$module->number  = $number;
+			$module->name    = $input_module['name'];
+			$module->html    = $input_module['html'];
+			$module->save();
+		}
+
+		foreach ($modules as $module) {
+			if (!in_array($module->id, $input_module_ids)) {
+				$module->delete();
 			}
 		}
 	}

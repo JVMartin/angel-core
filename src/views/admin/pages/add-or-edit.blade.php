@@ -57,15 +57,37 @@
 				}
 			});
 
-			$('.add-module').click(function() {
-				var newNumber = parseInt($('.module').last().data('num')) + 1;
-				var html = '<div class="module" data-num="'+newNumber+'">'
-					   	 + '<p><b>Module '+newNumber+'</b></p>'
-					   	 + '<p><input class="form-control" type="text" name="moduleNames['+newNumber+']" style="width:auto;" placeholder="Name" /></p>'
-					   	 + '<textarea class="ckeditor" name="modules['+newNumber+']" id="ckMe'+newNumber+'"></textarea>';
-					   	 + '</div>';
-				$('.modules').append(html);
-				CKEDITOR.replace('ckMe'+newNumber);
+			var $module = $('.module').last().clone();
+			@if (isset($page) && $page->modules->count())
+				$('.module').last().remove();
+			@endif
+
+			function fixModules() {
+				var number = 1;
+				$('.module').each(function() {
+					$(this).find('.moduleID').attr('name', 'modules['+number+'][id]');
+					$(this).find('.moduleName').attr('name', 'modules['+number+'][name]');
+					$(this).find('textarea').attr('name', 'modules['+number+'][html]');
+					$(this).find('.showNumber').html(number);
+					number++;
+				});
+			}
+			fixModules();
+
+			var ckMe = 0;
+			$('#addModule').click(function() {
+				var $newModule = $module.clone();
+				ckMe++;
+				$newModule.find('.ckeditor').attr('id', 'ckMe'+ckMe);
+				$('.modules').append($newModule);
+				CKEDITOR.replace('ckMe'+ckMe);
+				fixModules();
+			});
+
+			$('#modules').on('click', '.removeModule', function() {
+				$(this).closest('.module').remove();
+				if ($('.module').length < 1) $('#addModule').click();
+				fixModules();
 			});
 
 			{{-- Show modules if there are modules to show --}}
@@ -156,31 +178,16 @@
 								<div class="modules">
 									@if ($action == 'edit')
 										@foreach($page->modules as $module)
-											<div class="module" data-num="{{ $module->number }}">
-												<p><b>Module {{ $module->number }}</b></p>
-												<p>
-													{{ Form::text('moduleNames['.$module->number.']', $module->name, array('class'=>'form-control', 'placeholder'=>'Name', 'style'=>'width:auto;')) }}
-												</p>
-												<textarea class="ckeditor" name="modules[{{ $module->number }}]">
-													{{ $module->html }}
-												</textarea>
-											</div>
+											@include('core::admin.pages.module')
 										@endforeach
 									@endif
-									@if ($action == 'add' || !count($page->modules))
-										<div class="module" data-num="1">
-											<p><b>Module 1</b></p>
-											<p>
-												{{ Form::text('moduleNames[1]', null, array('class'=>'form-control', 'placeholder'=>'Name', 'style'=>'width:auto;')) }}
-											</p>
-											<textarea class="ckeditor" name="modules[1]"></textarea>
-										</div>
-									@endif
+									<?php unset($module); ?>
+									@include('core::admin.pages.module')
 								</div>
 								<div class="pad">
-									<button type="button" class="btn btn-sm btn-default add-module">
+									<button type="button" id="addModule" class="btn btn-sm btn-default">
 										<span class="glyphicon glyphicon-plus"></span>
-										Add
+										Add Module
 									</button>
 								</div>
 							</div>
