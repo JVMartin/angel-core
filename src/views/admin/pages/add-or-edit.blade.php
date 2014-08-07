@@ -13,11 +13,16 @@
 		.module {
 			padding-top:10px;
 		}
+
+		.handle {
+			cursor:ns-resize;
+		}
 	</style>
 @stop
 
 @section('js')
 	{{ HTML::script('packages/angel/core/js/ckeditor/ckeditor.js') }}
+	{{ HTML::script('packages/angel/core/js/jquery/jquery-ui.min.js') }}
 	{{ HTML::script('packages/angel/core/js/jquery/jquery.datetimepicker.js') }}
 	<script>
 		$(function() {
@@ -85,9 +90,18 @@
 			});
 
 			$('#modules').on('click', '.removeModule', function() {
+				if (!confirm('Really delete this page module?')) return;
 				$(this).closest('.module').remove();
 				if ($('.module').length < 1) $('#addModule').click();
 				fixModules();
+			});
+
+			$('#modules').sortable({
+				cancel: '',
+				handle: '.handle',
+				stop: function(e, ui) {
+					fixModules();
+				}
 			});
 
 			{{-- Show modules if there are modules to show --}}
@@ -175,21 +189,19 @@
 						</td>
 						<td>
 							<div id="modules">
-								<div class="modules">
-									@if ($action == 'edit')
-										@foreach($page->modules as $module)
-											@include('core::admin.pages.module')
-										@endforeach
-									@endif
-									<?php unset($module); ?>
-									@include('core::admin.pages.module')
-								</div>
-								<div class="pad">
-									<button type="button" id="addModule" class="btn btn-sm btn-default">
-										<span class="glyphicon glyphicon-plus"></span>
-										Add Module
-									</button>
-								</div>
+								@if ($action == 'edit')
+									@foreach($page->modules as $module)
+										@include('core::admin.pages.module')
+									@endforeach
+								@endif
+								<?php unset($module); ?>
+								@include('core::admin.pages.module')
+							</div>
+							<div class="pad">
+								<button type="button" id="addModule" class="btn btn-sm btn-default">
+									<span class="glyphicon glyphicon-plus"></span>
+									Add Module
+								</button>
 							</div>
 						</td>
 					</tr>
