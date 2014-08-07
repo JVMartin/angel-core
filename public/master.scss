@@ -69,6 +69,9 @@ table .deleted td {
 		border:1px solid rgb(139, 139, 139);
 		background:#2E3338;
 	}
+	.theme-darkly & {
+		border:1px solid rgb(139, 139, 139);
+	}
 }
 .expandBelow:first-child {
 	margin-top:0;
@@ -91,6 +94,10 @@ table .deleted td {
 		border:1px solid rgb(139, 139, 139);
 		border-top:none;
 		background:#353A41;
+	}
+	.theme-darkly & {
+		border:1px solid rgb(139, 139, 139);
+		border-top:none;
 	}
 }
 .expander textarea {

@@ -56,6 +56,8 @@ table .deleted td {
   .theme-slate .expandBelow {
     border: 1px solid #8b8b8b;
     background: #2E3338; }
+  .theme-darkly .expandBelow {
+    border: 1px solid #8b8b8b; }
 
 .expandBelow:first-child {
   margin-top: 0; }
@@ -76,6 +78,9 @@ table .deleted td {
     border: 1px solid #8b8b8b;
     border-top: none;
     background: #353A41; }
+  .theme-darkly .expander {
+    border: 1px solid #8b8b8b;
+    border-top: none; }
 
 .expander textarea {
   height: 100px; }

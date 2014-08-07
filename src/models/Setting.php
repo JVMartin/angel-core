@@ -15,7 +15,8 @@ class Setting extends Eloquent {
 				'value' => 'default',
 				'arr'	=> array(
 					'default'	=> 'Default',
-					'slate'		=> 'Slate'
+					'slate'		=> 'Slate',
+					'darkly'    => 'Darkly'
 				)
 			),
 			'stripe' => array(

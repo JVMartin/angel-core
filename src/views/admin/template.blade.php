@@ -11,6 +11,9 @@
 	@elseif ($settings['theme']['value'] == 'slate')
 		{{ HTML::style('packages/angel/core/bootstrap/bootstrap-slate.min.css') }}
 		{{ HTML::style('packages/angel/core/bootstrap/bootstrap-glyphicons.css') }}
+	@elseif ($settings['theme']['value'] == 'darkly')
+		{{ HTML::style('packages/angel/core/bootstrap/bootstrap-darkly.min.css') }}
+		{{ HTML::style('packages/angel/core/bootstrap/bootstrap-glyphicons.css') }}
 	@endif
 	{{ HTML::style('packages/angel/core/master.css') }}
 	@yield('css')
