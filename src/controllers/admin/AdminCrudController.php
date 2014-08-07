@@ -19,7 +19,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		'name',
 		'html'
 	);
-	protected $reorderable = true;
+	protected $reorderable = true;   // Only to be used when all objects are ordered together (not in clusters/categories of any kind)
 	*/
 
 	// Columns to update on edit/add
