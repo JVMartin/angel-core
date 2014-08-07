@@ -189,17 +189,9 @@ abstract class AdminCrudController extends AdminAngelController {
 	 */
 	public function validate(&$custom, $id = null)
 	{
-		$errors = array();
-
 		$validator = Validator::make(Input::all(), $this->validate_rules($id));
-		if ($validator->fails()) {
-			foreach($validator->messages()->all() as $error) {
-				$errors[] = $error;
-			}
-		}
-
+		$errors = ($validator->fails()) ? $validator->messages()->toArray() : array();
 		$custom = $this->validate_custom($id, $errors);
-
 		return $errors;
 	}
 

@@ -108,28 +108,29 @@ class AdminPageController extends AdminCrudController {
 	}
 
 	/**
-	 * Validate all input when adding or editing a page.
-	 *
-	 * @param array &$custom - This array is initialized by this function.  Its purpose is to
-	 * 							exclude certain columns that require intervention of some kind (such as
-	 * 							checkboxes because they aren't included in input on submission)
-	 * @param int $id - (Optional) ID of page beind edited
-	 * @return array - An array of error messages to show why validation failed
+	 * @param int $id - The ID of the model when editing, null when adding.
+	 * @return array - Rules for the validator.
 	 */
-	public function validate(&$custom, $id = null)
+	public function validate_rules($id = null)
 	{
-		$rules = array(
+		return array(
 			'name' => 'required',
 			'url'  => 'alpha_dash'
 		);
-		$validator = Validator::make(Input::all(), $rules);
-		$errors = ($validator->fails()) ? $validator->messages()->toArray() : array();
+	}
+
+	/**
+	 * @param array &$errors - The array of failed validation errors.
+	 * @return array - A key/value associative array of custom values.
+	 */
+	public function validate_custom($id = null, &$errors)
+	{
 		if ($this->url_taken($id)) {
-			$errors[] = 'A page with that URL in that language already exists.';
+			$errors[] = 'A page with that URL in this language already exists.';
 		}
 
 		$published_start = Input::get('published_start');
-		$published_end = Input::get('published_end');
+		$published_end   = Input::get('published_end');
 		if (Input::get('published_range') && $published_end && strtotime($published_start) >= strtotime($published_end)) {
 			$errors[] = 'The publication end time must come after the start time.';
 		} else if (!Input::get('published_range')) {
@@ -138,7 +139,7 @@ class AdminPageController extends AdminCrudController {
 			$published_start = $published_end = 0;
 		}
 
-		$custom = array(
+		return array(
 			'title'           => Input::get('title') ? Input::get('title') : Input::get('name'),
 			'published'       => Input::get('published') ? 1 : 0,
 			'published_range' => Input::get('published_range') ? 1 : 0,
@@ -146,8 +147,6 @@ class AdminPageController extends AdminCrudController {
 			'published_end'   => $published_end,
 			'url'             => strtolower(Input::get('url'))
 		);
-
-		return $errors;
 	}
 
 	/**
