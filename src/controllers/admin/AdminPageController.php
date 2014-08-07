@@ -125,9 +125,7 @@ class AdminPageController extends AdminCrudController {
 		);
 		$validator = Validator::make(Input::all(), $rules);
 		if ($validator->fails()) {
-			foreach($validator->messages()->all() as $error) {
-				$errors[] = $error;
-			}
+			$errors = $validator->messages()->toArray();
 		}
 		if ($this->url_taken($id)) {
 			$errors[] = 'A page with that URL in that language already exists.';
