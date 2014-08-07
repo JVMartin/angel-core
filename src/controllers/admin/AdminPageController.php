@@ -57,11 +57,17 @@ class AdminPageController extends AdminCrudController {
 		if (!$changes) $changes = array();
 		$input_module_ids = array();
 		foreach ($input_modules as $number=>$input_module) {
-			if ($input_module['id']) $input_module_ids[] = $input_module['id'];
+			// If there's only one module and it's blank, skip it.
 			if (!$input_module['name'] && !$input_module['html'] && count($input_modules) == 1) continue;
+
+			// Create a list of module IDs so we can delete the missing modules (which must have been deleted).
+			if ($input_module['id']) $input_module_ids[] = $input_module['id'];
+
+			// Grab the existing module if it exists.
 			$module_existing = $modules->find($input_module['id']);
 			$module = ($module_existing) ? $module_existing : new $PageModule;
 
+			// If the module exists, log its changes.
 			if ($module_existing) {
 				foreach (array('html', 'name') as $column) {
 					if ($input_module[$column] != $module->$column) {
@@ -73,6 +79,7 @@ class AdminPageController extends AdminCrudController {
 				}
 			}
 
+			// Save that bad boy.
 			$module->page_id = $page->id;
 			$module->number  = $number;
 			$module->name    = $input_module['name'];
@@ -80,6 +87,7 @@ class AdminPageController extends AdminCrudController {
 			$module->save();
 		}
 
+		// Delete the deleted modules.
 		foreach ($modules as $module) {
 			if (!in_array($module->id, $input_module_ids)) {
 				$module->delete();
