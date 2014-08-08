@@ -50,4 +50,12 @@ abstract class LinkableModel extends Eloquent {
 		}
 		return $arr;
 	}
+	public static function drop_down_with($objects)
+	{
+		$arr = array();
+		foreach ($objects as $object) {
+			$arr[$object->id] = $object->name_full();
+		}
+		return $arr;
+	}
 }
