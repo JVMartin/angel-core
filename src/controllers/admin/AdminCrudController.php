@@ -292,4 +292,36 @@ abstract class AdminCrudController extends AdminAngelController {
 		return admin_uri($uri);
 	}
 
+	//------------------------------
+	// Change Log Related Functions
+	//------------------------------
+	protected function log_relation_name($object)
+	{
+		$name = short_name($object) . ' ID#' . $object->id;
+		if (isset($object->name) && $object->name) $name .= ' Name: ' . $object->name;
+		return $name;
+	}
+
+	protected function log_relation_change($object, $old_array, $columns, &$changes)
+	{
+		$name = $this->log_relation_name($object);
+		if (!count($old_array)) {
+			$changes['Created new ' . $name] = array();
+			return;
+		}
+		foreach ($columns as $column) {
+			if ($object->$column == $old_array[$column]) continue;
+			$changes['Changed ' . $name . ' Column: ' . $column] = array(
+				'old' => $old_array[$column],
+				'new' => $object->$column
+			);
+		}
+	}
+
+	protected function log_relation_deletion($object, &$changes)
+	{
+		$name = $this->log_relation_name($object);
+		$changes['Deleted ' . $name] = array();
+	}
+
 }
