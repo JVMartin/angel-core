@@ -38,22 +38,26 @@
 												<div class="panel-heading">
 													<strong>{{ $column }}</strong>
 												</div>
-												<table class="table table-bordered">
-													<thead>
-														<tr>
-															<th class="text-center">Before</th>
-															<th class="text-center">After</th>
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															@if (isset($this_change->old))
-																<td>{{ $this_change->old }}</td>
-																<td>{{ $this_change->new }}</td>
-															@endif
-														</tr>
-													</tbody>
-												</table>
+												@if (isset($this_change->old) || isset($this_change->new))
+													<table class="table table-bordered">
+														<thead>
+															<tr>
+																<th class="text-center">Before</th>
+																<th class="text-center">After</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td>
+																	{{ isset($this_change->old) ? $this_change->old : '' }}
+																</td>
+																<td>
+																	{{ isset($this_change->new) ? $this_change->new : '' }}
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												@endif
 											</div>
 										@endforeach
 									</div>{{-- Modal --}}
