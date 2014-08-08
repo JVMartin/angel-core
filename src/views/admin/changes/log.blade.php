@@ -47,8 +47,10 @@
 													</thead>
 													<tbody>
 														<tr>
-															<td>{{ $this_change->old }}</td>
-															<td>{{ $this_change->new }}</td>
+															@if (isset($this_change->old))
+																<td>{{ $this_change->old }}</td>
+																<td>{{ $this_change->new }}</td>
+															@endif
 														</tr>
 													</tbody>
 												</table>
