@@ -17,6 +17,8 @@ class AngelController extends \BaseController {
 
 	public function __construct()
 	{
+		parent::__construct();
+
 		$detect = new Mobile_Detect;
 		if (($detect->isMobile() || Input::get('mobile')) && !Input::get('desktop')) {
 			$this->mobile = true;
