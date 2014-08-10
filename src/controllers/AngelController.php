@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use Mobile_Detect, ToolBelt;
+use Mobile_Detect, ToolBelt, ReflectionClass;
 use Input, Session, App, Config;
 
 class AngelController extends \BaseController {
@@ -17,7 +17,10 @@ class AngelController extends \BaseController {
 
 	public function __construct()
 	{
-		parent::__construct();
+		$reflection = new ReflectionClass(__CLASS__);
+		if (method_exists($reflection->getParentClass()->name, '__construct')) {
+			parent::__construct();
+		}
 
 		$detect = new Mobile_Detect;
 		if (($detect->isMobile() || Input::get('mobile')) && !Input::get('desktop')) {
