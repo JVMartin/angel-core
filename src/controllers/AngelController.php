@@ -8,9 +8,9 @@ class AngelController extends \BaseController {
 	protected $settings;
 
 	protected $data = array(
-		'error' => array(),
+		'error'   => array(),
 		'success' => array(),
-		'mobile' => false
+		'mobile'  => false
 	);
 
 	protected $mobile = false;
@@ -24,7 +24,7 @@ class AngelController extends \BaseController {
 
 		$detect = new Mobile_Detect;
 		if (($detect->isMobile() || Input::get('mobile')) && !Input::get('desktop')) {
-			$this->mobile = true;
+			$this->mobile         = true;
 			$this->data['mobile'] = true;
 		}
 
@@ -62,22 +62,22 @@ class AngelController extends \BaseController {
 		///////////////////////////////////////////////
 		//                Settings                   //
 		///////////////////////////////////////////////
-		$Setting = App::make('Setting');
-		$this->settings = $Setting::currentSettings();
+		$Setting                = App::make('Setting');
+		$this->settings         = $Setting::currentSettings();
 		$this->data['settings'] = $this->settings;
 
 		///////////////////////////////////////////////
 		//                Languages                  //
 		///////////////////////////////////////////////
 		if (Config::get('core::languages'))  {
-			$Language = App::make('Language');
+			$Language        = App::make('Language');
 			$this->languages = $Language::all();
-			$language_drop = array();
+			$language_drop   = array();
 			foreach ($this->languages as $language) {
 				$language_drop[$language->id] = $language->name;
 			}
-			$this->data['language_drop'] = $language_drop;
-			$this->data['all_languages'] = $this->languages;
+			$this->data['language_drop']   = $language_drop;
+			$this->data['all_languages']   = $this->languages;
 			$this->data['single_language'] = count($this->languages) == 1 ? true : false;
 
 			// Handle the current active language

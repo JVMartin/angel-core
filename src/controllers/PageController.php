@@ -33,9 +33,9 @@ class PageController extends AngelController {
 		if (!$language) App::abort(404);
 
 		$page = $Page::with('modules')
-						  ->where('language_id', $language->id)
-			              ->where('url', $url)
-					      ->first();
+					 ->where('language_id', $language->id)
+			         ->where('url', $url)
+					 ->first();
 
 		if (!$page || !$page->is_published()) App::abort(404);
 

@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use Session, Auth, View, Validator, Input, Redirect;
+use Auth, View, Validator, Input, Redirect;
 
 class UserController extends AngelController {
 
