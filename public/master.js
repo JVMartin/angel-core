@@ -82,6 +82,11 @@ $(function() {
 		$('.date-time').datetimepicker({
 			format: 'Y-m-d H:i:00'
 		});
+		// Date picker
+		$('input.date').datetimepicker({
+			timepicker:false,
+			format: 'Y-m-d'
+		});
 	}
 });
 
