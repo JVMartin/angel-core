@@ -272,6 +272,10 @@ abstract class AdminCrudController extends AdminAngelController {
 
 		if ($ajax) return 1;
 
+		return $this->delete_redirect();
+	}
+	public function delete_redirect()
+	{
 		return Redirect::to($this->uri())->with('success', '
 			<p>' . $this->Model . ' successfully deleted forever.</p>
 		');
