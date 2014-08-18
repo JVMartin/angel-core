@@ -246,7 +246,7 @@ First, make sure that `AdminPersonsController` extends `\Angel\Core\AdminCrudCon
     <table class="table table-striped">
         <tbody data-url="persons/order"><!-- This data-url is appended to the admin url and posted. -->
             @foreach ($persons as $person)
-                <tr>
+                <tr data-id="{{ $person->id }}">
                     {{ Form::hidden(null, $person->order, array('class'=>'orderInput')) }}
                     <button type="button" class="btn btn-xs btn-default handle">
                         <span class="glyphicon glyphicon-resize-vertical"></span>
