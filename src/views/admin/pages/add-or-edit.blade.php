@@ -99,7 +99,6 @@
 				fixModules();
 			});
 
-			var instance = '';
 			$('#modules').sortable({
 				cancel: '',
 				handle: '.handle',
