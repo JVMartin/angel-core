@@ -14,6 +14,9 @@
 			min-height:395px;
 			padding-top:10px;
 		}
+		.module textarea {
+			height:250px;
+		}
 
 		.handle {
 			cursor:ns-resize;
