@@ -11,6 +11,7 @@
 		}
 
 		.module {
+			min-height:395px;
 			padding-top:10px;
 		}
 
@@ -67,13 +68,16 @@
 				$('.module').last().remove();
 			@endif
 
-			function fixModules() {
+			function fixModules(redoCK) {
 				var number = 1;
 				$('.module').each(function() {
 					$(this).find('.moduleID').attr('name', 'modules['+number+'][id]');
 					$(this).find('.moduleName').attr('name', 'modules['+number+'][name]');
 					$(this).find('textarea').attr('name', 'modules['+number+'][html]');
 					$(this).find('.showNumber').html(number);
+					if (redoCK) {
+						CKEDITOR.replace('modules['+number+'][html]');
+					}
 					number++;
 				});
 			}
@@ -97,13 +101,17 @@
 				cancel: '',
 				handle: '.handle',
 				start: function(e, ui) {
-					var $textarea = ui.item.find('textarea');
+					for (name in CKEDITOR.instances) {
+						if (name == 'html') continue;
+						CKEDITOR.instances[name].destroy();
+					}
+					/*var $textarea = ui.item.find('textarea');
 					instance = $textarea.attr('name');
 					CKEDITOR.instances[instance].destroy();
+					console.log(instance);*/
 				},
 				stop: function(e, ui) {
-					CKEDITOR.replace(instance);
-					fixModules();
+					fixModules(true);
 				}
 			});
 
