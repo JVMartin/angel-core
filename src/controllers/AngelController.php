@@ -42,16 +42,19 @@ class AngelController extends \BaseController {
 			}
 		}
 
-		if (Input::exists('pq')) {
+		///////////////////////////////////////////////
+		//               Global Input                //
+		///////////////////////////////////////////////
+		if (Input::exists('pq') && Auth::check() && Auth::user()->is_superadmin()) {
 			App::after(function() {
 				ToolBelt::print_queries();
 			});
 		}
-		if (Input::exists('flush_session')) {
-			Session::flush();
-		}
-		if (Input::exists('print_session')) {
+		if (Input::exists('ps') && Auth::check() && Auth::user()->is_superadmin()) {
 			ToolBelt::debug(Session::all());
+		}
+		if (Input::exists('fs')) {
+			Session::flush();
 		}
 
 		///////////////////////////////////////////////
