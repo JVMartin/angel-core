@@ -1,7 +1,7 @@
 <?php namespace Angel\Core;
 
 use Mobile_Detect, ToolBelt, ReflectionClass;
-use Input, Session, App, Config;
+use Input, Session, App, Config, Auth;
 
 class AngelController extends \BaseController {
 
