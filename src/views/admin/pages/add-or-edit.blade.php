@@ -108,10 +108,6 @@
 						if (name == 'html') continue;
 						CKEDITOR.instances[name].destroy();
 					}
-					/*var $textarea = ui.item.find('textarea');
-					instance = $textarea.attr('name');
-					CKEDITOR.instances[instance].destroy();
-					console.log(instance);*/
 				},
 				stop: function(e, ui) {
 					fixModules(true);
