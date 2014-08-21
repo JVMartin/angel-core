@@ -79,14 +79,10 @@
 			}
 			fixModules();
 
-			var ckMe = 0;
 			$('#addModule').click(function() {
-				var $newModule = $module.clone();
-				ckMe++;
-				$newModule.find('.ckeditor').attr('id', 'ckMe'+ckMe);
-				$('#modules').append($newModule);
-				CKEDITOR.replace('ckMe'+ckMe);
+				$('#modules').append($module.clone());
 				fixModules();
+				CKEDITOR.replace($('.module').last().find('textarea').attr('name'));
 			});
 
 			$('#modules').on('click', '.removeModule', function() {
@@ -101,7 +97,7 @@
 				cancel: '',
 				handle: '.handle',
 				start: function(e, ui) {
-					$textarea = ui.item.find('textarea');
+					var $textarea = ui.item.find('textarea');
 					instance = $textarea.attr('name');
 					CKEDITOR.instances[instance].destroy();
 				},
