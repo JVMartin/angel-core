@@ -96,10 +96,17 @@
 				fixModules();
 			});
 
+			var instance = '';
 			$('#modules').sortable({
 				cancel: '',
 				handle: '.handle',
+				start: function(e, ui) {
+					$textarea = ui.item.find('textarea');
+					instance = $textarea.attr('name');
+					CKEDITOR.instances[instance].destroy();
+				},
 				stop: function(e, ui) {
+					CKEDITOR.replace(instance);
 					fixModules();
 				}
 			});

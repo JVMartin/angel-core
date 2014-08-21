@@ -20,7 +20,7 @@ class Page extends LinkableModel {
 
 	public function modules()
 	{
-		return $this->hasMany(App::make('PageModule'));
+		return $this->hasMany(App::make('PageModule'))->orderBy('number');
 	}
 
 	public function pre_delete()
