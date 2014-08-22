@@ -61,11 +61,14 @@ class DatabaseBackup extends Command {
 		$database  = Config::get('database.connections.mysql.database');
 		$username  = Config::get('database.connections.mysql.username');
 		$password  = Config::get('database.connections.mysql.password');
-		$command   = 'mysqldump -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' > ' . $database . '.sql';
 		chdir(base_path());
-		$this->info('Issuing command: ' . $command);
-		exec($command);
+		$this->exec('mysqldump -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' > ' . $database . '.sql');
 		$this->info('...finished.  Dump placed in ' . base_path() . '/' . $database . '.sql');
 	}
 
+	private function exec($command)
+	{
+		$this->info('Executing: ' . $command);
+		echo shell_exec($command);
+	}
 }
