@@ -96,23 +96,25 @@ function numberWithCommas(x) {
 	return parts.join(".");
 }
 
+function doKCBind($button, type) {
+	var $input = $button.parents().has('input').first().find('input');
+	window.KCFinder = {};
+	window.KCFinder.callBack = function(url) {
+		if ($button.hasClass('browseAbsolute')) {
+			var base_url = config.base_url;
+			base_url = base_url.substring(0, base_url.length - 1); // Remove trailing slash
+			$input.val(base_url + url); // Absolute URL
+		} else {
+			$input.val(url); // Relative URL
+		}
+		window.KCFinder = null;
+	};
+	window.open('/packages/angel/core/js/kcfinder/browse.php?type='+type+'s', type+'_finder', 'width=1000,height=600');
+}
 function bindImageBrowsers() {
 	// KCFinder browsing
 	$('.imageBrowse').unbind('click').click(function() {
-		var $self = $(this);
-		var $input = $self.parent().prev();
-		window.KCFinder = {};
-		window.KCFinder.callBack = function(url) {
-			if ($self.hasClass('imageBrowseAbsolute')) {
-				var base_url = config.base_url;
-				base_url = base_url.substring(0, base_url.length - 1); // Remove trailing slash
-				$input.val(base_url + url); // Absolute URL
-			} else {
-				$input.val(url); // Relative URL
-			}
-			window.KCFinder = null;
-		};
-		window.open('/packages/angel/core/js/kcfinder/browse.php?type=images', 'image_finder', 'width=1000,height=600');
+		doKCBind($(this), 'image');
 	});
 }
 $(function() {bindImageBrowsers();});
@@ -120,20 +122,7 @@ $(function() {bindImageBrowsers();});
 function bindFileBrowsers() {
 	// KCFinder browsing
 	$('.fileBrowse').unbind('click').click(function() {
-		var $self = $(this);
-		var $input = $self.parent().prev();
-		window.KCFinder = {};
-		window.KCFinder.callBack = function(url) {
-			if ($self.hasClass('fileBrowseAbsolute')) {
-				var base_url = config.base_url;
-				base_url = base_url.substring(0, base_url.length - 1); // Remove trailing slash
-				$input.val(base_url + url); // Absolute URL
-			} else {
-				$input.val(url); // Relative URL
-			}
-			window.KCFinder = null;
-		};
-		window.open('/packages/angel/core/js/kcfinder/browse.php?type=files', 'file_finder', 'width=1000,height=600');
+		doKCBind($(this), 'file');
 	});
 }
 $(function() {bindFileBrowsers();});

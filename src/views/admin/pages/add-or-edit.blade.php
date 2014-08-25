@@ -300,7 +300,7 @@
 					{{ Form::label('og_image', 'og:image') }}
 					{{ Form::text('og_image', null, array('class'=>'form-control input-sm', 'placeholder'=>'og:image')) }}
 					<div class="text-right pad">
-						<button type="button" class="btn btn-default imageBrowse imageBrowseAbsolute">Browse...</button>
+						<button type="button" class="btn btn-default imageBrowse browseAbsolute">Browse...</button>
 					</div>
 				</div>
 			</div>
@@ -316,7 +316,7 @@
 					{{ Form::label('twitter_image', 'twitter:image') }}
 					{{ Form::text('twitter_image', null, array('class'=>'form-control input-sm', 'placeholder'=>'twitter:image')) }}
 					<div class="text-right pad">
-						<button type="button" class="btn btn-default imageBrowse imageBrowseAbsolute">Browse...</button>
+						<button type="button" class="btn btn-default imageBrowse browseAbsolute">Browse...</button>
 					</div>
 				</div>
 			</div>
