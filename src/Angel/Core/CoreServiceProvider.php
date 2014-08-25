@@ -1,7 +1,6 @@
 <?php namespace Angel\Core;
 
 use Illuminate\Support\ServiceProvider;
-use Config;
 
 class CoreServiceProvider extends ServiceProvider {
 
@@ -20,7 +19,6 @@ class CoreServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('angel/core');
-
 		include __DIR__ . '/Helpers.php';
 		include __DIR__ . '/ToolBelt.php';
 		include __DIR__ . '../../../routes.php';
@@ -32,9 +30,17 @@ class CoreServiceProvider extends ServiceProvider {
 		$this->app->bind('angel::command.db.restore', function() {
 			return new DatabaseRestore;
 		});
+		$this->app->bind('angel::command.angel.assets', function() {
+			return new AngelAssets;
+		});
+		$this->app->bind('angel::command.angel.update', function() {
+			return new AngelUpdate;
+		});
 		$this->commands(array(
 			'angel::command.db.backup',
-			'angel::command.db.restore'
+			'angel::command.db.restore',
+			'angel::command.angel.assets',
+			'angel::command.angel.update'
 		));
 
 		$bindings = array(
