@@ -29,10 +29,12 @@ abstract class AdminCrudController extends AdminAngelController {
 		$Model   = App::make($this->Model);
 		$objects = $Model::withTrashed();
 
+		// If languages are enabled, only get the current active language's objects.
 		if (Config::get('core::languages') && in_array(Config::get('language_models'), $this->Model)) {
 			$objects = $objects->where('language_id', $this->data['active_language']->id);
 		}
 
+		// If a search term has been entered...
 		$this->data['search'] = $search = (Input::get('search')) ? urldecode(Input::get('search')) : null;
 		if ($search) {
 			$terms = explode(' ', $search);
@@ -40,16 +42,21 @@ abstract class AdminCrudController extends AdminAngelController {
 				$term = '%' . $term . '%';
 			}
 
+			// Call the search method on the Model
 			$resultIDs = array();
 			$Model->search($terms)->each(function($object) use (&$resultIDs) {
 				$resultIDs[] = $object->id;
 			});
-			$objects = (count($resultIDs)) ? $objects->whereIn('id', $resultIDs) : $objects->where('id', -1);
+			// Limit the $objects query based on the results, make sure that no objects
+			// are returned if there are no results. (where id = 0, it's cheap but it works!)
+			$objects = (count($resultIDs)) ? $objects->whereIn('id', $resultIDs) : $objects->where('id', 0);
 		}
 
+		// Return all objects in order if this is a reorderable index
 		if (isset($this->reorderable) && $this->reorderable) {
 			$this->data[$this->plural] = $objects->orderBy('order')->get();
 		} else {
+			// Otherwise, paginate the objects
 			$paginator = $objects->paginate();
 			$this->data[$this->plural] = $paginator->getCollection();
 			$appends = $_GET;
@@ -82,7 +89,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 
 		$object = new $Model;
+
 		foreach(static::columns() as $column) {
+			// Prefer the $custom array before input
 			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
 		}
 		if (isset($this->slug) && $this->slug) {
@@ -135,6 +144,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		$changes = array();
 
 		foreach (static::columns() as $column) {
+			// Prefer the $custom array before input
 			$new_value = array_key_exists($column, $custom) ? $custom[$column] : Input::get($column);
 
 			if (isset($this->log_changes) && $this->log_changes && $object->{$column} != $new_value) {
