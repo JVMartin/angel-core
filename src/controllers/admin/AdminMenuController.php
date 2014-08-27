@@ -40,7 +40,7 @@ class AdminMenuController extends AdminCrudController {
 			);
 			$arr = LinkableModel::drop_down($model);
 			if (count($arr)) {
-				$this->data['linkable_models'][$model]['select'] = Form::select('fid', $arr, null, array('id'=>'thingSelect', 'class' => 'form-control'));
+				$this->data['linkable_models'][$model]['select'] = Form::select('fid', $arr, null, array('class' => 'form-control'));
 			} else {
 				$this->data['linkable_models'][$model]['select'] = 0;
 			}
