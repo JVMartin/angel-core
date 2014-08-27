@@ -241,7 +241,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	}
 
 	/**
-	 * AJAX for reordering menu items
+	 * AJAX for reordering objects
 	 */
 	public function order()
 	{
