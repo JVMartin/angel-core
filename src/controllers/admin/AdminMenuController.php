@@ -38,6 +38,12 @@ class AdminMenuController extends AdminCrudController {
 			$this->data['linkable_models'][$model] = array(
 				'add' => admin_url($uri.'/add')
 			);
+			$arr = LinkableModel::drop_down($model);
+			if (count($arr)) {
+				$this->data['linkable_models'][$model]['select'] = Form::select('fid', $arr, null, array('id'=>'thingSelect', 'class' => 'form-control'));
+			} else {
+				$this->data['linkable_models'][$model]['select'] = 0;
+			}
 		}
 		
 		$this->data['model_select'] = Form::select('fmodel', $model_list, null, array('id'=>'modelSelect', 'class' => 'form-control', 'autocomplete'=>'off'));
@@ -76,18 +82,5 @@ class AdminMenuController extends AdminCrudController {
 		}
 
 		return parent::delete($id);
-	}
-
-	/**
-	 * AJAX for getting 'existing model' dropdown in menu link creation wizard.
-	 *
-	 * @return string - HTML of the select element
-	 */
-	public function model_drop_down()
-	{
-		$model = Input::get('model');
-		$arr = LinkableModel::drop_down($model);
-		if (!count($arr)) return 0;
-		return Form::select('fid', $arr, null, array('id'=>'thingSelect', 'class' => 'form-control'));
 	}
 }
