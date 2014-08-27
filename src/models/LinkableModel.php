@@ -29,6 +29,7 @@ abstract class LinkableModel extends Eloquent {
 	///////////////////////////////////////////////
 	abstract public function link();
 	abstract public function link_edit();
+	abstract public function search($terms);
 	public function name()
 	{
 		return $this->name;

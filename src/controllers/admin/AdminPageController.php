@@ -11,12 +11,6 @@ class AdminPageController extends AdminCrudController {
 	protected $package	= 'core';
 
 	protected $log_changes = true;
-	protected $searchable  = array(
-		'name',
-		'url',
-		'title',
-		'plaintext'
-	);
 
 	// Columns to update on edit/add
 	protected static function columns()
@@ -43,12 +37,13 @@ class AdminPageController extends AdminCrudController {
 		return $columns;
 	}
 
-	public function after_save($page, &$changes = array())
+	public function before_save(&$page, &$changes = array())
 	{
 		$page->plaintext = strip_tags($page->html);
-		$page->save();
+	}
 
-
+	public function after_save($page, &$changes = array())
+	{
 		$PageModule    = App::make('PageModule');
 		$modules       = $PageModule::where('page_id', $page->id)->get();
 		$input_modules = Input::get('modules');
@@ -79,10 +74,11 @@ class AdminPageController extends AdminCrudController {
 			}
 
 			// Save that bad boy.
-			$module->page_id = $page->id;
-			$module->number  = $number;
-			$module->name    = $input_module['name'];
-			$module->html    = $input_module['html'];
+			$module->page_id   = $page->id;
+			$module->number    = $number;
+			$module->name      = $input_module['name'];
+			$module->html      = $input_module['html'];
+			$module->plaintext = strip_tags($input_module['html']);
 			$module->save();
 		}
 

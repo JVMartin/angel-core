@@ -1,5 +1,6 @@
 <?php namespace Angel\Core;
 
+use Illuminate\Database\Eloquent\Collection;
 use Mobile_Detect, ToolBelt, ReflectionClass;
 use Input, Session, App, Config, Auth;
 
@@ -89,6 +90,28 @@ class AngelController extends \BaseController {
 			}
 			$this->data['active_language'] = $this->languages->find(Session::get('language'));
 		}
+	}
+
+	public function global_search($search)
+	{
+		$results = new Collection;
+
+		$terms = explode(' ', $search);
+		if (!count($terms)) return $results;
+
+		foreach ($terms as &$term) {
+			$term = '%' . $term . '%';
+		}
+
+		foreach (Config::get('core::linkable_models') as $model=>$uri) {
+			$Model = App::make($model);
+
+			$Model->search($terms)->each(function($result) use ($results) {
+				$results->add($result);
+			});
+		}
+
+		return $results;
 	}
 
 }

@@ -15,10 +15,6 @@ abstract class AdminCrudController extends AdminAngelController {
 	// Optional:
 	protected $log_changes = true;
 	protected $slug        = 'name'; // Populate the 'slug' column with a sluggified version of the given column.  ('name', 'title', etc.)
-	protected $searchable  = array(  // Searchable columns of the model for use in index() searches
-		'name',
-		'html'
-	);
 	protected $reorderable = true;   // Only to be used when all objects are ordered together (not in clusters/categories of any kind)
 	*/
 
@@ -37,21 +33,18 @@ abstract class AdminCrudController extends AdminAngelController {
 			$objects = $objects->where('language_id', $this->data['active_language']->id);
 		}
 
-		if (isset($this->searchable) && count($this->searchable)) {
-			$search = Input::get('search') ? urldecode(Input::get('search')) : null;
-			$this->data['search'] = $search;
-
-			if ($search) {
-				$terms = explode(' ', $search);
-				$objects = $objects->where(function($query) use ($terms) {
-					foreach ($terms as $term) {
-						$term = '%'.$term.'%';
-						foreach ($this->searchable as $column) {
-							$query->orWhere($column, 'like', $term);
-						}
-					}
-				});
+		$this->data['search'] = $search = (Input::get('search')) ? urldecode(Input::get('search')) : null;
+		if ($search) {
+			$terms = explode(' ', $search);
+			foreach ($terms as &$term) {
+				$term = '%' . $term . '%';
 			}
+
+			$resultIDs = array();
+			$Model->search($terms)->each(function($object) use (&$resultIDs) {
+				$resultIDs[] = $object->id;
+			});
+			$objects = (count($resultIDs)) ? $objects->whereIn('id', $resultIDs) : $objects->where('id', -1);
 		}
 
 		if (isset($this->reorderable) && $this->reorderable) {
@@ -98,8 +91,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		if (isset($this->reorderable) && $this->reorderable) {
 			$object->order = $Model::count();
 		}
-		$object->save();
 
+		if (method_exists($this, 'before_save')) $this->before_save($object);
+		$object->save();
 		if (method_exists($this, 'after_save')) $this->after_save($object);
 
 		// Are we creating this object from the menu wizard?
@@ -155,8 +149,9 @@ abstract class AdminCrudController extends AdminAngelController {
 		if (isset($this->slug) && $this->slug) {
 			$object->slug = $this->slug($Model, 'slug', $object->{$this->slug}, $id);
 		}
-		$object->save();
 
+		if (method_exists($this, 'before_save')) $this->before_save($object, $changes);
+		$object->save();
 		if (method_exists($this, 'after_save')) $this->after_save($object, $changes);
 
 		if (count($changes)) {
@@ -214,9 +209,20 @@ abstract class AdminCrudController extends AdminAngelController {
 	}
 
 	/**
+	 * This method is called before the model is saved in add() and edit()
+	 *
+	 * @param $object - The instance of the model about to be saved.
+	 * @param array $changes - The array of changes.
+	 */
+	public function before_save(&$object, &$changes = array())
+	{
+		//
+	}
+
+	/**
 	 * This method is called after the model is saved in add() and edit()
 	 *
-	 * @param $object - The instance of the model being saved.
+	 * @param $object - The instance of the model that was just saved.
 	 * @param array $changes - The array of changes.
 	 */
 	public function after_save($object, &$changes = array())

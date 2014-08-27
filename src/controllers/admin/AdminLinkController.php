@@ -10,11 +10,6 @@ class AdminLinkController extends AdminCrudController {
 	protected $singular	= 'link';
 	protected $package	= 'core';
 
-	protected $searchable = array(
-		'name',
-		'url'
-	);
-
 	// Columns to update on edit/add
 	protected static function columns()
 	{

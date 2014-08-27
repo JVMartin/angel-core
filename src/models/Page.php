@@ -1,6 +1,7 @@
 <?php namespace Angel\Core;
 
 use App, Config;
+use Illuminate\Database\Eloquent\Collection;
 
 class Page extends LinkableModel {
 
@@ -47,6 +48,43 @@ class Page extends LinkableModel {
 	public function link_edit()
 	{
 		return admin_url('pages/edit/' . $this->id);
+	}
+
+	public function search($terms)
+	{
+		$results = new Collection;
+
+		// Keep track of the pages we add, so we don't have repeats when we
+		// search the PageModules.
+		$pageIDs = array();
+
+		// Search all pages.
+		static::where(function($query) use ($terms) {
+			foreach ($terms as $term) {
+				$query->orWhere('name',             'like', $term);
+				$query->orWhere('url',              'like', $term);
+				$query->orWhere('plaintext',        'like', $term);
+				$query->orWhere('meta_description', 'like', $term);
+				$query->orWhere('meta_keywords',    'like', $term);
+			}
+		})->get()->each(function($result) use ($results, $pageIDs) {
+			$results->add($result);
+			$pageIDs[] = $result->id;
+		});
+
+		// Search all PageModules.
+		$PageModule = App::make('PageModule');
+		$PageModule::with('page')->where(function($query) use ($terms) {
+			foreach ($terms as $term) {
+				$query->orWhere('name',      'like', $term);
+				$query->orWhere('plaintext', 'like', $term);
+			}
+		})->get()->each(function($result) use ($results, $pageIDs) {
+			if (in_array($result->page->id, $pageIDs)) return;
+			$results->add($result->page);
+		});
+
+		return $results;
 	}
 
 	///////////////////////////////////////////////
