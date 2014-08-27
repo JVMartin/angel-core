@@ -1,27 +1,33 @@
 {
-    "name": "angel/core",
-    "description": "Angel is a CMS built on top of Laravel.",
-    "authors": [
-        {
-            "name": "Jacob Martin",
-            "email": "jacobm@angelvisiontech.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "4.1.*",
+	"name": "angel/core",
+	"description": "Angel is a CMS built on top of Laravel.",
+	"keywords": [
+		"angel",
+		"cms",
+		"laravel"
+	],
+	"homepage": "https://github.com/JVMartin/angel",
+	"authors": [
+		{
+			"name": "Jacob Martin",
+			"email": "jacobm@angelvisiontech.com",
+			"homepage": "http://jacobvmartin.com"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"illuminate/support": "4.1.*",
 		"mobiledetect/mobiledetectlib": "2.8.3"
-    },
-    "autoload": {
-        "classmap": [
-            "src/commands",
-            "src/migrations",
+	},
+	"autoload": {
+		"classmap": [
+			"src/commands",
+			"src/migrations",
 			"src/controllers",
 			"src/models"
-        ],
-        "psr-0": {
-            "Angel\\Core\\": "src/"
-        }
-    },
-    "minimum-stability": "stable"
+		],
+		"psr-0": {
+			"Angel\\Core\\": "src/"
+		}
+	}
 }
