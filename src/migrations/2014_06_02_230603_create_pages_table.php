@@ -47,15 +47,17 @@ class CreatePagesTable extends Migration {
 		});
 
 		// Create the home page
+		$html = '
+			<h1>Welcome!</h1>
+			<p>This is the default home page.</p>
+		';
 		DB::table('pages')->insert(
 			array(
 				'url'			=> 'home',
 				'name'			=> 'Home',
 				'title'			=> 'Home',
-				'html'			=> '
-					<h1>Welcome!</h1>
-					<p>This is the default home page.</p>
-				',
+				'html'			=> $html,
+				'plaintext'     => strip_tags($html),
 				'created_at'	=> Carbon::now(),
 				'updated_at' 	=> Carbon::now()
 			)
