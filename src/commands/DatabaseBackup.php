@@ -1,6 +1,7 @@
 <?php namespace Angel\Core;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Config;
 
 class DatabaseBackup extends Command {
@@ -36,7 +37,9 @@ class DatabaseBackup extends Command {
 	 */
 	protected function getArguments()
 	{
-		return array();
+		return array(
+			array('file', InputArgument::OPTIONAL, 'The name of the file to load from.')
+		);
 	}
 
 	/**
@@ -61,9 +64,10 @@ class DatabaseBackup extends Command {
 		$database  = Config::get('database.connections.mysql.database');
 		$username  = Config::get('database.connections.mysql.username');
 		$password  = Config::get('database.connections.mysql.password');
+		$file      = ($this->argument('file')) ? $this->argument('file') : $database . '.sql';
 		chdir(base_path());
-		$this->exec('mysqldump -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' > ' . $database . '.sql');
-		$this->info('...finished.  Dump placed in ' . base_path() . '/' . $database . '.sql');
+		$this->exec('mysqldump -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' > ' . $file);
+		$this->info('...finished.  Dump placed in ' . base_path() . '/' . $file);
 	}
 
 	private function exec($command)

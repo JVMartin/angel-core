@@ -1,6 +1,7 @@
 <?php namespace Angel\Core;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Config;
 
 class DatabaseRestore extends Command {
@@ -36,7 +37,9 @@ class DatabaseRestore extends Command {
 	 */
 	protected function getArguments()
 	{
-		return array();
+		return array(
+			array('file', InputArgument::OPTIONAL, 'The name of the file to save to.')
+		);
 	}
 
 	/**
@@ -61,8 +64,9 @@ class DatabaseRestore extends Command {
 		$database  = Config::get('database.connections.mysql.database');
 		$username  = Config::get('database.connections.mysql.username');
 		$password  = Config::get('database.connections.mysql.password');
+		$file      = ($this->argument('file')) ? $this->argument('file') : $database . '.sql';
 		chdir(base_path());
-		$this->exec('mysql -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' < ' . $database . '.sql');
+		$this->exec('mysql -h ' . $host . ' -u ' . $username . ' -p\'' . $password . '\' ' . $database . ' < ' . $file);
 		$this->info('...finished.  Database restored!');
 	}
 
