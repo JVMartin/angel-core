@@ -93,7 +93,7 @@
 			});
 
 			$('#modules').on('click', '.removeModule', function() {
-				if (!confirm('Really delete this page module?')) return;
+				//if (!confirm('Really delete this page module?')) return;
 				$(this).closest('.module').remove();
 				if ($('.module').length < 1) $('#addModule').click();
 				fixModules();
