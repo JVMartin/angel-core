@@ -67,9 +67,11 @@
 			});
 
 			var $module = $('.module').last().clone();
-			@if (isset($page) && $page->modules->count())
+			// If a module exists already...
+			if ($('.module').count > 1 || $('.module').first().find('textarea').val().replace(/\s+/g, '')) {
 				$('.module').last().remove();
-			@endif
+				$('#showModules').prop('checked', true).trigger('change');
+			}
 
 			function fixModules(redoCK) {
 				var number = 1;
@@ -112,11 +114,6 @@
 					fixModules(true);
 				}
 			});
-
-			{{-- Show modules if there are modules to show --}}
-			@if ($action == 'edit' && $page->modules->count())
-				$('#showModules').prop('checked', true).trigger('change');
-			@endif
 		});
 	</script>
 @stop
