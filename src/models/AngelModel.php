@@ -79,7 +79,7 @@ abstract class AngelModel extends Eloquent {
 			$this->$column = Input::get($column);
 		}
 		if ($this->id) with(App::make('Change'))->log($this, $changes);
-		if ($this->slugSeed) $this->slug = ToolBelt::slug($this, $this->slugSeed);
+		if ($this->slugSeed) $this->slug = slug($this, $this->slugSeed);
 	}
 
 	public function changes()
