@@ -162,15 +162,15 @@ For instance: `http://yoursite.com/products/big-orange-ball`.
 
 To do this, you want to 'sluggify' one of the columns / properties of the model.
 
-If you are extending the [AdminCrudController](https://github.com/JVMartin/angel/blob/master/src/controllers/admin/AdminCrudController.php), this is as simple as adding a `slug` column to your table with a unique index:
+If you are extending the [AngelModel](https://github.com/JVMartin/angel/blob/master/src/models/AngelModel.php), this is as simple as adding a `slug` column to your table with a unique index:
 
 ```php
 $table->string('slug')->unique();
 ```
 
-And then setting the `slug` property to the name of the column from which to generate the slug:
+And then setting the `slugSeed` property of your model to the name of the column from which to generate the slug:
 ```php
-protected $slug = 'name';
+protected $slugSeed = 'name';
 ```
 
 Now, slugs will be automatically generated from the `name` column of the models as they are created or edited.  (You can just as easily use a `title` column or any other appropriate source.)
@@ -203,23 +203,19 @@ Then, you can create slugs like this:
 // Adding a new item:
 $article        = new NewsArticle;
 $article->title = Input::get('title');
-$article->slug  = $this->slug('NewsArticle', 'slug', Input::get('title'));
+$article->slug  = slug($article, 'title');
 $article->save();
 
 // Editing an item:
 $article        = Article::find(1);
 $article->title = Input::get('title');
-$article->slug  = $this->slug('NewsArticle', 'slug', Input::get('title'), $article->id);
+$article->slug  = slug($article, 'title');
 $article->save();
 ```
 
-[You can see the slug method stub here.](https://github.com/JVMartin/angel/blob/master/src/controllers/admin/AdminAngelController.php#L20)
-
 ### Sluggifying a String
-
-Similarly, from any controller that extends `\Angel\Core\AdminAngelController` or a descendant of it:
 ```php
-$slug = $this->sluggify('String to sluggify!'); // Returns 'string-to-sluggify'
+$slug = sluggify('String to sluggify!'); // Returns 'string-to-sluggify'
 ```
 
 Develop Modules
