@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, Validator, Input, ReflectionClass, ToolBelt;
+use Eloquent, App, Validator, Input;
 
 abstract class AngelModel extends Eloquent {
 

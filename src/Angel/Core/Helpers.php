@@ -13,7 +13,7 @@ function admin_url($uri = '') {
 }
 
 function short_name($object) {
-	$reflection = new ReflectionClass($object);
+	$reflection = new \ReflectionClass($object);
 	return $reflection->getShortName();
 }
 
