@@ -34,10 +34,6 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 			'before' => 'csrf',
 			'uses' => $controller . '@attempt_edit'
 		));
-		Route::post('password/{id}', array(
-			'before' => 'csrf',
-			'uses' => $controller . '@attempt_edit_password'
-		));
 		Route::post('delete/{id}', array(
 			'before' => 'csrf',
 			'uses' => $controller . '@delete'
@@ -176,6 +172,7 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 				return Redirect::to(admin_uri('menus'));
 			});
 			Route::post('add', array(
+				'before' => 'csrf',
 				'uses' => $controller . '@attempt_add'
 			));
 			Route::post('order', array( // AJAX

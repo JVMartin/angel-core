@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, Auth, View, Input, Redirect, Validator, Config;
+use App, View, Input, Redirect, Config;
 
 abstract class AdminCrudController extends AdminAngelController {
 
@@ -11,18 +11,7 @@ abstract class AdminCrudController extends AdminAngelController {
 	protected $plural	= 'categories';
 	protected $singular	= 'category';
 	protected $package	= 'products';
-
-	// Optional:
-	protected $log_changes = true;
-	protected $slug        = 'name'; // Populate the 'slug' column with a sluggified version of the given column.  ('name', 'title', etc.)
-	protected $reorderable = true;   // Only to be used when all objects are ordered together (not in clusters/categories of any kind)
 	*/
-
-	// Columns to update on edit/add
-	protected static function columns()
-	{
-		return array();
-	}
 
 	public function index()
 	{
@@ -53,7 +42,7 @@ abstract class AdminCrudController extends AdminAngelController {
 		}
 
 		// Return all objects in order if this is a reorderable index
-		if (isset($this->reorderable) && $this->reorderable) {
+		if ($Model::$reorderable) {
 			$this->data[$this->plural] = $objects->orderBy('order')->get();
 		} else {
 			// Otherwise, paginate the objects
@@ -81,29 +70,15 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function attempt_add()
 	{
-		$Model = App::make($this->Model);
+		$Model   = App::make($this->Model);
+		$object  = new $Model;
 
-		$errors = $this->validate($custom);
+		$errors = $object->validate();
 		if (count($errors)) {
 			return Redirect::to($this->uri('add'))->withInput()->withErrors($errors);
 		}
 
-		$object = new $Model;
-
-		foreach(static::columns() as $column) {
-			// Prefer the $custom array before input
-			$object->{$column} = isset($custom[$column]) ? $custom[$column] : Input::get($column);
-		}
-		if (isset($this->slug) && $this->slug) {
-			$object->slug = $this->slug($Model, 'slug', $object->{$this->slug});
-		}
-		if (isset($this->reorderable) && $this->reorderable) {
-			$object->order = $Model::count();
-		}
-
-		if (method_exists($this, 'before_save')) $this->before_save($object);
 		$object->save();
-		if (method_exists($this, 'after_save')) $this->after_save($object);
 
 		// Are we creating this object from the menu wizard?
 		// NOTE:  You only need this for menu-linkable models
@@ -133,45 +108,14 @@ abstract class AdminCrudController extends AdminAngelController {
 	public function attempt_edit($id)
 	{
 		$Model  = App::make($this->Model);
-		$Change = App::make('Change');
+		$object = $Model::withTrashed()->findOrFail($id);
 
-		$errors = $this->validate($custom, $id);
+		$errors = $object->validate();
 		if (count($errors)) {
 			return Redirect::to($this->uri('edit/' . $id))->withInput()->withErrors($errors);
 		}
 
-		$object  = $Model::withTrashed()->findOrFail($id);
-		$changes = array();
-
-		foreach (static::columns() as $column) {
-			// Prefer the $custom array before input
-			$new_value = array_key_exists($column, $custom) ? $custom[$column] : Input::get($column);
-
-			if (isset($this->log_changes) && $this->log_changes && $object->{$column} != $new_value) {
-				$changes[$column] = array(
-					'old' => $object->{$column},
-					'new' => $new_value
-				);
-			}
-
-			$object->{$column} = $new_value;
-		}
-		if (isset($this->slug) && $this->slug) {
-			$object->slug = $this->slug($Model, 'slug', $object->{$this->slug}, $id);
-		}
-
-		if (method_exists($this, 'before_save')) $this->before_save($object, $changes);
 		$object->save();
-		if (method_exists($this, 'after_save')) $this->after_save($object, $changes);
-
-		if (count($changes)) {
-			$change = new $Change;
-			$change->user_id = Auth::user()->id;
-			$change->fmodel  = $this->Model;
-			$change->fid     = $object->id;
-			$change->changes = json_encode($changes);
-			$change->save();
-		}
 
 		return $this->edit_redirect($object);
 	}
@@ -181,63 +125,6 @@ abstract class AdminCrudController extends AdminAngelController {
 			<p>' . $this->Model . ' successfully updated.</p>
 			<p><a href="' . $this->uri('', true) . '">Return to index</a></p>
 		');
-	}
-
-	/**
-	 * Validate all input when adding or editing.
-	 *
-	 * @param array &$custom - This array is initialized by this function.  Its purpose is to
-	 * 							exclude certain columns that require intervention of some kind (such as
-	 * 							checkboxes because they aren't included in input on submission)
-	 * @param int $id - (Optional) ID of member beind edited
-	 * @return array - An array of error messages to show why validation failed
-	 */
-	public function validate(&$custom, $id = null)
-	{
-		$validator = Validator::make(Input::all(), $this->validate_rules($id));
-		$errors = ($validator->fails()) ? $validator->messages()->toArray() : array();
-		$custom = $this->validate_custom($id, $errors);
-		return $errors;
-	}
-
-	/**
-	 * @param int $id - The ID of the model when editing, null when adding.
-	 * @return array - Rules for the validator.
-	 */
-	public function validate_rules($id = null)
-	{
-		return array();
-	}
-
-	/**
-	 * @param array &$errors - The array of failed validation errors.
-	 * @return array - A key/value associative array of custom values.
-	 */
-	public function validate_custom($id = null, &$errors)
-	{
-		return array();
-	}
-
-	/**
-	 * This method is called before the model is saved in add() and edit()
-	 *
-	 * @param $object - The instance of the model about to be saved.
-	 * @param array $changes - The array of changes.
-	 */
-	public function before_save(&$object, &$changes = array())
-	{
-		//
-	}
-
-	/**
-	 * This method is called after the model is saved in add() and edit()
-	 *
-	 * @param $object - The instance of the model that was just saved.
-	 * @param array $changes - The array of changes.
-	 */
-	public function after_save($object, &$changes = array())
-	{
-		//
 	}
 
 	/**
@@ -257,34 +144,12 @@ abstract class AdminCrudController extends AdminAngelController {
 		return 1;
 	}
 
-	/**
-	 * Called after delete/restore/etc. to ensure that the 'gap' in orders is filled in.
-	 */
-	public function reorder()
-	{
-		if (!isset($this->reorderable) || !$this->reorderable) return;
-		$Model = App::make($this->Model);
-
-		$objects = $Model::orderBy('order')->get();
-
-		$order = 0;
-		foreach ($objects as $object) {
-			$object->order = $order++;
-			$object->save();
-		}
-	}
-
 	public function delete($id, $ajax = false)
 	{
 		$Model = App::make($this->Model);
 
-		$object = $Model::find($id);
-		if (method_exists($object, 'pre_delete')) {
-			$object->pre_delete();
-		}
+		$object = $Model::findOrFail($id);
 		$object->delete();
-
-		$this->reorder();
 
 		if ($ajax) return 1;
 

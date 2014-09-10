@@ -18,53 +18,6 @@ class AdminAngelController extends AngelController {
 	}
 
 	/**
-	 * Handle the creation of the slug and verifying that it is unique.
-	 * Slugs are used for URLs generally, like: http://yoursite.com/products/large-green-ball
-	 *
-	 * @param string $model - The model name.
-	 * @param string $column - The column name where the slug is stored.
-	 * @param string $value - The value to sluggify (usually the 'name' field from input).
-	 * @param null $id - The ID of the current object if editing.
-	 * @return string $unique_slug - The unique slug.
-	 */
-	public function slug($model, $column, $value, $id = null)
-	{
-		$slug        = $this->sluggify($value);
-		$unique_slug = $slug;
-		$i           = 1;
-
-		do {
-			$not_unique = $model::where($column, $unique_slug);
-			if ($id) $not_unique = $not_unique->where('id', '<>', $id);
-			$not_unique = $not_unique->count();
-			if ($not_unique) {
-				$unique_slug = $slug . '-' . $i++;
-			}
-		} while ($not_unique);
-
-		return $unique_slug;
-	}
-
-	/**
-	 * Turn a string into a slug.
-	 * i.e.: 'Large Green Ball' -> 'large-green-ball'
-	 *
-	 * @param string $name - The string to sluggify.
-	 * @return string $slug - The sluggified string.
-	 */
-	protected function sluggify($name)
-	{
-		$slug = strtolower($name);
-		$slug = strip_tags($slug);
-		$slug = stripslashes($slug);
-
-		$slug = preg_replace('/[^a-z0-9]+/', '-', $slug);
-		$slug = trim($slug, '-');
-
-		return $slug;
-	}
-
-	/**
 	 * Handle adding new menu items when creating content (such as pages) from within the menu system.
 	 *
 	 * @param string $fmodel - Name of the model.
@@ -75,13 +28,14 @@ class AdminAngelController extends AngelController {
 	{
 		$MenuItem = App::make('MenuItem');
 
-		$order				= $MenuItem::where('menu_id', Input::get('menu_id'))->count();
-		$menu_item			= new $MenuItem;
-		$menu_item->menu_id	= Input::get('menu_id');
-		$menu_item->fmodel	= $fmodel;
-		$menu_item->fid 	= $fid;
-		$menu_item->order	= $order;
-		$menu_item->save();
+		$menuItem = new $MenuItem;
+		$menuItem->skipEvents = true;
+		$menuItem->menu_id	  = Input::get('menu_id');
+		$menuItem->fmodel	  = $fmodel;
+		$menuItem->fid 	      = $fid;
+		$menuItem->order	  = $MenuItem::where('menu_id', Input::get('menu_id'))->count();
+		$menuItem->save();
+
 		return Redirect::to(admin_uri('menus'))->with('success', $fmodel . ' and menu link successfully created.');
 	}
 

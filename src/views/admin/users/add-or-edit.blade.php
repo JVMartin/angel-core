@@ -27,7 +27,7 @@
 							{{ Form::label('type', 'Type') }}
 						</td>
 						<td>
-							{{ Form::select('type', $okay_types, null, array('class' => 'form-control', 'required')) }}
+							{{ Form::select('type', User::okay_types(), null, array('class' => 'form-control', 'required')) }}
 						</td>
 					</tr>
 					<tr>
@@ -94,7 +94,7 @@
 		{{ Form::close() }}
 		@if ($action == 'edit')
 			<h3>Password Reset</h3>
-			{{ Form::open(array('role'=>'form', 'url'=>admin_uri('users/password/' . $edit_user->id))) }}
+			{{ Form::open(array('role'=>'form')) }}
 				<table class="table table-striped">
 					<tbody>
 						<tr>

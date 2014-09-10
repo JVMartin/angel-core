@@ -147,7 +147,7 @@
 					<h4 class="modal-title">Add Link Wizard</h4>
 				</div>
 				<div class="modal-body">
-					{{ Form::open(array('url' => admin_uri('menus/items/add'), 'role'=>'form', 'method'=>'post')) }}
+					{{ Form::open(array('url' => admin_uri('menus/items/add'), 'role'=>'form')) }}
 						<div class="wizSlide">
 							<p>Where would you like your link to point to?</p>
 							<div class="form-group">

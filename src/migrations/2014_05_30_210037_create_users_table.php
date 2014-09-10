@@ -31,16 +31,15 @@ class CreateUsersTable extends Migration {
 		});
 
 		// Create the admin
-		DB::table('users')->insert(array(
-			'type'       => 'superadmin',
-			'username'   => 'avadmin',
-			'first_name' => 'Angel',
-			'last_name'  => 'Vision',
-			'email'      => 'nobody@angelvisiontech.com',
-			'password'   => Hash::make('password'),
-			'created_at' => Carbon::now(),
-			'updated_at' => Carbon::now()
-		));
+		$user = new User;
+		$user->skipEvents = true;
+		$user->type       = 'superadmin';
+		$user->username   = 'avadmin';
+		$user->first_name = 'Angel';
+		$user->last_name  = 'Vision';
+		$user->email      = 'nobody@angelvisiontech.com';
+		$user->password   = Hash::make('password');
+		$user->save();
 	}
 
 	/**

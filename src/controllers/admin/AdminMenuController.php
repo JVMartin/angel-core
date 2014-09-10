@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, Config, View, Form, Input, Redirect;
+use App, Config, View, Form, Redirect;
 
 class AdminMenuController extends AdminCrudController {
 
@@ -9,16 +9,6 @@ class AdminMenuController extends AdminCrudController {
 	protected $plural	= 'menus';
 	protected $singular	= 'menu';
 	protected $package	= 'core';
-
-	// Columns to update on edit/add
-	protected static function columns()
-	{
-		$columns = array(
-			'name'
-		);
-		if (Config::get('core::languages')) $columns[] = 'language_id';
-		return $columns;
-	}
 
 	public function index()
 	{
@@ -55,19 +45,11 @@ class AdminMenuController extends AdminCrudController {
 		return View::make('core::admin.menus.index', $this->data);
 	}
 
-	public function validate_rules($id = null)
-	{
-		return array(
-			'name' => 'required'
-		);
-	}
-
 	public function delete($id, $ajax = null)
 	{
-		$Menu = App::make('Menu');
+		$Menu     = App::make('Menu');
 		$MenuItem = App::make('MenuItem');
-
-		$menu = $Menu::findOrFail($id);
+		$menu     = $Menu::findOrFail($id);
 
 		if ($MenuItem::where('child_menu_id', $menu->id)->count()) {
 			return Redirect::to($this->uri('edit/' . $menu->id))->withErrors('

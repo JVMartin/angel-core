@@ -1,8 +1,20 @@
 <?php namespace Angel\Core;
 
-use Eloquent;
+use Eloquent, Auth;
 
 class Change extends Eloquent {
+
+	public static function log($model, $changes)
+	{
+		if (!count($changes)) return;
+
+		$change = new static;
+		$change->user_id = Auth::user()->id;
+		$change->fmodel  = short_name($model);
+		$change->fid     = $model->id;
+		$change->changes = json_encode($changes);
+		$change->save();
+	}
 
 	///////////////////////////////////////////////
 	//               Relationships               //

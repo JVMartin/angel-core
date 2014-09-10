@@ -1,36 +1,146 @@
 <?php namespace Angel\Core;
 
-use App, Config;
+use App, Config, Input;
 use Illuminate\Database\Eloquent\Collection;
 
 class Page extends LinkableModel {
 
+	public static function columns()
+	{
+		$columns = array(
+			'name',
+			'url',
+			'html',
+			'js',
+			'css',
+			'title',
+			'meta_description',
+			'meta_keywords',
+			'og_type',
+			'og_image',
+			'twitter_card',
+			'twitter_image',
+			'published',
+			'published_range',
+			'published_start',
+			'published_end'
+		);
+		if (Config::get('core::languages')) $columns[] = 'language_id';
+
+		return $columns;
+	}
+	public function validate_rules()
+	{
+		return array(
+			'name' => 'required',
+			'url'  => 'alpha_dash'
+		);
+	}
+	public function validate_custom()
+	{
+		$errors = array();
+
+		$published_start = Input::get('published_start');
+		$published_end   = Input::get('published_end');
+		if (Input::get('published_range') && $published_end && strtotime($published_start) >= strtotime($published_end)) {
+			$errors[] = 'The publication end time must come after the start time.';
+		}
+		if ($this->url_taken()) {
+			$errors[] = 'That URL is already taken' . ((Config::get('core::languages')) ? ' in this language' : '') . '.';
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * Determine whether an URL is already taken in the specified language.
+	 *
+	 * @param int $id - (Optional) ID of page to exclude
+	 * @return bool
+	 */
+	public function url_taken()
+	{
+		$page = static::where('url', Input::get('url'));
+		if (Config::get('core::languages')) {
+			$page = $page->where('language_id', Input::get('language_id'));
+		}
+		if ($this->id) {
+			$page = $page->where('id', '<>', $this->id);
+		}
+		return $page->get()->count();
+	}
+
+	///////////////////////////////////////////////
+	//                  Events                   //
+	///////////////////////////////////////////////
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saving(function($page) {
+			$page->plaintext = strip_tags($page->html);
+			if (!$page->published_range) {
+				$page->published_start = $page->published_end = null;
+			}
+			$page->title = $page->title ? $page->title : $page->name;
+			$page->url   = strtolower($page->url);
+		});
+		static::saved(function($page) {
+			if ($page->skipEvents) return;
+
+			$PageModule    = App::make('PageModule');
+			$modules       = $PageModule::where('page_id', $page->id)->get();
+			$input_modules = Input::get('modules');
+
+			$input_module_ids = array();
+			foreach ($input_modules as $number=>$input_module) {
+				// If there's only one module and it's blank, skip it.
+				if (!$input_module['name'] && !$input_module['html'] && count($input_modules) == 1) continue;
+
+				// Create a list of module IDs so we can delete the missing modules (which must have been deleted).
+				if ($input_module['id']) $input_module_ids[] = $input_module['id'];
+
+				// Grab the existing module if it exists.
+				$module_existing = $modules->find($input_module['id']);
+				$module          = ($module_existing) ? $module_existing : new $PageModule;
+
+				// If the module exists, log its changes.
+				$input_module['number'] = $number;
+				if ($module_existing) {
+					foreach (array('number', 'html', 'name') as $column) {
+						if ($input_module[$column] != $module->$column) {
+							$changes['Module ID#' . $module->id . ' ' . $column] = array(
+								'old' => $module->$column,
+								'new' => $input_module[$column]
+							);
+						}
+					}
+				}
+
+				// Save that bad boy.
+				$module->page_id   = $page->id;
+				$module->number    = $number;
+				$module->name      = $input_module['name'];
+				$module->html      = $input_module['html'];
+				$module->plaintext = strip_tags($input_module['html']);
+				$module->save();
+			}
+
+			// Delete the deleted modules.
+			foreach ($modules as $module) {
+				if (!in_array($module->id, $input_module_ids)) {
+					$module->delete();
+				}
+			}
+		});
+	}
+
 	///////////////////////////////////////////////
 	//               Relationships               //
 	///////////////////////////////////////////////
-	public function changes()
-	{
-		$Change = App::make('Change');
-
-		return $Change::where('fmodel', 'Page')
-				   	       ->where('fid', $this->id)
-				   	       ->with('user')
-				   	       ->orderBy('created_at', 'DESC')
-				   	       ->get();
-	}
-
 	public function modules()
 	{
 		return $this->hasMany(App::make('PageModule'))->orderBy('number');
-	}
-
-	public function pre_delete()
-	{
-		parent::pre_delete();
-		$Change = App::make('Change');
-		$Change::where('fmodel', 'Page')
-			        ->where('fid', $this->id)
-			        ->delete();
 	}
 
 	///////////////////////////////////////////////

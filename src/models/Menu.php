@@ -1,8 +1,24 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, View;
+use Eloquent, App, View, Config;
 
 class Menu extends Eloquent {
+
+	protected static function columns()
+	{
+		$columns = array(
+			'name'
+		);
+		if (Config::get('core::languages')) $columns[] = 'language_id';
+		return $columns;
+	}
+
+	public function validate_rules()
+	{
+		return array(
+			'name' => 'required'
+		);
+	}
 
 	///////////////////////////////////////////////
 	//               Relationships               //

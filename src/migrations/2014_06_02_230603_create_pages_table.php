@@ -32,8 +32,8 @@ class CreatePagesTable extends Migration {
 			$table->string('twitter_image');
 			$table->boolean('published')->default(1);
 			$table->boolean('published_range')->default(0);
-			$table->timestamp('published_start');
-			$table->timestamp('published_end');
+			$table->timestamp('published_start')->nullable();
+			$table->timestamp('published_end')->nullable();
 			$table->timestamps(); // Adds `created_at` and `updated_at` columns
 
 			if (Config::get('core::languages')) {
@@ -47,19 +47,16 @@ class CreatePagesTable extends Migration {
 		});
 
 		// Create the home page
-		$html = '
+		$Page = App::make('Page');
+		$page = new $Page;
+		$page->skipEvents = true;
+		$page->url        = 'home';
+		$page->name       = 'Home';
+		$page->html       = '
 			<h1>Welcome!</h1>
 			<p>This is the default home page.</p>
 		';
-		DB::table('pages')->insert(array(
-			'url'			=> 'home',
-			'name'			=> 'Home',
-			'title'			=> 'Home',
-			'html'			=> $html,
-			'plaintext'     => strip_tags($html),
-			'created_at'	=> Carbon::now(),
-			'updated_at' 	=> Carbon::now()
-		));
+		$page->save();
 	}
 
 	/**

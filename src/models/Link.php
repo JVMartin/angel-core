@@ -1,8 +1,28 @@
 <?php namespace Angel\Core;
 
+use Config;
+
 class Link extends LinkableModel {
 
 	public $timestamps = false;
+
+	public static function columns()
+	{
+		$columns = array(
+			'name',
+			'url'
+		);
+		if (Config::get('core::languages')) $columns[] = 'language_id';
+		return $columns;
+	}
+
+	public function validate_rules()
+	{
+		return array(
+			'name' => 'required',
+			'url'  => 'required'
+		);
+	}
 
 	///////////////////////////////////////////////
 	//               Menu Linkable               //

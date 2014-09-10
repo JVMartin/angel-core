@@ -1,10 +1,24 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, Config, ReflectionClass;
+use App, Config, ReflectionClass;
 
 // NOTE: If languages are enabled, always eager-load the language relationship when grabbing linkable models.
 
-abstract class LinkableModel extends Eloquent {
+abstract class LinkableModel extends AngelModel {
+
+	///////////////////////////////////////////////
+	//                  Events                   //
+	///////////////////////////////////////////////
+	public static function boot()
+	{
+		parent::boot();
+
+		static::deleting(function($model) {
+			with(App::make('MenuItem'))->where('fmodel', short_name($model))
+				                       ->where('fid', $model->id)
+				                       ->delete();
+		});
+	}
 
 	///////////////////////////////////////////////
 	//               Relationships               //
@@ -12,16 +26,6 @@ abstract class LinkableModel extends Eloquent {
 	public function language()
 	{
 		return $this->belongsTo('Language');
-	}
-
-	// Handling relationships in controller CRUD methods
-	public function pre_delete()
-	{
-		$MenuItem = App::make('MenuItem');
-
-		$MenuItem::where('fmodel', short_name($this))
-				 ->where('fid', $this->id)
-				 ->delete();
 	}
 
 	///////////////////////////////////////////////

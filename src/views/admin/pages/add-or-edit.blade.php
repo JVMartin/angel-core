@@ -248,11 +248,13 @@
 			</div>
 			<div class="expander">
 				<div class="checkbox">
+					<input type="hidden" name="published" value="0" />
 					<label>
 						{{ Form::checkbox('published', 1, true) }} Published
 					</label>
 				</div>
 				<div class="checkbox">
+					<input type="hidden" name="published_range" value="0" />
 					<label>
 						{{ Form::checkbox('published_range', 1, false, array('class'=>'showID', 'data-id'=>'dateRange')) }} Specific Date Range
 					</label>
