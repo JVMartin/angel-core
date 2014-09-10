@@ -1,10 +1,10 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, View, Config;
+use App, View, Config;
 
-class Menu extends Eloquent {
+class Menu extends AngelModel {
 
-	protected static function columns()
+	public static function columns()
 	{
 		$columns = array(
 			'name'

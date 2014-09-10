@@ -1,8 +1,8 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App, Validator, Input;
+use App, Validator, Input;
 
-abstract class AngelModel extends Eloquent {
+abstract class AngelModel extends \Eloquent {
 
 	// The column from which to seed the slug.  (i.e.: 'name')
 	protected $slugSeed = null;

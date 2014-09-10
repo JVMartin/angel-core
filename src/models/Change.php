@@ -1,8 +1,8 @@
 <?php namespace Angel\Core;
 
-use Eloquent, Auth;
+use Auth;
 
-class Change extends Eloquent {
+class Change extends \Eloquent {
 
 	public static function log($model, $changes)
 	{

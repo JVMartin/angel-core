@@ -1,8 +1,6 @@
 <?php namespace Angel\Core;
 
-use Eloquent;
-
-class Setting extends Eloquent {
+class Setting extends \Eloquent {
 
 	protected $primaryKey = 'key';
 

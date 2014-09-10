@@ -1,12 +1,14 @@
 <?php namespace Angel\Core;
 
-use Eloquent, App;
+use App;
 
-class PageModule extends Eloquent {
+class PageModule extends \Eloquent {
+
 	protected $table = 'pages_modules';
 
 	public function page()
 	{
 		return $this->belongsTo(App::make('Page'));
 	}
+
 }

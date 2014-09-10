@@ -1,8 +1,8 @@
 <?php namespace Angel\Core;
 
-use Eloquent, Config;
+use Config;
 
-class Language extends Eloquent {
+class Language extends \Eloquent {
 
 	///////////////////////////////////////////////
 	//                  Other                    //
