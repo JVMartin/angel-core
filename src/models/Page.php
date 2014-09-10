@@ -1,7 +1,7 @@
 <?php namespace Angel\Core;
 
-use App, Config, Input;
 use Illuminate\Database\Eloquent\Collection;
+use App, Config, Input;
 
 class Page extends LinkableModel {
 
