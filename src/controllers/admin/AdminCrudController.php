@@ -2,7 +2,7 @@
 
 use App, View, Input, Redirect, Config;
 
-abstract class AdminCrudController extends AdminAngelController {
+abstract class AdminCrudController extends AngelController {
 
 	/*
 	// Required:
@@ -58,10 +58,16 @@ abstract class AdminCrudController extends AdminAngelController {
 
 	public function add()
 	{
+		// Are we creating this object from the menu add wizard?
 		// Toss the menu_id URL variable into the session instead
-		// NOTE:  You only need this for menu-linkable models
 		if (Input::get('menu_id')) {
 			return Redirect::to($this->uri('add'))->with('menu_id', Input::get('menu_id'));
+		}
+		// And grab the menu_id from the session or the old input, depending on whether we're new here
+		if (Session::has('menu_id')) {
+			$this->data['menu_id'] = Session::get('menu_id');
+		} else if (Input::old('menu_id')) {
+			$this->data['menu_id'] = Input::old('menu_id');
 		}
 
 		$this->data['action'] = 'add';
@@ -175,6 +181,28 @@ abstract class AdminCrudController extends AdminAngelController {
 		if ($append) $uri .= '/' . $append;
 		if ($url) return admin_url($uri);
 		return admin_uri($uri);
+	}
+
+	/**
+	 * Handle adding new menu items when creating content (such as pages) from within the menu system.
+	 *
+	 * @param string $fmodel - Name of the model.
+	 * @param int $fid - ID of the model.
+	 * @return Redirect to the menu index with success message.
+	 */
+	protected function also_add_menu_item($fmodel, $fid)
+	{
+		$MenuItem = App::make('MenuItem');
+
+		$menuItem = new $MenuItem;
+		$menuItem->skipEvents = true;
+		$menuItem->menu_id    = Input::get('menu_id');
+		$menuItem->fmodel     = $fmodel;
+		$menuItem->fid        = $fid;
+		$menuItem->order      = $MenuItem::where('menu_id', Input::get('menu_id'))->count();
+		$menuItem->save();
+
+		return Redirect::to(admin_uri('menus'))->with('success', $fmodel . ' and menu link successfully created.');
 	}
 
 }

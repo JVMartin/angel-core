@@ -2,7 +2,7 @@
 
 use View, App, Input, Redirect;
 
-class AdminSettingController extends AdminAngelController {
+class AdminSettingController extends AngelController {
 
 	public function index()
 	{

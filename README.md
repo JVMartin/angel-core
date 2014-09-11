@@ -195,10 +195,6 @@ class ProductController extends \Angel\Core\BaseController {
 ```
 
 ### Creating Unique Slugs Manually
-
-To create slugs manually from any controller, that controller must extend `\Angel\Core\AdminAngelController` or a descendant of it (such as the AdminCrudController).
-
-Then, you can create slugs like this:
 ```php
 // Adding a new item:
 $article        = new NewsArticle;
