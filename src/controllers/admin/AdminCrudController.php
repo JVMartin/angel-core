@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, View, Input, Redirect, Config;
+use App, View, Input, Redirect, Config, Session;
 
 abstract class AdminCrudController extends AngelController {
 
