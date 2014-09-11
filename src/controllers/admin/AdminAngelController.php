@@ -30,10 +30,10 @@ class AdminAngelController extends AngelController {
 
 		$menuItem = new $MenuItem;
 		$menuItem->skipEvents = true;
-		$menuItem->menu_id	  = Input::get('menu_id');
-		$menuItem->fmodel	  = $fmodel;
-		$menuItem->fid 	      = $fid;
-		$menuItem->order	  = $MenuItem::where('menu_id', Input::get('menu_id'))->count();
+		$menuItem->menu_id    = Input::get('menu_id');
+		$menuItem->fmodel     = $fmodel;
+		$menuItem->fid        = $fid;
+		$menuItem->order      = $MenuItem::where('menu_id', Input::get('menu_id'))->count();
 		$menuItem->save();
 
 		return Redirect::to(admin_uri('menus'))->with('success', $fmodel . ' and menu link successfully created.');
