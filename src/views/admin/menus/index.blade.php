@@ -125,7 +125,7 @@
 					</div>
 					<div class="panel-body" data-id="{{ $menu->id }}">
 						@include('core::admin.menus.items.index')
-						<button class="btn btn-xs btn-primary showWizard" data-toggle="modal" data-target="#wizard">
+						<button class="btn btn-sm btn-primary showWizard" data-toggle="modal" data-target="#wizard">
 							<span class="glyphicon glyphicon-plus"></span>
 							Add Link
 						</button>
