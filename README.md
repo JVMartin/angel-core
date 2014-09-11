@@ -6,8 +6,8 @@ Table of Contents
 -----------------
 * [Try It](#try-it)
 * [Installation](#installation)
-* [Configuration](#configuration)
 * [Extending the Core](#extending-the-core)
+* [Configuration](#configuration)
 * [Using Slugs](#using-slugs)
 * [Develop Modules](#develop-modules)
 
@@ -45,18 +45,56 @@ After the package has been installed, open `app/config/app.php` and add the foll
 'Angel\Core\CoreServiceProvider'
 ```
 
-Delete all the default routes in `app/routes.php` and all the filters except for the `csrf` filter in `app/filters.php`.
-
-You should also delete the file `app/models/User.php`.  You can replace it with a `.gitkeep` file for now to keep the `app/models` directory.
+Delete:
+* All the default routes in `app/routes.php`.
+* All the default filters except for the `csrf` filter in `app/filters.php`.
+* All controllers in `app/controllers` except `BaseController.php`.
+* All the models in `app/models`, including `User.php`.  You can replace it with a `.gitkeep` file for now to be sure to keep the `app/models` directory.
 
 Create and configure your database so that we can run the migrations.
 
 Finally, issue the following artisan commands:
 ```bash
+php artisan dump-autoload                    # Dump a load
 php artisan asset:publish                    # Publish the assets
 php artisan config:publish angel/core        # Publish the config
 php artisan migrate --package="angel/core"   # Run the migrations
 ```
+
+Extending the Core
+------------------
+Every class in the core is easily extendable.
+
+Let's start by extending the [PageController](https://github.com/JVMartin/angel/blob/master/src/controllers/PageController.php).
+
+When extending this controller, you can create a method for each page URI that you've created in the administration panel.
+
+Create the following file as `app/controllers/PageController.php`:
+
+```php
+<?php
+
+class PageController extends \Angel\Core\PageController {
+
+	public function home()
+	{
+		return 'You are home!';
+	}
+
+}
+```
+
+Remove the old binding and bind your new class at the top of your `routes.php` file:
+```
+App::offsetUnset('PageController');
+App::singleton('PageController', function() {
+	return new \PageController;
+});
+```
+
+Do a `composer dump-autoload`.
+
+Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
 
 Configuration
 -------------
@@ -117,41 +155,6 @@ The next section is the `'menu'` array.  When you install modules, you add their
 
 ### Menu Linkable Models
 Some modules come with models that you can create menu links to in the `Menu` module.  This array is used by the `Menu Link Creation Wizard` on the `Menu` module's index.
-
-Extending the Core
-------------------
-Every class in the core is easily extendable.
-
-Let's start by extending the [PageController](https://github.com/JVMartin/angel/blob/master/src/controllers/PageController.php).
-
-When extending this controller, you can create a method for each page URI that you've created in the administration panel.
-
-Create the following file as `app/controllers/PageController.php`:
-
-```php
-<?php
-
-class PageController extends \Angel\Core\PageController {
-	
-	public function home()
-	{
-		return 'You are home!';
-	}
-
-}
-```
-
-Remove the old binding and bind your new class at the top of your `routes.php` file:
-```
-App::offsetUnset('PageController');
-App::singleton('PageController', function() {
-	return new \PageController;
-});
-```
-
-Do a `composer dump-autoload`.
-
-Now, you should be able to navigate to `http://yoursite.com/home` and see: `You are home!`.
 
 
 Using Slugs
