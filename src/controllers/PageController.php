@@ -40,7 +40,7 @@ class PageController extends AngelController {
 		if (!$page || !$page->is_published()) App::abort(404);
 
 		$this->data['active_language']  = $language;
-		$this->data['page']				= $page;
+		$this->data['page']             = $page;
 
 		$method = str_replace('-', '_', $url);
 		if (method_exists($this, $method)) {
