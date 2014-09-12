@@ -173,7 +173,7 @@
 							</div>
 							<p class="text-right">
 								<button type="button" class="btn btn-info wizNext" id="existingNext">Next</button>
-								<a href="" class="btn btn-info" id="newNext">Next</a>
+								<a href="{{-- Filled by the javascript --}}" class="btn btn-info" id="newNext">Next</a>
 							</p>
 						</div>
 						<div class="wizSlide">

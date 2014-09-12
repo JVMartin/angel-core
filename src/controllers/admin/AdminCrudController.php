@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, View, Input, Redirect, Config, Session;
+use App, View, Input, Redirect, Config, Session, Request;
 
 abstract class AdminCrudController extends AngelController {
 
@@ -13,6 +13,12 @@ abstract class AdminCrudController extends AngelController {
 	protected $package	= 'products';
 	*/
 
+	/**
+	 * A searchable index of all the model objects.  If the models are reorderable, they are
+	 * displayed all at once.  Otherwise, they are paginated.
+	 *
+	 * @return \Illuminate\View\View
+	 */
 	public function index()
 	{
 		$Model   = App::make($this->Model);
@@ -56,6 +62,14 @@ abstract class AdminCrudController extends AngelController {
 		return View::make($this->view('index'), $this->data);
 	}
 
+	/**
+	 * Both add()
+	 *
+	 * There are two ways of adding a new item.  One is from its index,
+	 * and the other is from the menu index's 'Add Link' wizard.
+	 *
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+	 */
 	public function add()
 	{
 		// Are we creating this object from the menu add wizard?
@@ -74,6 +88,14 @@ abstract class AdminCrudController extends AngelController {
 		return View::make($this->view('add-or-edit'), $this->data);
 	}
 
+	/**
+	 * When attempting to add a new model, we simply call validate() on it
+	 * and then save it.  All models that extend AngelModel have a saving()
+	 * model event that calls the assign() method and fills the model's columns/properties
+	 * from the posted inputs.
+	 *
+	 * @return $this->add_redirect()
+	 */
 	public function attempt_add()
 	{
 		$Model   = App::make($this->Model);
@@ -86,14 +108,22 @@ abstract class AdminCrudController extends AngelController {
 
 		$object->save();
 
-		// Are we creating this object from the menu wizard?
+		// Are we creating this object from the menu wizard?  (And it isn't a MenuItem?)
 		// NOTE:  You only need this for menu-linkable models
-		if (Input::get('menu_id')) {
+		if (Input::get('menu_id') && !Request::is(admin_uri('menus/items/add'))) {
 			return $this->also_add_menu_item($this->Model, $object->id);
 		}
 
 		return $this->add_redirect($object);
 	}
+
+	/**
+	 * Often times, we want to just change where we redirect to after adding the model.
+	 * That is why this function exists.
+	 *
+	 * @param $object - The model we just added.
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public function add_redirect($object)
 	{
 		return Redirect::to($this->uri())->with('success', '
@@ -101,6 +131,12 @@ abstract class AdminCrudController extends AngelController {
 		');
 	}
 
+	/**
+	 * Show the model for editing.
+	 *
+	 * @param $id
+	 * @return \Illuminate\View\View
+	 */
 	public function edit($id)
 	{
 		$Model = App::make($this->Model);

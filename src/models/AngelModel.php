@@ -24,11 +24,17 @@ abstract class AngelModel extends \Eloquent {
 
 	public function validate()
 	{
-		$validator = Validator::make(Input::all(), $this->validate_rules());
-		$errors = ($validator->fails()) ? $validator->messages()->toArray() : array();
-		foreach ($this->validate_custom() as $error) {
-			$errors[] = $error;
+		$errors = array();
+
+		if (count($this->validate_rules())) {
+			$validator = Validator::make(Input::all(), $this->validate_rules());
+			if ($validator->fails()) {
+				$errors = array_merge($errors, $validator->messages()->toArray());
+			}
 		}
+
+		$errors = array_merge($errors, $this->validate_custom());
+
 		return $errors;
 	}
 	public function validate_rules()

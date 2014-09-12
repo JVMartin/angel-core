@@ -169,6 +169,7 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 			$controller = 'AdminMenuItemController';
 
 			Route::get('/', function() {
+				Session::reflash();
 				return Redirect::to(admin_uri('menus'));
 			});
 			Route::post('add', array(

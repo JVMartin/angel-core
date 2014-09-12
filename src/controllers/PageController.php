@@ -34,7 +34,7 @@ class PageController extends AngelController {
 
 		$page = $Page::with('modules')
 					 ->where('language_id', $language->id)
-			         ->where('url', $url)
+					 ->where('url', $url)
 					 ->first();
 
 		if (!$page || !$page->is_published()) App::abort(404);

@@ -21,11 +21,13 @@ class MenuItem extends AngelModel {
 	{
 		$errors = array();
 
-		if (Input::get('child_menu_id') == $this->menu_id) {
-			$errors[] = 'The child menu cannot be the same as the parent menu.  A recursive loop would occur.';
-		}
-		if (static::where('child_menu_id', $this->menu_id)->count()) {
-			$errors[] = 'A child menu cannot have a child menu nested within it.';
+		if (Input::has('child_menu_id')) {
+			if (Input::get('child_menu_id') == $this->menu_id) {
+				$errors[] = 'The child menu cannot be the same as the parent menu.  A recursive loop would occur.';
+			}
+			if (static::where('child_menu_id', $this->menu_id)->count()) {
+				$errors[] = 'A child menu cannot have a child menu nested within it.';
+			}
 		}
 
 		return $errors;
@@ -41,7 +43,9 @@ class MenuItem extends AngelModel {
 		static::saving(function($menuItem) {
 			if ($menuItem->skipEvents) return;
 
-			if (!Input::get('child_menu_id')) $menuItem->child_menu_id = null;
+			if (Input::exists('child_menu_id') && !Input::get('child_menu_id')) {
+				$menuItem->child_menu_id = null;
+			}
 		});
 		static::creating(function($menuItem) {
 			if ($menuItem->skipEvents) return;
@@ -50,7 +54,6 @@ class MenuItem extends AngelModel {
 			$menuItem->menu_id  = Input::get('menu_id');
 			$menuItem->fmodel	= Input::get('fmodel');
 			$menuItem->fid		= Input::get('fid');
-			$menuItem->save();
 		});
 	}
 

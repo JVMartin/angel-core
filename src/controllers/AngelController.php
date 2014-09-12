@@ -18,18 +18,21 @@ class AngelController extends \BaseController {
 
 	public function __construct()
 	{
+		// Call the parent's (BaseController's) constructor if it exists
 		$reflection = new ReflectionClass(__CLASS__);
 		if (method_exists($reflection->getParentClass()->name, '__construct')) {
 			parent::__construct();
 		}
 
+		// Are we on a mobile device?
 		$detect = new Mobile_Detect;
 		if (($detect->isMobile() || Input::get('mobile')) && !Input::get('desktop')) {
 			$this->mobile         = true;
 			$this->data['mobile'] = true;
 		}
 
-		// Used for alerting the user
+		// Get all error and success messages for alerting the user
+		// (In alerts.blade.php, which is loaded into both the front-end and admin templates)
 		if (Session::has('errors')) {
 			foreach(Session::get('errors')->all() as $message) {
 				$this->data['error'][] = $message;
