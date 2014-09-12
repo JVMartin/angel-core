@@ -2,8 +2,6 @@
 
 use App, Config;
 
-// NOTE: If languages are enabled, always eager-load the language relationship when grabbing linkable models.
-
 abstract class LinkableModel extends AngelModel {
 
 	///////////////////////////////////////////////
@@ -21,14 +19,6 @@ abstract class LinkableModel extends AngelModel {
 	}
 
 	///////////////////////////////////////////////
-	//               Relationships               //
-	///////////////////////////////////////////////
-	public function language()
-	{
-		return $this->belongsTo('Language');
-	}
-
-	///////////////////////////////////////////////
 	//               Menu Linkable               //
 	///////////////////////////////////////////////
 	abstract public function link();
@@ -38,28 +28,22 @@ abstract class LinkableModel extends AngelModel {
 	{
 		return $this->name;
 	}
-	public function name_full()
+	public static function drop_down($Model)
 	{
-		if (Config::get('core::languages')) return $this->language->name . ' | ' . $this->name;
-		return $this->name;
-	}
-	public static function drop_down($model)
-	{
-		$model = App::make($model);
+		$Model = App::make($Model);
 
-		if (Config::get('core::languages')) $objects = $model::orderBy('language_id')->get();
-		else $objects = $model::get();
 		$arr = array();
-		foreach ($objects as $object) {
-			$arr[$object->id] = $object->name_full();
+		foreach ($Model::get() as $object) {
+			$arr[$object->id] = $object->name();
 		}
+
 		return $arr;
 	}
 	public static function drop_down_with($objects)
 	{
 		$arr = array();
 		foreach ($objects as $object) {
-			$arr[$object->id] = $object->name_full();
+			$arr[$object->id] = $object->name();
 		}
 		return $arr;
 	}

@@ -21,19 +21,6 @@
 			@endif
 				<table class="table table-striped">
 					<tbody>
-						@if (Config::get('core::languages'))
-							<tr>
-								<td>
-									<span class="required">*</span>
-									{{ Form::label('language_id', 'Language') }}
-								</td>
-								<td>
-									<div style="width:300px">
-										{{ Form::select('language_id', $language_drop, $active_language->id, array('class' => 'form-control', 'required')) }}
-									</div>
-								</td>
-							</tr>
-						@endif
 						<tr>
 							<td>
 								<span class="required">*</span>

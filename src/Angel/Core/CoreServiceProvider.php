@@ -46,7 +46,6 @@ class CoreServiceProvider extends ServiceProvider {
 		$bindings = array(
 			// Models
 			'Change'                  => '\Angel\Core\Change',
-			'Language'                => '\Angel\Core\Language',
 			'Link'                    => '\Angel\Core\Link',
 			'Menu'                    => '\Angel\Core\Menu',
 			'MenuItem'                => '\Angel\Core\MenuItem',
@@ -55,7 +54,6 @@ class CoreServiceProvider extends ServiceProvider {
 			'Setting'                 => '\Angel\Core\Setting',
 
 			// Controllers
-			'AdminLanguageController' => '\Angel\Core\AdminLanguageController',
 			'AdminLinkController'     => '\Angel\Core\AdminLinkController',
 			'AdminMenuController'     => '\Angel\Core\AdminMenuController',
 			'AdminMenuItemController' => '\Angel\Core\AdminMenuItemController',

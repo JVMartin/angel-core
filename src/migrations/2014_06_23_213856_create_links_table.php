@@ -18,11 +18,6 @@ class CreateLinksTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('url');
-
-			if (Config::get('core::languages')) {
-				$table->integer('language_id')->unsigned()->default(1);
-				$table->foreign('language_id')->references('id')->on('languages')->onDelete('cascade');
-			}
 		});
 	}
 

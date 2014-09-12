@@ -3,9 +3,6 @@
 		<tr>
 			<th style="width:190px;"></th>
 			<th style="width:100px">Type</th>
-			@if (Config::get('core::languages') && !$single_language)
-				<th style="width:120px">Language</th>
-			@endif
 			<th>Edit</th>
 			<th>Child Menu</th>
 		</tr>
@@ -33,11 +30,6 @@
 				<td>
 					{{ $menuItem->fmodel }}
 				</td>
-				@if (Config::get('core::languages') && !$single_language)
-					<td>
-						{{ $menuItem->model->language->name }}
-					</td>
-				@endif
 				<td>
 					{{ Form::hidden(null, $menuItem->order, array('class'=>'orderInput')) }}
 					<a href="{{ $menuItem->model->link_edit() }}">

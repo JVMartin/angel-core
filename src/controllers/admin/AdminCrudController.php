@@ -24,11 +24,6 @@ abstract class AdminCrudController extends AngelController {
 		$Model   = App::make($this->Model);
 		$objects = $Model::withTrashed();
 
-		// If languages are enabled, only get the current active language's objects.
-		if (Config::get('core::languages') && in_array(Config::get('language_models'), $this->Model)) {
-			$objects = $objects->where('language_id', $this->data['active_language']->id);
-		}
-
 		// If a search term has been entered...
 		$this->data['search'] = $search = (Input::get('search')) ? urldecode(Input::get('search')) : null;
 		if ($search) {

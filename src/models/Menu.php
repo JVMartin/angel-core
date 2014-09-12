@@ -6,11 +6,9 @@ class Menu extends AngelModel {
 
 	public static function columns()
 	{
-		$columns = array(
+		return array(
 			'name'
 		);
-		if (Config::get('core::languages')) $columns[] = 'language_id';
-		return $columns;
 	}
 
 	public function validate_rules()
@@ -30,10 +28,6 @@ class Menu extends AngelModel {
 	public function childMenuItems()
 	{
 		return $this->hasMany(App::make('MenuItem'))->orderBy('order', 'asc');
-	}
-	public function language()
-	{
-		return $this->belongsTo(App::make('Language'));
 	}
 
 	///////////////////////////////////////////////

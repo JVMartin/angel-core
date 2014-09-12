@@ -56,42 +56,6 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 	});
 
 	//------------------------
-	// AdminLanguageController - mostly superadmin filters!
-	//------------------------
-	if (Config::get('core::languages')) {
-		Route::group(array('prefix' => 'languages', 'before' => 'superadmin'), function() {
-
-			$controller = 'AdminLanguageController';
-
-			Route::get('/', array(
-				'uses' => $controller . '@index'
-			));
-			Route::get('add', array(
-				'uses' => $controller . '@add'
-			));
-			Route::post('add', array(
-				'before' => 'csrf',
-				'uses' => $controller . '@attempt_add'
-			));
-			Route::get('edit/{id}', array(
-				'uses' => $controller . '@edit'
-			));
-			Route::post('edit/{id}', array(
-				'before' => 'csrf',
-				'uses' => $controller . '@attempt_edit'
-			));
-			Route::post('delete/{id}', array(
-				'before' => 'csrf',
-				'uses' => $controller . '@delete'
-			));
-		});
-		// Any admin can change their active (editing) language... not just super admin
-		Route::get('languages/make-active/{id}', array(
-			'uses' => 'AdminLanguageController@make_active'
-		));
-	}
-
-	//------------------------
 	// AdminPageController
 	//------------------------
 	Route::group(array('prefix' => 'pages'), function() {
@@ -242,20 +206,14 @@ Route::get('signout', array(
 	'before' => 'auth',
 	'uses' => 'UserController@signout'
 ));
-if (Config::get('core::languages')) {
-	Route::get('/', 'PageController@show_language');
-} else {
-	Route::get('/', 'PageController@show');
-}
+
+Route::get('/', 'PageController@show');
+
 // We need to ensure that this is the -absolute- last route, otherwise
 // we'll get caught in it before the router reaches other packages, due to the base-level URI variables.
 // Thus far, wrapping it in an App::before seems to do the trick.
 App::before(function() {
-	if (Config::get('core::languages')) {
-		Route::get('{language_uri}/{url}/{section?}',	'PageController@show_language');
-	} else {
-		Route::get('{url}/{section?}',	'PageController@show');
-	}
+	Route::get('{url}/{section?}',	'PageController@show');
 });
 
 App::missing(function($exception) {

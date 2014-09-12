@@ -8,12 +8,10 @@ class Link extends LinkableModel {
 
 	public static function columns()
 	{
-		$columns = array(
+		return array(
 			'name',
 			'url'
 		);
-		if (Config::get('core::languages')) $columns[] = 'language_id';
-		return $columns;
 	}
 
 	public function validate_rules()

@@ -7,7 +7,7 @@ class Page extends LinkableModel {
 
 	public static function columns()
 	{
-		$columns = array(
+		return array(
 			'name',
 			'url',
 			'html',
@@ -25,15 +25,12 @@ class Page extends LinkableModel {
 			'published_start',
 			'published_end'
 		);
-		if (Config::get('core::languages')) $columns[] = 'language_id';
-
-		return $columns;
 	}
 	public function validate_rules()
 	{
 		return array(
 			'name' => 'required',
-			'url'  => 'alpha_dash'
+			'url'  => 'alpha_dash|unique:pages,url,' . $this->id
 		);
 	}
 	public function validate_custom()
@@ -45,29 +42,8 @@ class Page extends LinkableModel {
 		if (Input::get('published_range') && $published_end && strtotime($published_start) >= strtotime($published_end)) {
 			$errors[] = 'The publication end time must come after the start time.';
 		}
-		if ($this->url_taken()) {
-			$errors[] = 'That URL is already taken' . ((Config::get('core::languages')) ? ' in this language' : '') . '.';
-		}
 
 		return $errors;
-	}
-
-	/**
-	 * Determine whether an URL is already taken in the specified language.
-	 *
-	 * @param int $id - (Optional) ID of page to exclude
-	 * @return bool
-	 */
-	public function url_taken()
-	{
-		$page = static::where('url', Input::get('url'));
-		if (Config::get('core::languages')) {
-			$page = $page->where('language_id', Input::get('language_id'));
-		}
-		if ($this->id) {
-			$page = $page->where('id', '<>', $this->id);
-		}
-		return $page->get()->count();
 	}
 
 	///////////////////////////////////////////////
@@ -148,11 +124,9 @@ class Page extends LinkableModel {
 	///////////////////////////////////////////////
 	public function link()
 	{
-		$language_segment = (Config::get('core::languages')) ? $this->language->uri . '/' : '';
+		$url = ($this->url == 'home') ? '/' : $this->url;
 
-		$url = ($this->url == 'home') ? '' : $this->url;
-
-		return url($language_segment . $url);
+		return url($url);
 	}
 
 	public function link_edit()

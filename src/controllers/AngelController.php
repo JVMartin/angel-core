@@ -72,27 +72,6 @@ class AngelController extends \BaseController {
 		$Setting                = App::make('Setting');
 		$this->settings         = $Setting::currentSettings();
 		$this->data['settings'] = $this->settings;
-
-		///////////////////////////////////////////////
-		//                Languages                  //
-		///////////////////////////////////////////////
-		if (Config::get('core::languages'))  {
-			$Language        = App::make('Language');
-			$this->languages = $Language::all();
-			$language_drop   = array();
-			foreach ($this->languages as $language) {
-				$language_drop[$language->id] = $language->name;
-			}
-			$this->data['language_drop']   = $language_drop;
-			$this->data['all_languages']   = $this->languages;
-			$this->data['single_language'] = count($this->languages) == 1 ? true : false;
-
-			// Handle the current active language
-			if (!Session::get('language')) {
-				Session::put('language', $Language::primary()->id);
-			}
-			$this->data['active_language'] = $this->languages->find(Session::get('language'));
-		}
 	}
 
 	public function global_search($search)
