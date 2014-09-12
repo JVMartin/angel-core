@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -28,17 +27,14 @@ class CreateMenusItemsTable extends Migration {
 			$table->foreign('child_menu_id')->references('id')->on('menus');
 		});
 
-		// Create the home page menu item
-		DB::table('menus_items')->insert(
-			array(
-				'order'			=> 0,
-				'menu_id'		=> 1,
-				'fmodel'		=> 'Page',
-				'fid'			=> 1,
-				'created_at'	=> Carbon::now(),
-				'updated_at' 	=> Carbon::now()
-			)
-		);
+		$MenuItem = App::make('MenuItem');
+		$menuItem = new $MenuItem;
+		$menuItem->skipEvents = true;
+		$menuItem->menu_id    = 1;
+		$menuItem->order      = 0;
+		$menuItem->fmodel     = 'Page';
+		$menuItem->fid        = 1;
+		$menuItem->save();
 	}
 
 	/**

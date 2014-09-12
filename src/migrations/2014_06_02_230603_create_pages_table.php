@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -49,7 +48,23 @@ class CreatePagesTable extends Migration {
 		$page->name       = 'Home';
 		$page->html       = '
 			<h1>Welcome!</h1>
-			<p>This is the default home page.</p>
+
+			<p>This is the default <a href="https://github.com/JVMartin/angel">Angel CMS</a> home page.</p>
+
+			<p>Some good first steps to take:</p>
+
+			<ul>
+				<li>
+					Change the superadmin password and email <a href="/admin/users/edit/1">from the users module here</a>.<br />
+					Login using:
+					<ul>
+						<li>Username: avadmin</li>
+						<li>Password: password</li>
+					</ul>
+				</li>
+				<li><a href="/admin/pages/edit/1">Edit this default home page here</a>.</li>
+			</ul>
+
 		';
 		$page->save();
 	}

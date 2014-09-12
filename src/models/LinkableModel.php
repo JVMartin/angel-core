@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, Config;
+use App;
 
 abstract class LinkableModel extends AngelModel {
 
@@ -11,6 +11,7 @@ abstract class LinkableModel extends AngelModel {
 	{
 		parent::boot();
 
+		// Delete all links when deleting any LinkableModel.
 		static::deleting(function($model) {
 			with(App::make('MenuItem'))->where('fmodel', short_name($model))
 				                       ->where('fid', $model->id)

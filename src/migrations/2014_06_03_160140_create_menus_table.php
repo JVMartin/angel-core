@@ -1,6 +1,5 @@
 <?php
 
-use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -22,13 +21,11 @@ class CreateMenusTable extends Migration {
 		});
 
 		// Create the main menu
-		DB::table('menus')->insert(
-			array(
-				'name' 			=> 'Main',
-				'created_at'	=> Carbon::now(),
-				'updated_at' 	=> Carbon::now()
-			)
-		);
+		$Menu = App::make('Menu');
+		$menu = new $Menu;
+		$menu->skipEvents = true;
+		$menu->name       = 'Main';
+		$menu->save();
 	}
 
 	/**
