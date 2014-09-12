@@ -14,7 +14,7 @@ abstract class AdminCrudController extends AngelController {
 	*/
 
 	/**
-	 * A searchable index of all the model objects.  If the models are reorderable, they are
+	 * A (sometimes searchable) index of all the model objects.  If the models are reorderable, they are
 	 * displayed all at once.  Otherwise, they are paginated.
 	 *
 	 * @return \Illuminate\View\View
@@ -63,7 +63,9 @@ abstract class AdminCrudController extends AngelController {
 	}
 
 	/**
-	 * Both add()
+	 * Show the form for adding.
+	 *
+	 * Both add() and edit() use the same view:  add-or-edit
 	 *
 	 * There are two ways of adding a new item.  One is from its index,
 	 * and the other is from the menu index's 'Add Link' wizard.
@@ -94,7 +96,7 @@ abstract class AdminCrudController extends AngelController {
 	 * model event that calls the assign() method and fills the model's columns/properties
 	 * from the posted inputs.
 	 *
-	 * @return $this->add_redirect()
+	 * @return $this->add_redirect() - Where to go after a successful add?
 	 */
 	public function attempt_add()
 	{
@@ -111,17 +113,19 @@ abstract class AdminCrudController extends AngelController {
 		// Are we creating this object from the menu wizard?  (And it isn't a MenuItem?)
 		// NOTE:  You only need this for menu-linkable models
 		if (Input::get('menu_id') && !Request::is(admin_uri('menus/items/add'))) {
-			return $this->also_add_menu_item($this->Model, $object->id);
+			return $this->also_add_menu_item($object);
 		}
 
 		return $this->add_redirect($object);
 	}
 
 	/**
+	 * Where to go after a successful add?
+	 *
 	 * Often times, we want to just change where we redirect to after adding the model.
 	 * That is why this function exists.
 	 *
-	 * @param $object - The model we just added.
+	 * @param AngelModel $object - The model we just added.
 	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function add_redirect($object)
@@ -132,9 +136,11 @@ abstract class AdminCrudController extends AngelController {
 	}
 
 	/**
-	 * Show the model for editing.
+	 * Show the model form for editing.
 	 *
-	 * @param $id
+	 * Both add() and edit() use the same view:  add-or-edit
+	 *
+	 * @param int $id - The ID of the model we're editing.
 	 * @return \Illuminate\View\View
 	 */
 	public function edit($id)
@@ -147,6 +153,17 @@ abstract class AdminCrudController extends AngelController {
 		return View::make($this->view('add-or-edit'), $this->data);
 	}
 
+	/**
+	 * Edit a model.
+	 *
+	 * When attempting to edit a model, we simply call validate() on it
+	 * and then save it.  All models that extend AngelModel have a saving()
+	 * model event that calls the assign() method and fills the model's columns/properties
+	 * from the posted inputs.
+	 *
+	 * @param int $id - The ID of the model we're editing.
+	 * @return $this->edit_redirect() - Where to go after a successful edit?
+	 */
 	public function attempt_edit($id)
 	{
 		$Model  = App::make($this->Model);
@@ -161,6 +178,16 @@ abstract class AdminCrudController extends AngelController {
 
 		return $this->edit_redirect($object);
 	}
+
+	/**
+	 * Where to go after a successful edit?
+	 *
+	 * Often times, we want to just change where we redirect to after editing the model.
+	 * That is why this function exists.
+	 *
+	 * @param AngelModel $object - The model we just edited.
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public function edit_redirect($object)
 	{
 		return Redirect::to($this->uri('edit/' . $object->id))->with('success', '
@@ -170,7 +197,7 @@ abstract class AdminCrudController extends AngelController {
 	}
 
 	/**
-	 * AJAX for reordering objects
+	 * AJAX for reordering objects.
 	 */
 	public function order()
 	{
@@ -186,6 +213,13 @@ abstract class AdminCrudController extends AngelController {
 		return 1;
 	}
 
+	/**
+	 * Delete a model by ID.
+	 *
+	 * @param int $id - The ID of the model we're deleting.
+	 * @param bool $ajax - Is this an AJAX deletion?
+	 * @return $this->delete_redirect() - Where to go after a deletion?
+	 */
 	public function delete($id, $ajax = false)
 	{
 		$Model = App::make($this->Model);
@@ -197,6 +231,15 @@ abstract class AdminCrudController extends AngelController {
 
 		return $this->delete_redirect();
 	}
+
+	/**
+	 * Where to go after a deletion?
+	 *
+	 * Often times, we want to just change where we redirect to after deleting the model.
+	 * That is why this function exists.
+	 *
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
 	public function delete_redirect()
 	{
 		return Redirect::to($this->uri())->with('success', '
@@ -222,23 +265,22 @@ abstract class AdminCrudController extends AngelController {
 	/**
 	 * Handle adding new menu items when creating content (such as pages) from within the menu system.
 	 *
-	 * @param string $fmodel - Name of the model.
-	 * @param int $fid - ID of the model.
+	 * @param AngelModel $object - The model we just added.
 	 * @return Redirect to the menu index with success message.
 	 */
-	protected function also_add_menu_item($fmodel, $fid)
+	protected function also_add_menu_item($object)
 	{
 		$MenuItem = App::make('MenuItem');
 
 		$menuItem = new $MenuItem;
 		$menuItem->skipEvents = true;
 		$menuItem->menu_id    = Input::get('menu_id');
-		$menuItem->fmodel     = $fmodel;
-		$menuItem->fid        = $fid;
+		$menuItem->fmodel     = $this->Model;
+		$menuItem->fid        = $object->id;
 		$menuItem->order      = $MenuItem::where('menu_id', Input::get('menu_id'))->count();
 		$menuItem->save();
 
-		return Redirect::to(admin_uri('menus'))->with('success', $fmodel . ' and menu link successfully created.');
+		return Redirect::to(admin_uri('menus'))->with('success', $this->Model . ' and menu link successfully created.');
 	}
 
 }
