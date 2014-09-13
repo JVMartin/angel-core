@@ -6,16 +6,16 @@
 <div class="row">
 	<div class="col-md-7 col-sm-8">
 		<h1>{{ ucfirst($action) }} User</h1>
-		@if ($action == 'edit' && $edit_user != Auth::user())
+		@if ($action == 'edit' && $editUser != Auth::user())
 			{{ Form::open(array('role'=>'form',
-								'url'=>admin_uri('users/delete/'.$edit_user->id),
+								'url'=>admin_uri('users/delete/'.$editUser->id),
 								'class'=>'deleteForm',
 								'data-confirm'=>'Delete this user forever?')) }}
 				<input type="submit" class="btn btn-sm btn-danger" value="Delete Forever" />
 			{{ Form::close() }}
 		@endif
 		@if ($action == 'edit')
-			{{ Form::model($edit_user, array('role'=>'form')) }}
+			{{ Form::model($editUser, array('role'=>'form')) }}
 		@elseif ($action == 'add')
 			{{ Form::open(array('role'=>'form')) }}
 		@endif
