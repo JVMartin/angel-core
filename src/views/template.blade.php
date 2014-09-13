@@ -27,6 +27,9 @@
 	};
 	$(function() {
 		$('.fancybox').fancybox();
+
+		// Make sure if we're in a nested menu that the parent menu has the active class as well.
+		$('#mainMenu').find('li.active').parent().closest('li').addClass('active');
 	});
 </script>
 @yield('js')

@@ -9,7 +9,7 @@
 			<a class="navbar-brand" href="{{ url('/') }}">{{ $settings['title']['value'] }}</a>
 		</div>
 		<div class="navbar-collapse collapse">
-			<ul class="nav nav-main navbar-nav navbar-right">
+			<ul id="mainMenu" class="nav nav-main navbar-nav navbar-right">
 				{{ $Menu::find(1)->display() }}
 			</ul>
 		</div>
