@@ -10,11 +10,11 @@ $config = array(
 	// Add modules here after installation.
 	// 'Name' => 'admin uri'
 	'menu' => array(
-		'Pages'		=> 'pages',
-		'Menus'		=> 'menus',
-		'Links'		=> 'links',
-		'Users'		=> 'users',
-		'Settings'	=> 'settings'
+		'Pages'    => 'pages',
+		'Menus'    => 'menus',
+		'Links'    => 'links',
+		'Users'    => 'users',
+		'Settings' => 'settings'
 	),
 
 	// All linkable models must be declared here.
