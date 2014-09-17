@@ -11,4 +11,16 @@ class PageModule extends \Eloquent {
 		return $this->belongsTo(App::make('Page'));
 	}
 
+	///////////////////////////////////////////////
+	//                  Events                   //
+	///////////////////////////////////////////////
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saving(function($module) {
+			$module->plaintext = strip_tags($module->html);
+		});
+	}
+
 }

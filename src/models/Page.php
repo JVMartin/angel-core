@@ -94,11 +94,10 @@ class Page extends LinkableModel {
 				}
 
 				// Save that bad boy.
-				$module->page_id   = $page->id;
-				$module->number    = $number;
-				$module->name      = $input_module['name'];
-				$module->html      = $input_module['html'];
-				$module->plaintext = strip_tags($input_module['html']);
+				$module->page_id = $page->id;
+				$module->number  = $number;
+				$module->name    = $input_module['name'];
+				$module->html    = $input_module['html'];
 				$module->save();
 			}
 
