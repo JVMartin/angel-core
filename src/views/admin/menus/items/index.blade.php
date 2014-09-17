@@ -33,7 +33,7 @@
 				<td>
 					{{ Form::hidden(null, $menuItem->order, array('class'=>'orderInput')) }}
 					<a href="{{ $menuItem->model->link_edit() }}">
-						{{ $menuItem->model->name() }}
+						{{ $menuItem->model->name }}
 					</a>
 				</td>
 				<td>

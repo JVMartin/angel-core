@@ -1,7 +1,7 @@
 @foreach ($menu->menuItems as $menuItem)
 	<li{{ ($menuItem->model->link() == Request::url()) ? ' class="active"' : '' }}>
 		<a href="{{ $menuItem->model->link() }}" class="{{ $menuItem->fmodel == 'Modal' ? 'fancybox' : '' }}">
-			{{ $menuItem->model->name() }}
+			{{ $menuItem->model->name }}
 			@if ($menuItem->fmodel == 'Modal')
 				{{ $menuItem->model->render(); }}
 			@endif

@@ -25,27 +25,4 @@ abstract class LinkableModel extends AngelModel {
 	abstract public function link();
 	abstract public function link_edit();
 	abstract public function search($terms);
-	public function name()
-	{
-		return $this->name;
-	}
-	public static function drop_down($Model)
-	{
-		$Model = App::make($Model);
-
-		$arr = array();
-		foreach ($Model::get() as $object) {
-			$arr[$object->id] = $object->name();
-		}
-
-		return $arr;
-	}
-	public static function drop_down_with($objects)
-	{
-		$arr = array();
-		foreach ($objects as $object) {
-			$arr[$object->id] = $object->name();
-		}
-		return $arr;
-	}
 }
