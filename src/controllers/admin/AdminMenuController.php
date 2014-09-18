@@ -14,7 +14,7 @@ class AdminMenuController extends AdminCrudController {
 	{
 		$Menu = App::make('Menu');
 
-		$paginator = $Menu::withTrashed()->with('menuItems')->paginate(5);
+		$paginator = $Menu::with('menuItems')->paginate(5);
 
 		$model_list = array();
 		$this->data['linkable_models'] = array();
