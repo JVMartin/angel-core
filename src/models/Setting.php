@@ -6,15 +6,15 @@ class Setting extends \Eloquent {
 
 	public static function settings() {
 		return array(
-			'title'	=> array(
+			'title' => array(
 				'value' => 'Your Company'
 			),
 			'theme' => array(
 				'value' => 'default',
-				'arr'	=> array(
-					'default'	=> 'Default',
-					'slate'		=> 'Slate',
-					'darkly'    => 'Darkly'
+				'arr'   => array(
+					'default' => 'Default',
+					'slate'   => 'Slate',
+					'darkly'  => 'Darkly'
 				)
 			),
 			'stripe' => array(

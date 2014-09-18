@@ -213,7 +213,7 @@ Route::get('/', 'PageController@show');
 // we'll get caught in it before the router reaches other packages, due to the base-level URI variables.
 // Thus far, wrapping it in an App::before seems to do the trick.
 App::before(function() {
-	Route::get('{url}/{section?}',	'PageController@show');
+	Route::get('{url}/{section?}', 'PageController@show');
 });
 
 App::missing(function($exception) {

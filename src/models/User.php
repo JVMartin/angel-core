@@ -20,11 +20,11 @@ class User extends \Angel\Core\AngelModel implements UserInterface, RemindableIn
 	public function validate_rules()
 	{
 		$rules = array(
-			'type'		=> 'required|in:'.static::okay_types_csv(),
-			'email' 	=> 'required|email|unique:users,email,' . $this->id,
-			'username'	=> 'required|between:4,16|unique:users,username,' . $this->id,
-			'first_name'=> 'alpha_dash',
-			'last_name'	=> 'alpha_dash'
+			'type'       => 'required|in:'.static::okay_types_csv(),
+			'email'      => 'required|email|unique:users,email,' . $this->id,
+			'username'   => 'required|between:4,16|unique:users,username,' . $this->id,
+			'first_name' => 'alpha_dash',
+			'last_name'  => 'alpha_dash'
 		);
 		if (Input::exists('password') && !Input::exists('email')) {
 			// Just changing the password...

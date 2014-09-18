@@ -19,7 +19,7 @@ $config = array(
 
 	// All linkable models must be declared here.
 	// 'Model Name' => 'admin uri'
-	'linkable_models'	=> array(
+	'linkable_models' => array(
 		'Page' => 'pages',
 		'Link' => 'links',
 	)

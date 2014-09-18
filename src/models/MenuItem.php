@@ -50,10 +50,10 @@ class MenuItem extends AngelModel {
 		static::creating(function($menuItem) {
 			if ($menuItem->skipEvents) return;
 
-			$menuItem->order	= static::where('menu_id', Input::get('menu_id'))->count();
-			$menuItem->menu_id  = Input::get('menu_id');
-			$menuItem->fmodel	= Input::get('fmodel');
-			$menuItem->fid		= Input::get('fid');
+			$menuItem->order   = static::where('menu_id', Input::get('menu_id'))->count();
+			$menuItem->menu_id = Input::get('menu_id');
+			$menuItem->fmodel  = Input::get('fmodel');
+			$menuItem->fid     = Input::get('fid');
 		});
 	}
 
