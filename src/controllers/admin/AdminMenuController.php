@@ -19,16 +19,16 @@ class AdminMenuController extends AdminCrudController {
 		$model_list = array();
 		$this->data['linkable_models'] = array();
 
-		foreach (Config::get('core::linkable_models') as $model=>$uri) {
-			$model_list[$model] = $model;
-			$this->data['linkable_models'][$model] = array(
+		foreach (Config::get('core::linkable_models') as $Model=>$uri) {
+			$model_list[$Model] = $Model;
+			$this->data['linkable_models'][$Model] = array(
 				'add' => admin_url($uri.'/add')
 			);
-			$arr = LinkableModel::drop_down($model);
+			$arr = with(App::make($Model))->lists('name', 'id');
 			if (count($arr)) {
-				$this->data['linkable_models'][$model]['select'] = Form::select('fid', $arr, null, array('class' => 'form-control'));
+				$this->data['linkable_models'][$Model]['select'] = Form::select('fid', $arr, null, array('class' => 'form-control'));
 			} else {
-				$this->data['linkable_models'][$model]['select'] = 0;
+				$this->data['linkable_models'][$Model]['select'] = 0;
 			}
 		}
 		
