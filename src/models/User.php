@@ -19,6 +19,13 @@ class User extends \Angel\Core\AngelModel implements UserInterface, RemindableIn
 
 	public function validate_rules()
 	{
+		// If we're just changing the password...
+		if (Input::exists('password') && !Input::exists('email')) {
+			return array(
+				'password' => 'required|min:6|confirmed'
+			);
+		}
+
 		$rules = array(
 			'type'       => 'required|in:'.static::okay_types_csv(),
 			'email'      => 'required|email|unique:users,email,' . $this->id,
@@ -26,15 +33,12 @@ class User extends \Angel\Core\AngelModel implements UserInterface, RemindableIn
 			'first_name' => 'alpha_dash',
 			'last_name'  => 'alpha_dash'
 		);
-		if (Input::exists('password') && !Input::exists('email')) {
-			// Just changing the password...
-			$rules = array(
-				'password' => 'required|min:6|confirmed'
-			);
-		} else if (Input::exists('password')) {
-			// Adding a user
+
+		// If we're adding a user...
+		if (Input::exists('password')) {
 			$rules['password'] = 'required|min:6|confirmed';
 		}
+
 		return $rules;
 	}
 
@@ -84,6 +88,8 @@ class User extends \Angel\Core\AngelModel implements UserInterface, RemindableIn
 
 		static::saving(function($user) {
 			if ($user->skipEvents) return;
+
+			// If we're updating the password, hash it
 			if (Input::exists('password')) {
 				$user->password = Hash::make(Input::get('password'));
 			}
