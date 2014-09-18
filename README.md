@@ -146,11 +146,12 @@ For instance:
 Route::get('products/{slug}', 'ProductController@view');
 
 // app/controllers/ProductController.php
-class ProductController extends \Angel\Core\BaseController {
+class ProductController extends \Angel\Core\AngelController {
 
 	public function view($slug)
 	{
-		$this->data['product'] = Product::where('slug', $slug)->firstOrFail();
+		$Product = App::make('Product');
+		$this->data['product'] = $Product::where('slug', $slug)->firstOrFail();
 		return View::make('products.view', $this->data);
 	}
 	
