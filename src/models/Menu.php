@@ -1,6 +1,6 @@
 <?php namespace Angel\Core;
 
-use App, View, Config;
+use App, View;
 
 class Menu extends AngelModel {
 

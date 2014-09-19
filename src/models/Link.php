@@ -1,7 +1,5 @@
 <?php namespace Angel\Core;
 
-use Config;
-
 class Link extends LinkableModel {
 
 	public $timestamps = false;

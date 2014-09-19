@@ -13,10 +13,6 @@ class MenuItem extends AngelModel {
 		);
 	}
 
-	/**
-	 * @param array &$errors - The array of failed validation errors.
-	 * @return array - A key/value associative array of custom values.
-	 */
 	public function validate_custom()
 	{
 		$errors = array();
