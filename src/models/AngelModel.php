@@ -12,6 +12,15 @@ abstract class AngelModel extends \Eloquent {
 	protected $slugSeed = null;
 
 	/**
+	 * Whether or not the *entire* table is to have the `order` column
+	 * updated automatically on add/delete/etc.  (Don't use this if
+	 * you cluster orders into subsets or categories, etc.)
+	 *
+	 * @var bool
+	 */
+	protected $reorderable = false;
+
+	/**
 	 * Whether to skip the model events, namely the assign() method
 	 * that is called from the static::saving() in the boot() method
 	 * of AngelModel to assign all user input to the columns.
@@ -19,15 +28,6 @@ abstract class AngelModel extends \Eloquent {
 	 * @var bool
 	 */
 	public $skipEvents = false;
-
-	/**
-	 * Whether or not the *entire* table is a single set of orders,
-	 * to be updated on add/delete/etc.  (Pertains to the class, not
-	 * individual objects, hence the static.)
-	 *
-	 * @var bool
-	 */
-	public static $reorderable = false;
 
 	/**
 	 * An array of columns to update from user input on each save.
@@ -70,19 +70,21 @@ abstract class AngelModel extends \Eloquent {
 	{
 		parent::boot();
 
+		// Assign input to the columns()
 		static::saving(function($model) {
 			if ($model->skipEvents) return;
 			$model->assign();
 		});
-		if (static::$reorderable) {
-			static::deleted(function() {
-				$order = 0;
-				foreach (static::orderBy('order')->get() as $object) {
-					$object->order = $order++;
-					$object->save();
-				}
-			});
-		}
+
+		// Fill in the `order` gap after deleting a model.
+		static::deleted(function($model) {
+			if (!$model->reorderable) return;
+			$order = 0;
+			foreach (static::orderBy('order')->get() as $object) {
+				$object->order = $order++;
+				$object->save();
+			}
+		});
 	}
 
 	/**

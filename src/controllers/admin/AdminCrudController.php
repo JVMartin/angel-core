@@ -14,8 +14,8 @@ abstract class AdminCrudController extends AngelController {
 	*/
 
 	/**
-	 * A (sometimes searchable) index of all the model objects.  If the models are reorderable, they are
-	 * displayed all at once.  Otherwise, they are paginated.
+	 * An (optionally) searchable index of all the model objects.  If the models are reorderable,
+	 * they are displayed all at once (for easy reordering).  Otherwise, they are paginated.
 	 *
 	 * @return \Illuminate\View\View
 	 */
@@ -43,7 +43,7 @@ abstract class AdminCrudController extends AngelController {
 		}
 
 		// Return all objects in order if this is a reorderable index
-		if ($Model::$reorderable) {
+		if ($Model->reorderable) {
 			$this->data[$this->plural] = $objects->orderBy('order')->get();
 		} else {
 			// Otherwise, paginate the objects

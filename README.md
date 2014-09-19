@@ -186,10 +186,10 @@ Here is where we'll put code snippets for developing modules.
 
 Assume we're developing a `persons` module package.
 
-First, make sure that `AdminPersonsController` extends `\Angel\Core\AdminCrudController` and has the property `protected $reorderable = true;`.
+First, make sure that `Person` extends `\Angel\Core\AngelModel` and has the property `protected $reorderable = true;`.
 
 ```php
-// persons/src/views/admin/persons/index.blade.php
+// workbench/persons/src/views/admin/persons/index.blade.php
 @section('js')
     {{ HTML::script('packages/angel/core/js/jquery/jquery-ui.min.js') }}
     <script>
@@ -213,7 +213,7 @@ First, make sure that `AdminPersonsController` extends `\Angel\Core\AdminCrudCon
     </table>
 @stop
 
-// persons/src/routes.php
+// workbench/persons/src/routes.php
 Route::group(array('prefix' => admin_uri('persons'), 'before' => 'admin'), function() {
 	Route::post('order', 'AdminPersonsController@order');
 });
