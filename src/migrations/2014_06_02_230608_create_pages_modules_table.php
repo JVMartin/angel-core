@@ -24,11 +24,11 @@ class CreatePagesModulesTable extends Migration {
 			$table->timestamps(); // Adds `created_at` and `updated_at` columns
 
 			$table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
-
-			if (ToolBelt::mysql_greater(5, 6, 4)) {
-				DB::statement('ALTER TABLE `pages_modules` ADD FULLTEXT search(`name`, `plaintext`)');
-			}
 		});
+
+		if (ToolBelt::mysql_greater(5, 6, 4)) {
+			DB::statement('ALTER TABLE `pages_modules` ADD FULLTEXT search(`name`, `plaintext`)');
+		}
 	}
 
 	/**
