@@ -76,6 +76,12 @@ abstract class AngelModel extends \Eloquent {
 			$model->assign();
 		});
 
+		static::creating(function($model) {
+			if ($model->reorderable) {
+				$model->order = $model->count();
+			}
+		});
+
 		// Fill in the `order` gap after deleting a model.
 		static::deleted(function($model) {
 			if (!$model->reorderable) return;
