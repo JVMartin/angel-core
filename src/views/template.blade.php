@@ -9,6 +9,22 @@
 
 	{{ HTML::style('packages/angel/core/js/jquery/fancybox/jquery.fancybox.css') }}
 	{{ HTML::style('packages/angel/core/bootstrap/bootstrap.min.css') }}
+	<style>
+		body {
+			background:#CCC;
+		}
+		#masterContainer {
+			background:#FFF;
+			box-shadow:1px 1px 6px rgba(0, 0, 0, 0.8);
+			padding-bottom:30px;
+		}
+		@media(min-width:768px) {
+        	#masterContainer {
+        		margin-top:15px;
+        		margin-bottom:15px;
+        	}
+        }
+	</style>
 	@yield('css')
 </head>
 <body>
@@ -22,7 +38,7 @@
 {{ HTML::script('packages/angel/core/bootstrap/bootstrap.min.js') }}
 <script>
 	var config = {
-		base_url: '{{ url('/') }}/',
+		base_url:  '{{ url('/') }}/',
 		admin_url: '{{ admin_url('/') }}/'
 	};
 	$(function() {
