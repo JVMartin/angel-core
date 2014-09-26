@@ -80,7 +80,7 @@ abstract class AngelModel extends \Eloquent {
 		static::deleted(function($model) {
 			if (!$model->reorderable) return;
 			$order = 0;
-			foreach (static::orderBy('order')->get() as $object) {
+			foreach ($model->orderBy('order')->get() as $object) {
 				$object->order = $order++;
 				$object->save();
 			}
