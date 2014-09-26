@@ -14,15 +14,16 @@ var sortObj = {
 	stop: function(e, ui) {
 		// Update the orders
 		var $tbody = ui.item.parent('tbody');
-		var i = 0;
 		var send = false;
 		var selector = $tbody.data('selector');
 		if (!selector) selector = '.orderInput';
-
 		var orders = {};
+
+		var i = 0;
 		$tbody.children('tr').each(function() {
-			var id = $(this).data('id');
-			var $input = $(this).find(selector);
+			var $this = $(this);
+			var id = $this.data('id');
+			var $input = $this.find(selector);
 			orders[id] = i;
 			if ($input.val() != i) {
 				$input.val(i);
@@ -31,22 +32,20 @@ var sortObj = {
 			i++;
 		});
 
-		// Don't send if nothing's changed.
-		if (!send) return;
-
 		var url = $tbody.data('url');
-		if (url) {
-			// Send them off
-			$.post(config.admin_url + url, {orders:orders}, function(data) {
-				if (data != 1) {
-					alert('There was an error connecting to our servers.');
-					console.log(data);
-					return;
-				}
-			}).fail(function() {
+		// Don't send if nothing's changed or no url is provided.
+		if (!send || !url) return;
+
+		// Send them off
+		$.post(config.admin_url + url, {orders:orders}, function(data) {
+			if (data != 1) {
 				alert('There was an error connecting to our servers.');
-			});
-		}
+				console.log(data);
+				return;
+			}
+		}).fail(function() {
+			alert('There was an error connecting to our servers.');
+		});
 	}
 }
 
@@ -65,21 +64,22 @@ $(function() {
 	});
 
 	$('.expandBelow').click(function() {
-		var $icon = $(this).children('.glyphicon');
+		var $this = $(this);
+		var $icon = $this.children('.glyphicon');
 		if ($icon.hasClass('glyphicon-chevron-down')) {
 			$icon.removeClass('glyphicon-chevron-down');
 			$icon.addClass('glyphicon-chevron-up');
-			$(this).next().stop().slideDown();
+			$this.next().stop().slideDown();
 		} else {
 			$icon.removeClass('glyphicon-chevron-up');
 			$icon.addClass('glyphicon-chevron-down');
-			$(this).next().stop().slideUp();
+			$this.next().stop().slideUp();
 		}
 	});
 
 	if ($.isFunction($.fn.datetimepicker)) {
 		// Date / time picker
-		$('.date-time').datetimepicker({
+		$('input.date-time').datetimepicker({
 			format: 'Y-m-d H:i:00'
 		});
 		// Date picker
