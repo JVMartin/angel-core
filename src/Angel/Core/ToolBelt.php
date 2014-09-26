@@ -2,18 +2,29 @@
 
 class ToolBelt {
 
-	static function debug($echo)
+	/**
+	 * Echo out a variable in a readable manner.
+	 *
+	 * @param mixed $var - The variable to echo.
+	 */
+	static function debug($var)
 	{
 		echo '<pre>';
-		print_r($echo);
+		print_r($var);
 		echo '</pre>';
 	}
 
+	/**
+	 * Echo out all queries that have been executed thus far.
+	 */
 	static function print_queries()
 	{
 		static::debug(DB::getQueryLog());
 	}
 
+	/**
+	 * Echo out the session.
+	 */
 	static function print_session()
 	{
 		static::debug(Session::all());
@@ -45,9 +56,10 @@ class ToolBelt {
 	}
 
 	/**
-	 * Test if the MySQL version is greater than or equal to a given number.
+	 * Test if the MySQL version is greater than or equal to a given version number.
 	 *
-	 * @return true/false
+	 * @param string $than - The version number that we're comparing to, i.e. '5.5.12'
+	 * @return boolean
 	 */
 	static function mysql_greater($than)
 	{
