@@ -45,17 +45,13 @@ class ToolBelt {
 	}
 
 	/**
-	 * Test if the MySQL version is greater than a given number.
-	 *
-	 * i.e.:  \ToolBelt::mysql_greater(5, 5, 10);  // Greater than 5.5.10?
+	 * Test if the MySQL version is greater than or equal to a given number.
 	 *
 	 * @return true/false
 	 */
-	static function mysql_greater($a, $b, $c)
+	static function mysql_greater($than)
 	{
-		$version = explode('.', static::mysql_version());
-		if ($a <= $version[0] && $b <= $version[1] && $c <= $version[2]) return true;
-		return false;
+		return version_compare(static::mysql_version(), $than, '>=');
 	}
 
 }

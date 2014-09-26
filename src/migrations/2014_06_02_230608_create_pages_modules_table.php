@@ -26,7 +26,7 @@ class CreatePagesModulesTable extends Migration {
 			$table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
 		});
 
-		if (ToolBelt::mysql_greater(5, 6, 4)) {
+		if (ToolBelt::mysql_greater('5.6.4')) {
 			DB::statement('ALTER TABLE `pages_modules` ADD FULLTEXT search(`name`, `plaintext`)');
 		}
 	}
