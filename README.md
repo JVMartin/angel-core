@@ -58,7 +58,7 @@ Finally, issue the following artisan commands:
 php artisan dump-autoload                    # Dump a load
 php artisan asset:publish                    # Publish the assets
 php artisan config:publish angel/core        # Publish the config
-php artisan migrate --package="angel/core"   # Run the migrations
+php artisan migrate --package=angel/core   # Run the migrations
 ```
 
 Extending the Core
