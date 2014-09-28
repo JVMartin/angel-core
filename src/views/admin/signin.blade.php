@@ -5,7 +5,7 @@
 @section('content')
 	<div class="row">
 		<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-			{{ Form::open(array('url' => 'signin', 'role'=>'form')) }}
+			{{ Form::open(array('role'=>'form')) }}
 				<h1>Sign In</h1>
 				<div class="form-group">
 					{{ Form::label('loguser', 'Username or Email', array('class'=>'sr-only')) }}

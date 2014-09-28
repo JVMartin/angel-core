@@ -11,8 +11,9 @@ class UserController extends AngelController {
 
 	public function signout()
 	{
+		if (Auth::guest()) return Redirect::to(admin_uri());
 		Auth::logout();
-		return Redirect::to('signin')->with('success', 'You have been signed out.');
+		return Redirect::to(admin_uri())->with('success', 'You have been signed out.');
 	}
 
 	public function attempt_signin()

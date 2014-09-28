@@ -4,12 +4,21 @@
 //                  Admin                    //
 ///////////////////////////////////////////////
 
-Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'admin'), function() {
-	Route::get('/', function() {
+Route::get(admin_uri(), function() {
+	if (Auth::check() && Auth::user()->is_admin()) {
 		Session::reflash();
 		return Redirect::to(admin_uri('pages'));
-	});
+	}
 
+	return with(App::make('UserController'))->signin();
+});
+Route::post(admin_uri(), array(
+	'before' => 'csrf',
+	'uses' => 'UserController@attempt_signin'
+));
+Route::get('signout', 'UserController@signout');
+
+Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'admin'), function() {
 	//------------------------
 	// AdminUserController
 	//------------------------
@@ -190,23 +199,6 @@ Route::group(array('prefix' => Config::get('core::admin_prefix'), 'before' => 'a
 ///////////////////////////////////////////////
 //                Front End                  //
 ///////////////////////////////////////////////
-
-//------------------------
-// UserController
-//------------------------
-Route::get('signin', array(
-	'before' => 'nonadmin',
-	'uses' => 'UserController@signin'
-));
-Route::post('signin', array(
-	'before' => 'csrf',
-	'uses' => 'UserController@attempt_signin'
-));
-Route::get('signout', array(
-	'before' => 'auth',
-	'uses' => 'UserController@signout'
-));
-
 Route::get('/', 'PageController@show');
 
 // We need to ensure that this is the -absolute- last route, otherwise
@@ -217,11 +209,9 @@ App::before(function() {
 });
 
 App::missing(function($exception) {
-	$PageController = App::make('PageController');
-	return $PageController->page_missing();
+	return with(App::make('PageController'))->page_missing();
 });
 
 App::error(function(Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-	$PageController = App::make('PageController');
-	return $PageController->page_missing();
+	return with(App::make('PageController'))->page_missing();
 });
