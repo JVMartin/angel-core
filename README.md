@@ -34,7 +34,7 @@ Add the `angel/core` package requirement to your `composer.json` file, like this
 ```javascript
 "require": {
     "laravel/framework": "4.1.*",
-    "angel/core": "dev-master"
+    "angel/core": "1.0.*"
 },
 ```
 
@@ -44,6 +44,7 @@ After the package has been installed, open `app/config/app.php` and add the foll
 ```php
 'Angel\Core\CoreServiceProvider'
 ```
+While you're in there, set `debug` to true.
 
 Delete:
 * All the default routes in `app/routes.php`.
