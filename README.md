@@ -4,12 +4,17 @@ Angel is a CMS built on top of Laravel.  It is available via [Packagist](https:/
 
 Table of Contents
 -----------------
+* [Demo](#demo)
 * [Try It](#try-it)
 * [Installation](#installation)
 * [Extending the Core](#extending-the-core)
 * [Configuration](#configuration)
 * [Using Slugs](#using-slugs)
 * [Develop Modules](#develop-modules)
+
+Demo
+----
+[![Demo Screenshot](http://angel-test.angelvision.tv/resources/demo.jpg)](http://youtu.be/et0QXJLHXoQ)
 
 Try It
 ------
