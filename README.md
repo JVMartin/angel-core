@@ -61,10 +61,12 @@ Create and configure your database so that we can run the migrations.
 
 Finally, issue the following artisan commands:
 ```bash
-php artisan dump-autoload                    # Dump a load
-php artisan asset:publish                    # Publish the assets
-php artisan config:publish angel/core        # Publish the config
-php artisan migrate --package=angel/core   # Run the migrations
+php artisan dump-autoload                 # Dump a load
+php artisan asset:publish                 # Publish the assets
+php artisan config:publish angel/core     # Publish the config
+php artisan migrate --package=angel/core  # Run the migrations
+mkdir -p public/uploads/kcfinder          # Create the KCFinder uploads folder
+touch public/uploads/kcfinder/.gitkeep    # Keep the folder
 ```
 
 Extending the Core
