@@ -28,7 +28,7 @@ class UserController extends AngelController {
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::to('signin')->withInput()->withErrors($validator);
+			return Redirect::to(admin_uri())->withInput()->withErrors($validator);
 		}
 
 		// Users can use either their username or their email to login, so
@@ -47,7 +47,7 @@ class UserController extends AngelController {
 			return Redirect::intended(admin_uri());
 		}
 
-		return Redirect::to('signin')->withInput()->withErrors('Login attempt failed.');
+		return Redirect::to(admin_uri())->withInput()->withErrors('Login attempt failed.');
 	}
 
 }
