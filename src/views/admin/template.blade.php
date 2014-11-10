@@ -21,7 +21,7 @@
 <body class="theme-{{ $settings['theme']['value'] }}">
 <div id="adminMasterContainer" class="container">
 	@include('core::admin.header')
-	@include('core::alerts')
+	@include('core::admin.alerts')
 	@yield('content')
 </div><!-- #adminMasterContainer -->
 {{ HTML::script('packages/angel/core/js/jquery/jquery.min.js') }}
