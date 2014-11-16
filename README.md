@@ -29,6 +29,7 @@ Pass: password
 Installation
 ------------
 [![Installation Screenshot](http://angel-test.angelvision.tv/resources/install.jpg)](http://youtu.be/2nAyi-u9jp0)
+
 We are currently using Laravel 4.1 for this CMS until 4.2 is more stable.
 
 Install Laravel 4.1 using the following command:
