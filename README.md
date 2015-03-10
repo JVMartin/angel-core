@@ -9,7 +9,7 @@ Table of Contents
 * [Demo](#demo)
 * [Try It](#try-it)
 * [Installation](#installation)
-* [Extending the Core](#extending-the-core)
+* [Customize](#customize)
 * [Configuration](#configuration)
 * [Using Slugs](#using-slugs)
 * [Develop Modules](#develop-modules)
@@ -73,8 +73,10 @@ mkdir -p public/uploads/kcfinder          # Create the KCFinder uploads folder
 touch public/uploads/kcfinder/.gitkeep    # Keep the folder
 ```
 
-Extending the Core
-------------------
+Customize
+---------
+[![Customize Screenshot](http://angel-test.angelvision.tv/resources/customize.jpg)](http://youtu.be/6iuZ8p-x5bY)
+
 Every class in the core is easily extendable.
 
 Let's start by extending the [PageController](https://github.com/JVMartin/angel/blob/master/src/controllers/PageController.php).
