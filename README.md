@@ -16,13 +16,13 @@ Table of Contents
 
 Demo
 ----
-[![Demo Screenshot](http://angel-test.angelvision.tv/resources/demo.jpg)](http://youtu.be/et0QXJLHXoQ)
+[![Demo Screenshot](/assets/demo.jpg?raw=true)](http://youtu.be/et0QXJLHXoQ)
 
 Try It
 ------
-Check out a [live deployment of the CMS here](http://angel-test.angelvision.tv/).
+Check out a [live deployment of the CMS here](http://angel-demo.jacobvmartin.com/).
 
-Sign into the [admin section](http://angel-test.angelvision.tv/admin) with the credentials:
+Sign into the [admin section](http://angel-demo.jacobvmartin.com/admin) with the credentials:
 ```
 User: avadmin
 Pass: password
@@ -30,9 +30,9 @@ Pass: password
 
 Installation
 ------------
-[![Installation Screenshot](http://angel-test.angelvision.tv/resources/install.jpg)](http://youtu.be/2nAyi-u9jp0)
+[![Installation Screenshot](/assets/install.jpg?raw=true)](http://youtu.be/2nAyi-u9jp0)
 
-We are currently using Laravel 4.1 for this CMS until 4.2 is more stable.
+The Angel CMS was built on top of Laravel 4.1.
 
 Install Laravel 4.1 using the following command:
 ```bash
@@ -75,7 +75,7 @@ touch public/uploads/kcfinder/.gitkeep    # Keep the folder
 
 Customize
 ---------
-[![Customize Screenshot](http://angel-test.angelvision.tv/resources/customize.jpg)](http://youtu.be/6iuZ8p-x5bY)
+[![Customize Screenshot](/assets/customize.jpg?raw=true)](http://youtu.be/6iuZ8p-x5bY)
 
 Every class in the core is easily extendable.
 
