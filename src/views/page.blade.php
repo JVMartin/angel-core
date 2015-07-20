@@ -24,4 +24,10 @@
 
 @section('content')
 	{{ $page->html }}
+	
+	@if ($page->modules)
+		@foreach( $page->modules as $module)
+            		{{ $module->html }}
+        	@endforeach
+	@endif
 @stop
