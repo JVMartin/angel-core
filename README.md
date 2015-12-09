@@ -2,7 +2,9 @@ Angel CMS
 =====
 Angel is a CMS built on top of Laravel.  It is available via [Packagist](https://packagist.org/packages/angel/core).
 
-**UPDATE 3/9/2015**:  Just wanted to give a heads up that this project is still in very active usage and deployment and is well tested by several large applications.  The [eCommerce module](https://github.com/JVMartin/angel-products) that works with Stripe is also well tested and used.  I have begun to adapt Angel for Laravel 5, though the going is slow at the moment as I have other full-time projects.
+**UPDATE 3/9/2015**:  Just wanted to give a heads up that this project is still in very active usage and deployment and is well tested by several large applications.  The [eCommerce module](https://github.com/JVMartin/angel-products) that works with Stripe is also well tested and used.
+
+The Laravel 5 version of Angel is a work-in-progress, [but is available here](https://github.com/JVMartin/angel5).
 
 Table of Contents
 -----------------
