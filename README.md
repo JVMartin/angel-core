@@ -1,15 +1,14 @@
-Angel CMS
-=====
+Angel CMS for Laravel 4
+=======================
 Angel is a CMS built on top of Laravel.  It is available via [Packagist](https://packagist.org/packages/angel/core).
 
-**UPDATE 3/9/2015**:  Just wanted to give a heads up that this project is still in very active usage and deployment and is well tested by several large applications.  The [eCommerce module](https://github.com/JVMartin/angel-products) that works with Stripe is also well tested and used.
+**UPDATE 8/5/2016**:  The Laravel 5 version of Angel is [underway here](https://github.com/JVMartin/angel5).
 
-The Laravel 5 version of Angel is a work-in-progress, [but is available here](https://github.com/JVMartin/angel5).
+**UPDATE 3/9/2015**:  Just wanted to give a heads up that this project is still in very active usage and deployment and is well tested by several large applications.  The [eCommerce module](https://github.com/JVMartin/angel-products) that works with Stripe is also well tested and used.
 
 Table of Contents
 -----------------
 * [Demo](#demo)
-* [Try It](#try-it)
 * [Installation](#installation)
 * [Customize](#customize)
 * [Configuration](#configuration)
@@ -19,16 +18,6 @@ Table of Contents
 Demo
 ----
 [![Demo Screenshot](/assets/demo.jpg?raw=true)](http://youtu.be/et0QXJLHXoQ)
-
-Try It
-------
-Check out a [live deployment of the CMS here](http://angel-demo.jacobvmartin.com/).
-
-Sign into the [admin section](http://angel-demo.jacobvmartin.com/admin) with the credentials:
-```
-User: avadmin
-Pass: password
-```
 
 Installation
 ------------
